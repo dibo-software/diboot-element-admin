@@ -42,13 +42,25 @@ export default {
         params: tempQueryParam,
         method: 'get'
       }).then(res => {
-        this.data = res.data
+        this.data = this.filterListData(res.data)
         console.log('list', res)
         this.pagination.pageSize = res.page.pageSize
         this.pagination.current = res.page.pageIndex
         this.pagination.total = res.page.totalCount
         this.loadingData = false
       })
+    },
+    filterListData(list) {
+      if (list && list.length > 0) {
+        list.forEach(item => {
+          // 解决elementui对于具有children字段的列表显示不出的问题
+          if (item.children !== undefined) {
+            item._children = item.children
+            delete item.children
+          }
+        })
+      }
+      return list
     },
     attachMore() {
       request({

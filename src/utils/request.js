@@ -117,6 +117,57 @@ const dibootApi = {
         'Content-Type': 'application/json;charset=UTF-8'
       }
     })
+  },
+  /**
+   * 删除
+   * @param url
+   * @param params
+   * @returns {AxiosPromise}
+   */
+  delete (url, params) {
+    return service({
+      url,
+      method: 'DELETE',
+      params,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      withCredentials: true
+    })
+  },
+  /***
+   * 上传文件接口
+   * @param url
+   * @param formData
+   * @returns {AxiosPromise}
+   */
+  upload (url, formData) {
+    return service({
+      url,
+      method: 'POST',
+      data: formData
+    })
+  },
+  /**
+   * 导出
+   * @param url
+   * @param data
+   * @returns {AxiosPromise}
+   */
+  download (url, data) {
+    return service({
+      url,
+      method: 'POST',
+      responseType: 'arraybuffer',
+      observe: 'response',
+      data: JSON.stringify(data),
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      withCredentials: true
+    })
   }
 }
 

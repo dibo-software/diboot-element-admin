@@ -63,3 +63,28 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+// 搜索框容器
+.filter-container {
+  padding-bottom: 10px;
+
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+  }
+}
+
+// 列表展开样式
+.table-item-expand {
+  font-size: 0;
+}
+.table-item-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.table-item-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}

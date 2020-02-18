@@ -67,6 +67,28 @@ export const constantRoutes = [
   },
 
   {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/dictionary/list',
+    name: 'System',
+    meta: { title: '系统管理', icon: 'dashboard' },
+    children: [
+      {
+        path: 'system/dictionary/list',
+        name: 'DictList',
+        component: () => import('@/views/system/dictionary/list'),
+        meta: { title: '数据字典管理' }
+      },
+      {
+        path: 'system/dictionary/list',
+        name: 'DictList',
+        component: () => import('@/views/system/dictionary/list'),
+        meta: { title: '查看操作日志' }
+      }
+    ]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
