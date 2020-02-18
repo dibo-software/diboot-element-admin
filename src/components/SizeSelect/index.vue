@@ -17,10 +17,10 @@ export default {
   data() {
     return {
       sizeOptions: [
-        { label: 'Default', value: 'default' },
-        { label: 'Medium', value: 'medium' },
-        { label: 'Small', value: 'small' },
-        { label: 'Mini', value: 'mini' }
+        { label: '默认布局', value: 'default' },
+        { label: '中等布局', value: 'medium' },
+        { label: '较小布局', value: 'small' },
+        { label: '最小布局', value: 'mini' }
       ]
     }
   },
@@ -35,7 +35,7 @@ export default {
       this.$store.dispatch('app/setSize', size)
       this.refreshView()
       this.$message({
-        message: 'Switch Size Success',
+        message: '切换布局成功',
         type: 'success'
       })
     },
@@ -44,9 +44,6 @@ export default {
       this.$store.dispatch('tagsView/delAllCachedViews', this.$route)
 
       const { fullPath } = this.$route
-
-      console.log('refresh....')
-      console.log('fullpath==>', fullPath)
 
       this.$nextTick(() => {
         this.$router.replace({
