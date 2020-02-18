@@ -77,7 +77,7 @@ export default {
           })
       })
     },
-    getList () {
+    getList() {
       return new Promise((resolve, reject) => {
         this.loadingData = true
         // 过滤掉不存在值的属性

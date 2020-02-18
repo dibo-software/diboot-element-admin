@@ -1,24 +1,13 @@
 <template>
   <el-dialog class="detailModal" :visible.sync="visible" title="查看详情" @closed="close">
-    <el-row :gutter="20">
-      <el-col :span="4" class="label">
-        类型名称：
-      </el-col>
-      <el-col :span="8">
-        {{ model.itemName }}
-      </el-col>
-      <el-col :span="4" class="label">
-        类型编码：
-      </el-col>
-      <el-col :span="8">
-        {{ model.type }}
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="4" class="label">
-        包含子项：
-      </el-col>
-      <el-col :span="20">
+    <el-form label-position="left" inline class="detail-item-container">
+      <el-form-item label="类型名称">
+        <span>{{ model.itemName }}</span>
+      </el-form-item>
+      <el-form-item label="类型编码">
+        <span>{{ model.type }}</span>
+      </el-form-item>
+      <el-form-item label="包含子项">
         <template v-if="children && children.length > 0">
           <el-tag
             v-for="(item,i) in children"
@@ -31,16 +20,13 @@
           </el-tag>
         </template>
         <el-tag v-if="!children || children.length === 0" type="info" size="small">无</el-tag>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="4" class="label">
-        备注：
-      </el-col>
-      <el-col :span="20">
-        {{ model.description || '-' }}
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item label="备注">
+        <span>
+          {{ model.description || '-' }}
+        </span>
+      </el-form-item>
+    </el-form>
 
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">

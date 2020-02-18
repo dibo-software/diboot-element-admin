@@ -88,6 +88,19 @@ div:focus {
   margin-bottom: 0;
   width: 50%;
 }
+// 详情弹框样式
+.detail-item-container {
+  font-size: 0;
+}
+.detail-item-container label {
+  width: 90px;
+  color: #99a9bf;
+}
+.detail-item-container .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
 
 // Tag组
 .tag-group .el-tag{

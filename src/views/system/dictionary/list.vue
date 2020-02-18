@@ -6,6 +6,9 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         查询
       </el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="reset">
+        重置
+      </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="$refs.form.open(undefined)">
         新建
       </el-button>
@@ -95,7 +98,7 @@ export default {
   data() {
     return {
       baseApi: '/dictionary',
-      queryParam: { parentId: 0 },
+      customQueryParam: { parentId: 0 },
       getMore: false,
       listLoading: true
     }
