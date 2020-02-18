@@ -12,7 +12,7 @@
     </div>
     <el-table
       v-loading="loadingData"
-      :data="data"
+      :data="list"
       element-loading-text="Loading"
       border
       fit
@@ -27,7 +27,7 @@
                 <el-tag
                   v-for="item in props.row._children"
                   :key="item.itemValue"
-                  type="info"
+                  type="success"
                   effect="dark">
                   {{ item.itemName }}
                 </el-tag>
@@ -94,10 +94,10 @@ export default {
   mixins: [list],
   data() {
     return {
-      // list: null,
-      name: 'dictionary',
-      listLoading: true,
-      getMore: false
+      baseApi: '/dictionary',
+      queryParam: { parentId: 0 },
+      getMore: false,
+      listLoading: true
     }
   }
 }
