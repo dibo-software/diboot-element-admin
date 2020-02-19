@@ -4,6 +4,7 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      baseApi: '/',
       labelCol: {
         xs: { span: 24 },
         sm: { span: 5 }
@@ -22,9 +23,6 @@ export default {
     }
   },
   computed: {
-    // userInfo () {
-    //   return this.$store.getters.userInfo
-    // },
     ...mapGetters(['userInfo'])
   },
   methods: {
@@ -36,7 +34,7 @@ export default {
         this.afterOpen()
       } else {
         // 否则作为更新处理
-        const res = await dibootApi.get(`/${this.name}/${id}`)
+        const res = await dibootApi.get(`${this.baseApi}/${id}`)
         if (res.code === 0) {
           console.log(res.data)
           this.form = res.data
@@ -82,7 +80,7 @@ export default {
      * @returns {Promise<string>}
      */
     async add(values) {
-      const res = await dibootApi.post(`/${this.name}/`, values)
+      const res = await dibootApi.post(`${this.baseApi}/`, values)
       if (res.code === 0) {
         return { data: res.data, msg: '添加记录成功' }
       } else {
@@ -95,7 +93,7 @@ export default {
      * @returns {Promise<string>}
      */
     async update(values) {
-      const res = await dibootApi.put(`/${this.name}/${this.form.id}`, values)
+      const res = await dibootApi.put(`${this.baseApi}/${this.form.id}`, values)
       if (res.code === 0) {
         return { data: res.data, msg: '更新记录成功' }
       } else {
@@ -137,7 +135,6 @@ export default {
       this.close()
       this.clearForm()
       this.$emit('refreshList')
-      console.log('result.data==>', result.data)
       this.$emit('changeKey', result.data)
     },
     /** *
@@ -172,7 +169,7 @@ export default {
     },
     attachMore() {
       axios({
-        url: `/${this.name}/attachMore`,
+        url: `${this.baseApi}/attachMore`,
         method: 'get'
       }).then(res => {
         this.reloadMore = res.data

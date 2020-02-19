@@ -38,13 +38,12 @@
 </template>
 <script>
 import detail from '@/components/diboot/mixins/detail'
-import { dibootApi } from '@/utils/request'
 export default {
   name: 'DictDetail',
   mixins: [detail],
   data() {
     return {
-      name: 'dictionary'
+      baseApi: '/dictionary'
     }
   },
   methods: {

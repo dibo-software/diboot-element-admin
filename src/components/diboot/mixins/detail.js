@@ -3,6 +3,7 @@ import { dibootApi } from '@/utils/request'
 export default {
   data() {
     return {
+      baseApi: '/',
       visible: false,
       model: {},
       title: '',
@@ -11,16 +12,17 @@ export default {
   },
   methods: {
     async open(id) {
-      console.log('----===-')
-      console.log(this.name)
-      const res = await dibootApi.get(`/${this.name}/${id}`)
+      const res = await dibootApi.get(`${this.baseApi}/${id}`)
       if (res.code === 0) {
         this.model = res.data
         this.title = '详情'
         this.visible = true
         this.afterOpen(this.model)
       } else {
-        this.$message.error(res.msg)
+        this.$notify.error({
+          title: '获取详情信息失败',
+          message: res.msg
+        })
       }
     },
     close() {

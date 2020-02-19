@@ -75,7 +75,7 @@ export default {
   mixins: [form],
   data() {
     return {
-      name: 'dictionary',
+      baseApi: '/dictionary',
       form: _.cloneDeep(INIT_FORM_DATA),
       children: [],
       childItem: _.cloneDeep(CHILDREN_ITEM_DEFAULT),
@@ -91,7 +91,7 @@ export default {
       if (id === undefined) {
         return
       }
-      const res = await dibootApi.get(`/${this.name}/${id}`)
+      const res = await dibootApi.get(`${this.baseApi}/${id}`)
       if (res.code === 0) {
         this.initSubItem(res.data)
       } else {
@@ -134,7 +134,7 @@ export default {
         return
       }
       const params = { id: this.form.id, type: value }
-      const res = await dibootApi.get(`/${this.name}/checkTypeDuplicate`, params)
+      const res = await dibootApi.get(`${this.baseApi}/checkTypeDuplicate`, params)
       if (res.code === 0) {
         callback()
       } else {

@@ -26,7 +26,7 @@ export default {
         current: 1,
         total: 0,
         showSizeChanger: true,
-        pageSizeOptions: ['10', '20', '30', '50']
+        pageSizeOptions: ['10', '20', '30', '50', '100']
       }
     }
   },
