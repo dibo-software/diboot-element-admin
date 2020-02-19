@@ -1,5 +1,6 @@
 import { axios, dibootApi } from '@/utils/request'
 import { mapGetters } from 'vuex'
+import cloneDeep from 'lodash.clonedeep'
 
 export default {
   data() {
@@ -14,6 +15,8 @@ export default {
         sm: { span: 16 }
       },
       title: '',
+      form: {},
+      initFormData: {},
       getMore: false,
       reloadMore: {},
       state: {
@@ -31,12 +34,12 @@ export default {
         // 没有id数据则认为是新建
         this.title = '新建'
         this.state.visible = true
-        this.afterOpen()
+        this.form = cloneDeep(this.initFormData)
+        this.afterOpen(id)
       } else {
         // 否则作为更新处理
         const res = await dibootApi.get(`${this.baseApi}/${id}`)
         if (res.code === 0) {
-          console.log(res.data)
           this.form = res.data
           this.title = '更新'
           this.state.visible = true
@@ -72,7 +75,7 @@ export default {
      * 提交前对数据的处理（在验证正确之后的处理）
      * @param values
      */
-    enhance(values) {
+    async enhance(values) {
     },
     /** *
      * 新建记录的提交
@@ -107,7 +110,7 @@ export default {
     async onSubmit() {
       this.state.submitBtn = true
       const values = await this.validate()
-      this.enhance(values)
+      await this.enhance(values)
       try {
         let result = {}
         if (this.form.id === undefined) {
@@ -115,7 +118,6 @@ export default {
           result = await this.add(values)
         } else {
           // 更新该记录
-          values['id'] = this.form.id
           result = await this.update(values)
         }
 
@@ -124,6 +126,7 @@ export default {
       } catch (e) {
         // 执行一系列后续操作
         this.submitFailed(e)
+        console.log(e)
       }
     },
     /** *
@@ -187,6 +190,7 @@ export default {
       )
     },
     clearForm() {
+      this.form = cloneDeep(this.initFormData)
       this.$refs['dataForm'].resetFields()
     }
   },

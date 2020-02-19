@@ -27,7 +27,8 @@
     "fuse.js": "3.4.4",
     "screenfull": "4.2.0",
     "lodash.merge": "^4.6.2",
-    "lodash.foreach": "^4.5.0"
+    "lodash.foreach": "^4.5.0",
+    "lodash.clonedeep": "^4.5.0"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",

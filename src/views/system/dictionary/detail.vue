@@ -47,8 +47,8 @@ export default {
     }
   },
   methods: {
-    async afterOpen(model) {
-      this.initSubItem(model)
+    async afterOpen(id) {
+      this.initSubItem(this.model)
     },
     initSubItem: function(data) {
       if (data.children && data.children.length > 0) {

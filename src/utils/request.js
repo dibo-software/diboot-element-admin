@@ -43,43 +43,46 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    // TODO: 应该对请求错误码进行抛出异常并提示的处理
     const res = response.data
 
+    return res
+
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 0) {
-      // TODO: 应该对相关的错误码进行对应的处理
-      if (res.code === 4003) {
-        Message({
-          message: res.msg || 'Error',
-          type: 'error',
-          duration: 5 * 1000
-        })
-      } else {
-        Message({
-          message: res.msg || 'Error',
-          type: 'error',
-          duration: 5 * 1000
-        })
-      }
-
-
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
-      }
-      return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
-    }
+    // if (res.code !== 0) {
+    //   // TODO: 应该对相关的错误码进行对应的处理
+    //   if (res.code === 4003) {
+    //     Message({
+    //       message: res.msg || 'Error',
+    //       type: 'error',
+    //       duration: 5 * 1000
+    //     })
+    //   } else {
+    //     Message({
+    //       message: res.msg || 'Error',
+    //       type: 'error',
+    //       duration: 5 * 1000
+    //     })
+    //   }
+    //
+    //
+    //   // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+    //   if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+    //     // to re-login
+    //     MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
+    //       confirmButtonText: 'Re-Login',
+    //       cancelButtonText: 'Cancel',
+    //       type: 'warning'
+    //     }).then(() => {
+    //       store.dispatch('user/resetToken').then(() => {
+    //         location.reload()
+    //       })
+    //     })
+    //   }
+    //   return Promise.reject(new Error(res.message || 'Error'))
+    // } else {
+    //   return res
+    // }
   },
   error => {
     console.log('err' + error) // for debug
@@ -124,7 +127,7 @@ const dibootApi = {
    * @param params
    * @returns {AxiosPromise}
    */
-  delete (url, params) {
+  delete(url, params) {
     return service({
       url,
       method: 'DELETE',
@@ -136,13 +139,13 @@ const dibootApi = {
       withCredentials: true
     })
   },
-  /***
+  /** *
    * 上传文件接口
    * @param url
    * @param formData
    * @returns {AxiosPromise}
    */
-  upload (url, formData) {
+  upload(url, formData) {
     return service({
       url,
       method: 'POST',
@@ -155,7 +158,7 @@ const dibootApi = {
    * @param data
    * @returns {AxiosPromise}
    */
-  download (url, data) {
+  download(url, data) {
     return service({
       url,
       method: 'POST',

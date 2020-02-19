@@ -1,15 +1,22 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-select v-model="queryParam.status" placeholder="请选择" style="width: 200px;" class="filter-item">
+        <el-option
+          v-for="(item, index) in more.userStatusKvList"
+          :key="index"
+          :value="item.v"
+          :label="item.k">
+        </el-option>
+      </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         查询
       </el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-refresh" @click="reset">
+      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
         重置
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="$refs.form.open(undefined)">
+      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="$refs.form.open(undefined)">
         新建
       </el-button>
     </div>
@@ -22,31 +29,32 @@
       highlight-current-row
       row-key="id"
     >
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="table-item-expand">
-            <el-form-item label="子项列表">
-              <div class="tag-group" v-if="props.row._children && props.row._children.length > 0">
-                <el-tag
-                  v-for="item in props.row._children"
-                  :key="item.itemValue"
-                  type="success"
-                  effect="dark">
-                  {{ item.itemName }}
-                </el-tag>
-              </div>
-            </el-form-item>
-          </el-form>
+      <el-table-column label="姓名">
+        <template slot-scope="scope">
+          {{ scope.row.realname }}
         </template>
       </el-table-column>
-      <el-table-column label="类型名称">
+      <el-table-column label="角色">
         <template slot-scope="scope">
-          {{ scope.row.itemName }}
+          <div class="tag-group" v-if="scope.row.roleList && scope.row.roleList.length > 0">
+            <el-tag
+              v-for="item in scope.row.roleList"
+              :key="item.name"
+              type="success"
+              effect="dark">
+              {{ item.name }}
+            </el-tag>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column label="类型编码" align="center">
+      <el-table-column label="电话" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.type }}</span>
+          <span>{{ scope.row.mobilePhone }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.statusLabel }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" width="150" align="center">
@@ -77,7 +85,10 @@
       :style="{textAlign: 'right'}"
     />
     <detail-modal ref="detail" />
-    <form-modal ref="form" @refreshList="getList" />
+    <form-modal
+      ref="form"
+      :more="more"
+      @refreshList="getList" />
   </div>
 </template>
 
@@ -88,7 +99,7 @@ import detailModal from './detail'
 import formModal from './form'
 
 export default {
-  name: 'DictList',
+  name: 'IamUserList',
   components: {
     detailModal,
     formModal
@@ -97,10 +108,8 @@ export default {
   mixins: [list],
   data() {
     return {
-      baseApi: '/dictionary',
-      customQueryParam: { parentId: 0 },
-      getMore: false,
-      listLoading: true
+      baseApi: '/iam/user',
+      getMore: true
     }
   }
 }

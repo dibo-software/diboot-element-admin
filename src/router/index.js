@@ -80,10 +80,10 @@ export const constantRoutes = [
         meta: { title: '数据字典管理' }
       },
       {
-        path: 'system/dictionary/list',
-        name: 'DictList',
-        component: () => import('@/views/system/dictionary/list'),
-        meta: { title: '查看操作日志' }
+        path: 'system/iamUser/list',
+        name: 'IamUserList',
+        component: () => import('@/views/system/iamUser/list'),
+        meta: { title: '系统用户管理' }
       }
     ]
   },

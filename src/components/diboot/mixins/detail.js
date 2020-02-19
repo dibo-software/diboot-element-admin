@@ -17,7 +17,7 @@ export default {
         this.model = res.data
         this.title = '详情'
         this.visible = true
-        this.afterOpen(this.model)
+        this.afterOpen(id)
       } else {
         this.$notify.error({
           title: '获取详情信息失败',
@@ -33,7 +33,7 @@ export default {
      * 打开表单之后的操作
      * @param id
      */
-    afterOpen(model) {
+    afterOpen(id) {
 
     }
   }

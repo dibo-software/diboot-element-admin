@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       baseApi: '/dictionary',
-      form: _.cloneDeep(INIT_FORM_DATA),
+      initFormData: INIT_FORM_DATA,
       children: [],
       childItem: _.cloneDeep(CHILDREN_ITEM_DEFAULT),
       childrenBtnConfig: _.cloneDeep(CHILDREN_BTN_CONFIG_DEFAULT),
