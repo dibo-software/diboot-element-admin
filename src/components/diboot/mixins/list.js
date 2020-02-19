@@ -5,7 +5,12 @@ export default {
   components: { Pagination },
   data() {
     return {
+      // 请求接口基础路径
       baseApi: '/',
+      // 列表数据接口
+      listApi: '',
+      // 删除接口
+      deleteApiPrefix: '',
       // 自定义参数（不被查询表单重置和改变的参数）
       customQueryParam: {},
       // 与查询条件绑定的参数（会被查询表单重置和改变的参数）
@@ -143,7 +148,8 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          dibootApi.delete(`${_this.baseApi}/${id}`).then(async(res) => {
+          const deleteApiPrefix = _this.deleteApiPrefix ? _this.deleteApiPrefix : ''
+          dibootApi.delete(`${_this.baseApi}${deleteApiPrefix}/${id}`).then(async(res) => {
             if (res.code === 0) {
               this.$notify.success({
                 title: '删除成功',

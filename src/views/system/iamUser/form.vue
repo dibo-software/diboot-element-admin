@@ -56,6 +56,19 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-button
+          v-if="setPassword === false"
+          @click="setPassword = true"
+          type="primary">
+          重设密码
+        </el-button>
+        <el-input
+          v-if="setPassword === true"
+          type="password"
+          v-model="form.password"
+          placeholder="请输入密码" />
+      </el-form-item>
       <el-form-item label="电话" prop="mobilePhone">
         <el-input v-model="form.mobilePhone" placeholder="请输入电话" />
       </el-form-item>
@@ -99,6 +112,7 @@ export default {
         'username': [{ required: true, message: '用户名不能为空', trigger: 'blur' }, { validator: this.checkUsernameDuplicate, trigger: 'blur' }],
         'userNum': [{ required: true, message: '用户编号不能为空', trigger: 'blur' }, { validator: this.checkUserNumDuplicate, trigger: 'blur' }],
         'realname': [{ required: true, message: '姓名不能为空', trigger: 'change' }],
+        'password': [{ validator: this.checkPassword, trigger: 'blur' }],
         'roleIdList': [{ required: true, message: '角色不能为空', trigger: 'change' }],
         'gender': [{ required: true, message: '性别不能为空', trigger: 'change' }],
         'status': [{ required: true, message: '用户状态不能为空', trigger: 'change' }]
@@ -186,6 +200,17 @@ export default {
       } catch (err) {
         callback(new Error(err))
       }
+    },
+    checkPassword(rule, value, callback) {
+      if (!this.setPassword) {
+        callback()
+        return
+      }
+      if (!value){
+        callback('密码不能为空')
+        return
+      }
+      callback()
     },
     async enhance(values) {
       values.orgId = 0

@@ -6,10 +6,10 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         查询
       </el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-refresh" @click="reset">
+      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
         重置
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="$refs.form.open(undefined)">
+      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="$refs.form.open(undefined)">
         新建
       </el-button>
     </div>
