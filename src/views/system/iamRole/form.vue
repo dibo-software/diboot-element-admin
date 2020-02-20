@@ -1,11 +1,11 @@
 <template>
   <el-dialog :title="title" :visible.sync="state.visible" @closed="close">
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
-      <el-form-item label="编码" prop="code">
-        <el-input v-model="form.code" placeholder="请输入编码" />
-      </el-form-item>
       <el-form-item label="角色名称" prop="name">
         <el-input v-model="form.name" placeholder="请输入角色名称" />
+      </el-form-item>
+      <el-form-item label="编码" prop="code">
+        <el-input v-model="form.code" placeholder="请输入编码" />
       </el-form-item>
       <el-form-item label="描述" prop="description">
         <el-input
