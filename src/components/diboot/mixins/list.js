@@ -153,7 +153,7 @@ export default {
             if (res.code === 0) {
               this.$notify.success({
                 title: '删除成功',
-                message: '删除该数据成功'
+                message: '已删除该数据'
               })
               await _this.getList()
               resolve(res.data)

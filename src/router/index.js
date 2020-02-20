@@ -84,6 +84,12 @@ export const constantRoutes = [
         name: 'IamUserList',
         component: () => import('@/views/system/iamUser/list'),
         meta: { title: '系统用户管理' }
+      },
+      {
+        path: 'system/iamRole/list',
+        name: 'IamRoleList',
+        component: () => import('@/views/system/iamRole/list'),
+        meta: { title: '角色权限管理' }
       }
     ]
   },

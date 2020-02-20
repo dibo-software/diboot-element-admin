@@ -29,32 +29,36 @@
       highlight-current-row
       row-key="id"
     >
-      <el-table-column label="姓名">
-        <template slot-scope="scope">
-          {{ scope.row.realname }}
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="table-item-expand">
+            <el-form-item v-if="props.row.superAdmin === true" label="">
+              <el-tag type="primary" effect="dark">拥有所有权限</el-tag>
+            </el-form-item>
+            <template v-else>
+              <el-form-item :label="per.name"  v-for="(per, index) in props.row.permissions" :key="index">
+                <div class="tag-group" v-if="per.children && per.children.length > 0">
+                  <el-tag
+                    v-for="(p, k) in per.children"
+                    :key="k"
+                    type="success"
+                    effect="dark">
+                    {{ p.operationName }}
+                  </el-tag>
+                </div>
+              </el-form-item>
+            </template>
+          </el-form>
         </template>
       </el-table-column>
-      <el-table-column label="角色">
+      <el-table-column label="角色名称">
         <template slot-scope="scope">
-          <div class="tag-group" v-if="scope.row.roleList && scope.row.roleList.length > 0">
-            <el-tag
-              v-for="item in scope.row.roleList"
-              :key="item.name"
-              type="success"
-              effect="dark">
-              {{ item.name }}
-            </el-tag>
-          </div>
+          {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="电话" align="center">
+      <el-table-column label="编码">
         <template slot-scope="scope">
-          <span>{{ scope.row.mobilePhone }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="状态" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.statusLabel }}</span>
+          {{ scope.row.code }}
         </template>
       </el-table-column>
       <el-table-column label="创建时间" width="150" align="center">
@@ -64,9 +68,6 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="$refs.detail.open(row.id)">
-            详情
-          </el-button>
           <el-button size="mini" type="success" @click="$refs.form.open(row.id)">
             更新
           </el-button>
@@ -84,7 +85,6 @@
       @pagination="handlePaginationChanged"
       :style="{textAlign: 'right'}"
     />
-    <detail-modal ref="detail" />
     <form-modal
       ref="form"
       :more="more"
@@ -95,20 +95,45 @@
 <script>
 import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
-import detailModal from './detail'
 import formModal from './form'
+import forEach from 'lodash.foreach'
 
 export default {
-  name: 'IamUserList',
+  name: 'IamRoleList',
   data() {
     return {
-      baseApi: '/iam/user',
-      deleteApiPrefix: '/delete',
-      getMore: true
+      baseApi: '/iam/role',
+      getMore: false
+    }
+  },
+  methods: {
+    afterLoadList(list) {
+      list.forEach(role => {
+        if (role.permissionList && role.permissionList.length > 0) {
+          const childrenListMap = {}
+          role.permissionList.forEach(per => {
+            if (per.parentId !== 0) {
+              if (childrenListMap[per.parentId] === undefined) {
+                childrenListMap[per.parentId] = []
+              }
+              childrenListMap[per.parentId].push(per)
+            }
+          })
+          // 合并childrenListMap为permissions
+          const permissions = []
+          forEach(childrenListMap, (values, key) => {
+            if (values && values.length > 0) {
+              const per = { name: values[0]['name'] }
+              per.children = values
+              permissions.push(per)
+            }
+          })
+          role.permissions = permissions
+        }
+      })
     }
   },
   components: {
-    detailModal,
     formModal
   },
   directives: { waves },
