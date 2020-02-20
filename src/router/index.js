@@ -106,6 +106,28 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/account',
+    component: Layout,
+    redirect: '/account/setting',
+    name: 'Account',
+    meta: { title: '个人中心', icon: 'people' },
+    children: [
+      {
+        path: 'setting',
+        name: 'AccountSetting',
+        component: () => import('@/views/account/Setting'),
+        meta: { title: '基本设置' }
+      },
+      {
+        path: 'changePwd',
+        name: 'AccountChangePwd',
+        component: () => import('@/views/account/ChangePwd'),
+        meta: { title: '更改密码' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
