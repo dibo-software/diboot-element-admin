@@ -1,7 +1,15 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { setToken, getToken } from '@/utils/auth'
+
+// token在Header中的key
+const JWT_HEADER_KEY = 'authtoken'
+// tokan自动刷新（发送心跳）的时间间隔（分钟）
+const TOKEN_REFRESH_EXPIRE = 10
+// 心跳计时器
+let pingTimer = {}
+setPingTimer()
 
 // create an axios instance
 const service = axios.create({
@@ -19,7 +27,7 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['authtoken'] = getToken()
+      config.headers[JWT_HEADER_KEY] = getToken()
     }
     return config
   },
@@ -43,54 +51,43 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    // TODO: 应该对请求错误码进行抛出异常并提示的处理
-    const res = response.data
+    // 检查是否携带有新的token
+    const newToken = response.headers[JWT_HEADER_KEY]
+    if (newToken) {
+      // 将该token设置到vuex以及本地存储中
+      setToken(newToken)
+      store.commit('SET_TOKEN', newToken)
+    }
+    // 如果请求成功，则重置心跳定时器
+    if (response.status === 200) {
+      resetPingTimer()
+    }
 
-    return res
-
-    // if the custom code is not 20000, it is judged as an error.
-    // if (res.code !== 0) {
-    //   // TODO: 应该对相关的错误码进行对应的处理
-    //   if (res.code === 4003) {
-    //     Message({
-    //       message: res.msg || 'Error',
-    //       type: 'error',
-    //       duration: 5 * 1000
-    //     })
-    //   } else {
-    //     Message({
-    //       message: res.msg || 'Error',
-    //       type: 'error',
-    //       duration: 5 * 1000
-    //     })
-    //   }
-    //
-    //
-    //   // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-    //   if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-    //     // to re-login
-    //     MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-    //       confirmButtonText: 'Re-Login',
-    //       cancelButtonText: 'Cancel',
-    //       type: 'warning'
-    //     }).then(() => {
-    //       store.dispatch('user/resetToken').then(() => {
-    //         location.reload()
-    //       })
-    //     })
-    //   }
-    //   return Promise.reject(new Error(res.message || 'Error'))
-    // } else {
-    //   return res
-    // }
+    const status = response.status
+    if (status !== 200) {
+      Message.error(
+        response.data.statusText ? response.data.statusText : ''
+      )
+      return Promise.reject(response.data)
+    } else {
+      return response.data
+    }
   },
   error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    let message = '网络可能出现问题'
+    const status = error.response.status
+    if (status === 500) {
+      message = '服务器好像开小差了，重试下吧！'
+    } else if (status === 400) {
+      message = '提交数据出错'
+    } else if (status === 401) {
+      message = '没有权限'
+    } else if (status === 403) {
+      message = '无权访问'
+    } else if (status === 404) {
+      message = '请求资源不存在'
+    }
+    Message.error(message)
     return Promise.reject(error)
   }
 )
@@ -172,6 +169,24 @@ const dibootApi = {
       withCredentials: true
     })
   }
+}
+
+/**
+ * 设置一个心跳定时器
+ */
+function setPingTimer() {
+  pingTimer = setTimeout(() => {
+    dibootApi.post('/iam/ping')
+    resetPingTimer()
+  }, TOKEN_REFRESH_EXPIRE * 60 * 1000)
+}
+
+/**
+ * 重置一个心跳定时器
+ */
+function resetPingTimer() {
+  clearTimeout(pingTimer)
+  setPingTimer()
 }
 
 export default service
