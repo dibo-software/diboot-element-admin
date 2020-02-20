@@ -1,15 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-select v-model="queryParam.status" placeholder="请选择" style="width: 200px;" class="filter-item">
-        <el-option
-          v-for="(item, index) in more.userStatusKvList"
-          :key="index"
-          :value="item.v"
-          :label="item.k">
-        </el-option>
-      </el-select>
+      <el-input v-model="queryParam.name" placeholder="角色名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-input v-model="queryParam.code" placeholder="编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         查询
       </el-button>
