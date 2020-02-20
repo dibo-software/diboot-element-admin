@@ -57,12 +57,12 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/system',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '我的工作台', icon: 'component' }
     }]
   },
 
@@ -74,50 +74,34 @@ export const constantRoutes = [
     meta: { title: '系统管理', icon: 'dashboard' },
     children: [
       {
-        path: 'system/dictionary/list',
+        path: 'dictionary/list',
         name: 'DictList',
         component: () => import('@/views/system/dictionary/list'),
         meta: { title: '数据字典管理' }
       },
       {
-        path: 'system/iamUser/list',
+        path: 'iamUser/list',
         name: 'IamUserList',
         component: () => import('@/views/system/iamUser/list'),
         meta: { title: '系统用户管理' }
       },
       {
-        path: 'system/iamRole/list',
+        path: 'iamRole/list',
         name: 'IamRoleList',
         component: () => import('@/views/system/iamRole/list'),
         meta: { title: '角色权限管理' }
       },
       {
-        path: 'system/iamPermission/list',
+        path: 'iamPermission/list',
         name: 'IamPermissionList',
         component: () => import('@/views/system/iamPermission/list'),
         meta: { title: '系统权限查看' }
-      }
-    ]
-  },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'iamLoginTrace/list',
+        name: 'IamLoginTraceList',
+        component: () => import('@/views/system/iamLoginTrace/list'),
+        meta: { title: '登录日志查看' }
       }
     ]
   },
