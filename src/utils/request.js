@@ -75,19 +75,21 @@ service.interceptors.response.use(
   },
   error => {
     let message = '网络可能出现问题'
-    const status = error.response.status
-    if (status === 500) {
-      message = '服务器好像开小差了，重试下吧！'
-    } else if (status === 400) {
-      message = '提交数据出错'
-    } else if (status === 401) {
-      message = '没有权限'
-    } else if (status === 403) {
-      message = '无权访问'
-    } else if (status === 404) {
-      message = '请求资源不存在'
+    if (error && error.response && error.response.status){
+      const status = error.response.status
+      if (status === 500) {
+        message = '服务器好像开小差了，重试下吧！'
+      } else if (status === 400) {
+        message = '提交数据出错'
+      } else if (status === 401) {
+        message = '没有权限'
+      } else if (status === 403) {
+        message = '无权访问'
+      } else if (status === 404) {
+        message = '请求资源不存在'
+      }
+      Message.error(message)
     }
-    Message.error(message)
     return Promise.reject(error)
   }
 )

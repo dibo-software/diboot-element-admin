@@ -84,8 +84,9 @@ export default {
         type: 'warning'
       }).then(async() => {
         await this.$store.dispatch('user/logout')
-        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+        window.location.reload()
       }).catch(() => {
+        window.location.reload()
       })
     }
   }
