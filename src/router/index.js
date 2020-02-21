@@ -57,15 +57,17 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/system',
+    redirect: '/dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '我的工作台', icon: 'component' }
     }]
-  },
+  }
+]
 
+export const asyncRoutes = [
   {
     path: '/system',
     component: Layout,
@@ -77,31 +79,31 @@ export const constantRoutes = [
         path: 'dictionary/list',
         name: 'DictList',
         component: () => import('@/views/system/dictionary/list'),
-        meta: { title: '数据字典管理' }
+        meta: { title: '数据字典管理', permission: ['Dictionary'] }
       },
       {
         path: 'iamUser/list',
         name: 'IamUserList',
         component: () => import('@/views/system/iamUser/list'),
-        meta: { title: '系统用户管理' }
+        meta: { title: '系统用户管理', permission: ['IamUser'] }
       },
       {
         path: 'iamRole/list',
         name: 'IamRoleList',
         component: () => import('@/views/system/iamRole/list'),
-        meta: { title: '角色权限管理' }
+        meta: { title: '角色权限管理', permission: ['IamRole'] }
       },
       {
         path: 'iamPermission/list',
         name: 'IamPermissionList',
         component: () => import('@/views/system/iamPermission/list'),
-        meta: { title: '系统权限查看' }
+        meta: { title: '系统权限查看', permission: ['IamPermission'] }
       },
       {
         path: 'iamLoginTrace/list',
         name: 'IamLoginTraceList',
         component: () => import('@/views/system/iamLoginTrace/list'),
-        meta: { title: '登录日志查看' }
+        meta: { title: '登录日志查看', permission: ['IamLoginTrace'] }
       }
     ]
   },
