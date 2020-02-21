@@ -84,7 +84,6 @@ export default {
         method: 'get'
       }).then(res => {
         this.data = res.data
-        console.log('list', res)
         this.pagination.pageSize = res.page.pageSize
         this.pagination.current = res.page.pageIndex
         this.pagination.total = res.page.totalCount

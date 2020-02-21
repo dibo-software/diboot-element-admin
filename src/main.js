@@ -16,6 +16,8 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import permission from '@/directive/permission/index'
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -35,6 +37,9 @@ Vue.use(ElementUI, {
   locale,
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })
+
+// 注册全局权限指令
+permission.install(Vue)
 
 Vue.config.productionTip = false
 

@@ -16,7 +16,7 @@
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
         重置
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="$refs.form.open(undefined)">
+      <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="$refs.form.open(undefined)">
         新建
       </el-button>
     </div>
@@ -64,13 +64,13 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="$refs.detail.open(row.id)">
+          <el-button v-permission="['detail']" type="primary" size="mini" @click="$refs.detail.open(row.id)">
             详情
           </el-button>
-          <el-button size="mini" type="success" @click="$refs.form.open(row.id)">
+          <el-button v-permission="['update']" size="mini" type="success" @click="$refs.form.open(row.id)">
             更新
           </el-button>
-          <el-button size="mini" type="danger" @click="remove(row.id)">
+          <el-button v-permission="['delete']" size="mini" type="danger" @click="remove(row.id)">
             删除
           </el-button>
         </template>
