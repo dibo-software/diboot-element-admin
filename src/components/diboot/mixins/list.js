@@ -120,6 +120,13 @@ export default {
         })
       })
     },
+    menuCommand(command, row) {
+      if (command === 'update') {
+        this.$refs.form.open(row.id)
+      } else if (command === 'delete') {
+        this.remove(row.id)
+      }
+    },
     filterListData(list) {
       if (list && list.length > 0) {
         list.forEach(item => {
@@ -178,7 +185,7 @@ export default {
      * 导出数据
      * @param res
      */
-    downloadFile (res) {
+    downloadFile(res) {
       const blob = new Blob([res.data])
       if ('download' in document.createElement('a')) { // 非IE下载
         const elink = document.createElement('a')

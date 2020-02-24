@@ -26,12 +26,12 @@
         <template slot-scope="props">
           <el-form label-position="left" inline class="table-item-expand">
             <el-form-item label="子项列表">
-              <div class="tag-group" v-if="props.row._children && props.row._children.length > 0">
+              <div v-if="props.row._children && props.row._children.length > 0" class="tag-group">
                 <el-tag
                   v-for="item in props.row._children"
                   :key="item.itemValue"
                   type="success"
-                  effect="dark">
+                >
                   {{ item.itemName }}
                 </el-tag>
               </div>
@@ -56,15 +56,44 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button v-permission="['detail']" type="primary" size="mini" @click="$refs.detail.open(row.id)">
+          <el-button
+            v-permission="['detail']"
+            type="text"
+            @click="$refs.detail.open(row.id)"
+          >
             详情
           </el-button>
-          <el-button v-permission="['update']" size="mini" type="success" @click="$refs.form.open(row.id)">
-            更新
-          </el-button>
-          <el-button v-permission="['delete']" size="mini" type="danger" @click="remove(row.id)">
-            删除
-          </el-button>
+          <span
+            v-permission="['detail']"
+            v-permission-again="['update', 'delete']"
+          >
+            <el-divider
+              direction="vertical" />
+          </span>
+          <el-dropdown
+            @command="command => menuCommand(command, row)"
+            v-permission="['update', 'delete']">
+            <span class="el-dropdown-link">
+              更多<i class="el-icon-arrow-down el-icon--right" />
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-permission="['update']"
+                command="update"
+                icon="el-icon-edit">
+                更新
+              </el-dropdown-item>
+              <el-dropdown-item
+                v-permission="['delete']"
+                command="delete"
+                icon="el-icon-delete">
+                删除
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span v-permission-missing="['detail', 'update', 'delete']">
+            -
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -73,8 +102,8 @@
       :total="pagination.total"
       :page.sync="pagination.current"
       :limit.sync="pagination.pageSize"
-      @pagination="handlePaginationChanged"
       :style="{textAlign: 'right'}"
+      @pagination="handlePaginationChanged"
     />
     <detail-modal ref="detail" />
     <form-modal ref="form" @refreshList="getList" />

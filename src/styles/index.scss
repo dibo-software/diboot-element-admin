@@ -103,6 +103,11 @@ div:focus {
 }
 
 // Tag组
-.tag-group .el-tag{
+.tag-group .el-tag {
   margin-right: 10px;
+}
+
+// 下拉选项
+.el-dropdown-link {
+  cursor: pointer;
 }

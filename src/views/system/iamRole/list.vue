@@ -61,12 +61,38 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button v-permission="['update']" size="mini" type="success" @click="$refs.form.open(row.id)">
+          <el-button
+            v-permission="['update']"
+            type="text"
+            @click="$refs.form.open(row.id)"
+          >
             更新
           </el-button>
-          <el-button v-permission="['delete']" size="mini" type="danger" @click="remove(row.id)">
-            删除
-          </el-button>
+          <span
+            v-permission="['detail']"
+            v-permission-again="['delete']"
+          >
+            <el-divider
+              direction="vertical" />
+          </span>
+          <el-dropdown
+            @command="command => menuCommand(command, row)"
+            v-permission="['delete']">
+            <span class="el-dropdown-link">
+              更多<i class="el-icon-arrow-down el-icon--right" />
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-permission="['delete']"
+                command="delete"
+                icon="el-icon-delete">
+                删除
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span v-permission-missing="['update', 'delete']">
+            -
+          </span>
         </template>
       </el-table-column>
     </el-table>
