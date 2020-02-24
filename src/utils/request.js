@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
-import { setToken, getToken } from '@/utils/auth'
+import router from '@/router/index'
+import { setToken, getToken, removeToken } from '@/utils/auth'
 
 // token在Header中的key
 const JWT_HEADER_KEY = 'authtoken'
@@ -63,19 +64,18 @@ service.interceptors.response.use(
       resetPingTimer()
     }
 
-    const status = response.status
-    if (status !== 200) {
-      Message.error(
-        response.data.statusText ? response.data.statusText : ''
-      )
-      return Promise.reject(response.data)
-    } else {
-      return response.data
+    // 如果返回的自定义状态码为 4001， 则token过期，需要清理掉token并跳转至登录页面重新登录
+    if (response.data && response.data.code === 4001) {
+      removeToken()
+      router.push('/login')
+      throw new Error('登录过期，请重新登录')
     }
+
+    return response.data
   },
   error => {
     let message = '网络可能出现问题'
-    if (error && error.response && error.response.status){
+    if (error && error.response && error.response.status) {
       const status = error.response.status
       if (status === 500) {
         message = '服务器好像开小差了，重试下吧！'
