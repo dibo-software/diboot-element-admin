@@ -1,18 +1,24 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input v-model="queryParam.name" placeholder="角色名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-input v-model="queryParam.code" placeholder="编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
-        查询
-      </el-button>
-      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
-        重置
-      </el-button>
-      <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="$refs.form.open(undefined)">
-        新建
-      </el-button>
-    </div>
+    <el-row>
+      <el-col :lg="20" :md="24">
+        <div class="filter-container">
+          <el-input v-model="queryParam.name" placeholder="角色名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+          <el-input v-model="queryParam.code" placeholder="编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
+            查询
+          </el-button>
+          <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
+            重置
+          </el-button>
+        </div>
+      </el-col>
+      <el-col :lg="4" :md="24" style="text-align: right;">
+        <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="$refs.form.open(undefined)">
+          新建
+        </el-button>
+      </el-col>
+    </el-row>
     <el-table
       v-loading="loadingData"
       :data="list"
@@ -34,8 +40,7 @@
                   <el-tag
                     v-for="(p, k) in per.children"
                     :key="k"
-                    type="success"
-                    effect="dark">
+                    type="success">
                     {{ p.operationName }}
                   </el-tag>
                 </div>

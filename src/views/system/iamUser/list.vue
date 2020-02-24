@@ -1,25 +1,31 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-select v-model="queryParam.status" placeholder="请选择" style="width: 200px;" class="filter-item">
-        <el-option
-          v-for="(item, index) in more.userStatusKvList"
-          :key="index"
-          :value="item.v"
-          :label="item.k">
-        </el-option>
-      </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
-        查询
-      </el-button>
-      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
-        重置
-      </el-button>
-      <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="$refs.form.open(undefined)">
-        新建
-      </el-button>
-    </div>
+    <el-row>
+      <el-col :lg="20" :md="24">
+        <div class="filter-container">
+          <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+          <el-select v-model="queryParam.status" placeholder="请选择" style="width: 200px;" class="filter-item">
+            <el-option
+              v-for="(item, index) in more.userStatusKvList"
+              :key="index"
+              :value="item.v"
+              :label="item.k">
+            </el-option>
+          </el-select>
+          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
+            查询
+          </el-button>
+          <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
+            重置
+          </el-button>
+        </div>
+      </el-col>
+      <el-col :lg="4" :md="24" style="text-align: right;">
+        <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+          新建
+        </el-button>
+      </el-col>
+    </el-row>
     <el-table
       v-loading="loadingData"
       :data="list"
@@ -40,8 +46,7 @@
             <el-tag
               v-for="item in scope.row.roleList"
               :key="item.name"
-              type="success"
-              effect="dark">
+              type="success">
               {{ item.name }}
             </el-tag>
           </div>

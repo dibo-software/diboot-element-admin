@@ -1,18 +1,24 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
-        查询
-      </el-button>
-      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
-        重置
-      </el-button>
-      <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="$refs.form.open(undefined)">
-        新建
-      </el-button>
-    </div>
+    <el-row>
+      <el-col :lg="20" :md="24">
+        <div class="filter-container">
+          <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+          <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
+            查询
+          </el-button>
+          <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
+            重置
+          </el-button>
+        </div>
+      </el-col>
+      <el-col :lg="4" :md="24" style="text-align: right;">
+        <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+          新建
+        </el-button>
+      </el-col>
+    </el-row>
     <el-table
       v-loading="loadingData"
       :data="list"
@@ -68,11 +74,13 @@
             v-permission-again="['update', 'delete']"
           >
             <el-divider
-              direction="vertical" />
+              direction="vertical"
+            />
           </span>
           <el-dropdown
+            v-permission="['update', 'delete']"
             @command="command => menuCommand(command, row)"
-            v-permission="['update', 'delete']">
+          >
             <span class="el-dropdown-link">
               更多<i class="el-icon-arrow-down el-icon--right" />
             </span>
@@ -80,13 +88,15 @@
               <el-dropdown-item
                 v-permission="['update']"
                 command="update"
-                icon="el-icon-edit">
+                icon="el-icon-edit"
+              >
                 更新
               </el-dropdown-item>
               <el-dropdown-item
                 v-permission="['delete']"
                 command="delete"
-                icon="el-icon-delete">
+                icon="el-icon-delete"
+              >
                 删除
               </el-dropdown-item>
             </el-dropdown-menu>

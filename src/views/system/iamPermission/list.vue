@@ -35,8 +35,7 @@
             <el-tag
               v-for="(permission, index) in scope.row._children"
               :key="index"
-              type="success"
-              effect="dark">
+              type="success">
               {{ permission.operationName }}
             </el-tag>
           </div>
