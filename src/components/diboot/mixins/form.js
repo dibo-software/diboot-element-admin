@@ -6,14 +6,10 @@ export default {
   data() {
     return {
       baseApi: '/',
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 5 }
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
-      },
+      // 新建接口
+      createApi: '',
+      // 更新接口
+      updateApiPrefix: '',
       title: '',
       form: {},
       initFormData: {},
@@ -83,7 +79,8 @@ export default {
      * @returns {Promise<string>}
      */
     async add(values) {
-      const res = await dibootApi.post(`${this.baseApi}/`, values)
+      const createApi = this.createApi ? this.createApi : '/'
+      const res = await dibootApi.post(`${this.baseApi}${createApi}`, values)
       if (res.code === 0) {
         return { data: res.data, msg: '添加记录成功' }
       } else {
@@ -96,7 +93,8 @@ export default {
      * @returns {Promise<string>}
      */
     async update(values) {
-      const res = await dibootApi.put(`${this.baseApi}/${this.form.id}`, values)
+      const updateApiPrefix = this.updateApiPrefix ? this.updateApiPrefix : ''
+      const res = await dibootApi.put(`${this.baseApi}${updateApiPrefix}/${this.form.id}`, values)
       if (res.code === 0) {
         return { data: res.data, msg: '更新记录成功' }
       } else {
