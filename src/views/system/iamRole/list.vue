@@ -82,17 +82,17 @@
               v-permission="['detail']"
               v-permission-again="['delete']"
             >
-            <el-divider
-              direction="vertical"
-            />
-          </span>
+              <el-divider
+                direction="vertical"
+              />
+            </span>
             <el-dropdown
               v-permission="['delete']"
               @command="command => menuCommand(command, row)"
             >
-            <span class="el-dropdown-link">
-              更多<i class="el-icon-arrow-down el-icon--right" />
-            </span>
+              <span class="el-dropdown-link">
+                更多<i class="el-icon-arrow-down el-icon--right" />
+              </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
                   v-permission="['delete']"
@@ -104,7 +104,7 @@
               </el-dropdown-menu>
             </el-dropdown>
             <span v-permission-missing="['update', 'delete']">
-            -
+              -
             </span>
           </div>
         </template>
