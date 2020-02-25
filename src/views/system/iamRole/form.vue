@@ -70,7 +70,7 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
-import forEach from 'lodash.foreach'
+import _ from 'lodash'
 
 export default {
   name: 'IamUserForm',
@@ -185,7 +185,7 @@ export default {
     },
     enhance(values) {
       const permissionIds = []
-      forEach(this.permissionIdsMap, (value, key) => {
+      _.forEach(this.permissionIdsMap, (value, key) => {
         if (value && value.length > 0) {
           permissionIds.push(parseInt(key))
           permissionIds.push(...value)

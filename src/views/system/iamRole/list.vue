@@ -130,7 +130,7 @@
 import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
 import formModal from './form'
-import forEach from 'lodash.foreach'
+import _ from 'lodash'
 
 export default {
   name: 'IamRoleList',
@@ -160,7 +160,7 @@ export default {
           })
           // 合并childrenListMap为permissions
           const permissions = []
-          forEach(childrenListMap, (values, key) => {
+          _.forEach(childrenListMap, (values, key) => {
             if (values && values.length > 0) {
               const per = { name: values[0]['name'] }
               per.children = values

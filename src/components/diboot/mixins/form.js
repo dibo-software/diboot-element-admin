@@ -1,6 +1,6 @@
 import { axios, dibootApi } from '@/utils/request'
 import { mapGetters } from 'vuex'
-import cloneDeep from 'lodash.clonedeep'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -30,7 +30,7 @@ export default {
         // 没有id数据则认为是新建
         this.title = '新建'
         this.state.visible = true
-        this.form = cloneDeep(this.initFormData)
+        this.form = _.cloneDeep(this.initFormData)
         this.afterOpen(id)
       } else {
         // 否则作为更新处理
@@ -188,7 +188,7 @@ export default {
       )
     },
     clearForm() {
-      this.form = cloneDeep(this.initFormData)
+      this.form = _.cloneDeep(this.initFormData)
       this.$refs['dataForm'].resetFields()
     }
   },
