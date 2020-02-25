@@ -90,9 +90,9 @@
               v-permission="['delete']"
               @command="command => menuCommand(command, row)"
             >
-              <span class="el-dropdown-link">
-                更多<i class="el-icon-arrow-down el-icon--right" />
-              </span>
+              <el-button type="text">
+                更多<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
                   v-permission="['delete']"
