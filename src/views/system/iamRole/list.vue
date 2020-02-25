@@ -35,12 +35,13 @@
               <el-tag type="primary" effect="dark">拥有所有权限</el-tag>
             </el-form-item>
             <template v-else>
-              <el-form-item :label="per.name"  v-for="(per, index) in props.row.permissions" :key="index">
-                <div class="tag-group" v-if="per.children && per.children.length > 0">
+              <el-form-item v-for="(per, index) in props.row.permissions" :key="index" :label="per.name">
+                <div v-if="per.children && per.children.length > 0" class="tag-group">
                   <el-tag
                     v-for="(p, k) in per.children"
                     :key="k"
-                    type="success">
+                    type="success"
+                  >
                     {{ p.operationName }}
                   </el-tag>
                 </div>
@@ -78,11 +79,13 @@
             v-permission-again="['delete']"
           >
             <el-divider
-              direction="vertical" />
+              direction="vertical"
+            />
           </span>
           <el-dropdown
+            v-permission="['delete']"
             @command="command => menuCommand(command, row)"
-            v-permission="['delete']">
+          >
             <span class="el-dropdown-link">
               更多<i class="el-icon-arrow-down el-icon--right" />
             </span>
@@ -90,7 +93,8 @@
               <el-dropdown-item
                 v-permission="['delete']"
                 command="delete"
-                icon="el-icon-delete">
+                icon="el-icon-delete"
+              >
                 删除
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -106,13 +110,14 @@
       :total="pagination.total"
       :page.sync="pagination.current"
       :limit.sync="pagination.pageSize"
-      @pagination="handlePaginationChanged"
       :style="{textAlign: 'right'}"
+      @pagination="handlePaginationChanged"
     />
     <form-modal
       ref="form"
       :more="more"
-      @refreshList="getList" />
+      @refreshList="getList"
+    />
   </div>
 </template>
 
@@ -124,6 +129,11 @@ import forEach from 'lodash.foreach'
 
 export default {
   name: 'IamRoleList',
+  components: {
+    formModal
+  },
+  directives: { waves },
+  mixins: [list],
   data() {
     return {
       baseApi: '/iam/role',
@@ -156,11 +166,6 @@ export default {
         }
       })
     }
-  },
-  components: {
-    formModal
-  },
-  directives: { waves },
-  mixins: [list]
+  }
 }
 </script>

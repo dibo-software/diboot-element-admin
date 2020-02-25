@@ -12,9 +12,9 @@
       </el-form-item>
       <el-form-item label="角色" prop="roleIdList">
         <el-select
-          multiple
           v-if="more.roleKvList"
           v-model="form.roleIdList"
+          multiple
           placeholder="请选择角色"
           style="width: 100%;"
         >
@@ -59,15 +59,17 @@
       <el-form-item label="密码" prop="password">
         <el-button
           v-if="setPassword === false"
+          type="primary"
           @click="setPassword = true"
-          type="primary">
+        >
           重设密码
         </el-button>
         <el-input
           v-if="setPassword === true"
-          type="password"
           v-model="form.password"
-          placeholder="请输入密码" />
+          type="password"
+          placeholder="请输入密码"
+        />
       </el-form-item>
       <el-form-item label="电话" prop="mobilePhone">
         <el-input v-model="form.mobilePhone" placeholder="请输入电话" />
@@ -93,6 +95,14 @@ import { dibootApi } from '@/utils/request'
 export default {
   name: 'IamUserForm',
   mixins: [form],
+  props: {
+    more: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       baseApi: '/iam/user',
@@ -182,7 +192,7 @@ export default {
         callback()
         return
       }
-      if (!value){
+      if (!value) {
         callback('密码不能为空')
         return
       }
@@ -191,14 +201,6 @@ export default {
     async enhance(values) {
       values.orgId = 0
     }
-  },
-  props: {
-    more: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  },
+  }
 }
 </script>

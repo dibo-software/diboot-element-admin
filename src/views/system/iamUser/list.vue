@@ -9,8 +9,8 @@
               v-for="(item, index) in more.userStatusKvList"
               :key="index"
               :value="item.v"
-              :label="item.k">
-            </el-option>
+              :label="item.k"
+            />
           </el-select>
           <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
             查询
@@ -42,11 +42,12 @@
       </el-table-column>
       <el-table-column label="角色">
         <template slot-scope="scope">
-          <div class="tag-group" v-if="scope.row.roleList && scope.row.roleList.length > 0">
+          <div v-if="scope.row.roleList && scope.row.roleList.length > 0" class="tag-group">
             <el-tag
               v-for="item in scope.row.roleList"
               :key="item.name"
-              type="success">
+              type="success"
+            >
               {{ item.name }}
             </el-tag>
           </div>
@@ -81,11 +82,13 @@
             v-permission-again="['update', 'delete']"
           >
             <el-divider
-              direction="vertical" />
+              direction="vertical"
+            />
           </span>
           <el-dropdown
+            v-permission="['update', 'delete']"
             @command="command => menuCommand(command, row)"
-            v-permission="['update', 'delete']">
+          >
             <span class="el-dropdown-link">
               更多<i class="el-icon-arrow-down el-icon--right" />
             </span>
@@ -93,13 +96,15 @@
               <el-dropdown-item
                 v-permission="['update']"
                 command="update"
-                icon="el-icon-edit">
+                icon="el-icon-edit"
+              >
                 更新
               </el-dropdown-item>
               <el-dropdown-item
                 v-permission="['delete']"
                 command="delete"
-                icon="el-icon-delete">
+                icon="el-icon-delete"
+              >
                 删除
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -115,14 +120,15 @@
       :total="pagination.total"
       :page.sync="pagination.current"
       :limit.sync="pagination.pageSize"
-      @pagination="handlePaginationChanged"
       :style="{textAlign: 'right'}"
+      @pagination="handlePaginationChanged"
     />
     <detail-modal ref="detail" />
     <form-modal
       ref="form"
       :more="more"
-      @refreshList="getList" />
+      @refreshList="getList"
+    />
   </div>
 </template>
 
@@ -134,18 +140,18 @@ import formModal from './form'
 
 export default {
   name: 'IamUserList',
+  components: {
+    detailModal,
+    formModal
+  },
+  directives: { waves },
+  mixins: [list],
   data() {
     return {
       baseApi: '/iam/user',
       deleteApiPrefix: '/delete',
       getMore: true
     }
-  },
-  components: {
-    detailModal,
-    formModal
-  },
-  directives: { waves },
-  mixins: [list]
+  }
 }
 </script>

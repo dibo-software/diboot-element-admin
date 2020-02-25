@@ -31,11 +31,12 @@
       </el-table-column>
       <el-table-column label="可操作权限">
         <template slot-scope="scope">
-          <div class="tag-group" v-if="scope.row._children && scope.row._children.length > 0">
+          <div v-if="scope.row._children && scope.row._children.length > 0" class="tag-group">
             <el-tag
               v-for="(permission, index) in scope.row._children"
               :key="index"
-              type="success">
+              type="success"
+            >
               {{ permission.operationName }}
             </el-tag>
           </div>
@@ -47,9 +48,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
-          -
-        </template>
+        -
       </el-table-column>
     </el-table>
     <pagination

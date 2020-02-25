@@ -32,17 +32,17 @@
           <template v-else>
             <el-col :span="4">
               <el-checkbox
+                v-model="permission.checked"
                 :indeterminate="permission.indeterminate"
                 @change="checked => onCheckAllChange(checked, permission)"
-                v-model="permission.checked"
               >
                 {{ permission.name }}：
               </el-checkbox>
             </el-col>
             <el-col :span="20">
               <el-checkbox-group
-                @change="checked => changePermission(checked, permission, idx)"
                 v-model="permissionIdsMap[permission.id]"
+                @change="checked => changePermission(checked, permission, idx)"
               >
                 <el-checkbox
                   v-for="(item, index) in permission.children"

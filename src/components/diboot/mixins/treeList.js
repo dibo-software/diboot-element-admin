@@ -39,7 +39,7 @@ export default {
     onTreeSelect(selectedKeys, info) {
       if (selectedKeys) {
         // 设置当前节点
-        console.log('-------',selectedKeys)
+        console.log('-------', selectedKeys)
         this.currentNodeId = selectedKeys.id
         // 准备表格查询参数，进行查询
         this.getList()

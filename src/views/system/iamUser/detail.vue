@@ -14,12 +14,13 @@
         <span>{{ model.genderLabel || '-' }}</span>
       </el-form-item>
       <el-form-item label="角色">
-        <div class="tag-group" v-if="model.roleList && model.roleList.length > 0">
+        <div v-if="model.roleList && model.roleList.length > 0" class="tag-group">
           <el-tag
             v-for="item in model.roleList"
             :key="item.name"
             type="success"
-            effect="dark">
+            effect="dark"
+          >
             {{ item.name }}
           </el-tag>
         </div>
