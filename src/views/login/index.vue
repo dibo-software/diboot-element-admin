@@ -41,7 +41,33 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-row>
+        <el-col :span="16">
+          <el-form-item prop="captcha">
+            <span class="svg-container">
+              <svg-icon icon-class="nested" />
+            </span>
+            <el-input
+              ref="password"
+              v-model="loginForm.captcha"
+              placeholder="请输入验证码"
+              name="password"
+              tabindex="2"
+              auto-complete="on"
+              @keyup.enter.native="handleLogin"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" style="text-align: right;">
+          <img
+            :src="`${baseURL}/auth/captcha?p=${captchaParam}`"
+            @click="++captchaParam"
+            alt="验证码"
+            style="height: 40px; margin-top: 4px; margin-right: 8px; cursor: pointer;">
+        </el-col>
+      </el-row>
+
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">确定</el-button>
 
       <div class="tips" />
 
@@ -56,15 +82,19 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        captcha: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur' }]
+        username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
+        captcha: [{ required: true, message: '验证码不能为空', trigger: 'blur' }]
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      baseURL: process.env.VUE_APP_BASE_API,
+      captchaParam: 0
     }
   },
   watch: {
@@ -93,8 +123,9 @@ export default {
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
-          }).catch(() => {
+          }).catch(err => {
             this.loading = false
+            this.$message.error(err)
           })
         } else {
           console.log('error submit!!')
