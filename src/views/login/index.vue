@@ -125,6 +125,7 @@ export default {
             this.loading = false
           }).catch(err => {
             this.loading = false
+            ++this.captchaParam
             this.$message.error(err)
           })
         } else {
