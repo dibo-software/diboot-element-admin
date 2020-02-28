@@ -106,8 +106,6 @@ export default {
   data() {
     return {
       baseApi: '/iam/user',
-      createApi: '/create',
-      updateApiPrefix: '/update',
       setPassword: false,
       initFormData: {
         username: '',

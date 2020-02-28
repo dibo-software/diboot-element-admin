@@ -149,7 +149,6 @@ export default {
   data() {
     return {
       baseApi: '/iam/user',
-      deleteApiPrefix: '/delete',
       getMore: true
     }
   }

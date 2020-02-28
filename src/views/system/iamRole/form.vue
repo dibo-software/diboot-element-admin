@@ -86,8 +86,6 @@ export default {
   data() {
     return {
       baseApi: '/iam/role',
-      createApi: '/create',
-      updateApiPrefix: '/update',
       initFormData: {
         code: '',
         name: '',
