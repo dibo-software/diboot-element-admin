@@ -60,9 +60,11 @@ export default {
             if (res.code === 0) {
               this.list = this.filterListData(res.data)
               this.afterLoadList(this.list)
-              this.pagination.pageSize = res.page.pageSize
-              this.pagination.current = res.page.pageIndex
-              this.pagination.total = res.page.totalCount
+              if (res.page) {
+                this.pagination.pageSize = res.page.pageSize
+                this.pagination.current = res.page.pageIndex
+                this.pagination.total = res.page.totalCount
+              }
               resolve(this.list)
             } else {
               this.$notify.error({
@@ -99,9 +101,11 @@ export default {
           if (res.code === 0) {
             this.list = this.filterListData(res.data)
             this.afterLoadList(this.list)
-            this.pagination.pageSize = res.page.pageSize
-            this.pagination.current = res.page.pageIndex
-            this.pagination.total = res.page.totalCount
+            if (res.page) {
+              this.pagination.pageSize = res.page.pageSize
+              this.pagination.current = res.page.pageIndex
+              this.pagination.total = res.page.totalCount
+            }
             resolve(this.list)
           } else {
             this.$notify.error({
@@ -133,6 +137,7 @@ export default {
           // 解决elementui对于具有children字段的列表显示不出的问题
           if (item.children !== undefined) {
             item._children = item.children
+            item.hasChildren = true
             delete item.children
           }
         })
