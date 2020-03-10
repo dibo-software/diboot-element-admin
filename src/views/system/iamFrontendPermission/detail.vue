@@ -1,38 +1,42 @@
 <template>
   <el-dialog class="detailModal" :visible.sync="visible" title="查看详情" @closed="close">
     <el-form label-position="left" inline class="detail-item-container">
-      <el-form-item label="用户名">
-        <span>{{ username }}</span>
+      <el-form-item label="上级菜单">
+        <span>{{ model.parentDisplayName ? model.parentDisplayName : '无' }}</span>
       </el-form-item>
-      <el-form-item label="用户编号">
-        <span>{{ model.userNum }}</span>
+      <el-form-item label="菜单名称">
+        <span>{{ model.displayName }}</span>
       </el-form-item>
-      <el-form-item label="姓名">
-        <span>{{ model.realname }}</span>
+      <el-form-item label="菜单编码">
+        <span>{{ model.frontendCode }}</span>
       </el-form-item>
-      <el-form-item label="性别">
-        <span>{{ model.genderLabel || '-' }}</span>
-      </el-form-item>
-      <el-form-item label="角色">
-        <div v-if="model.roleList && model.roleList.length > 0" class="tag-group">
+      <el-form-item label="按钮/权限">
+        <template v-if="model.permissionList && model.permissionList.length > 0">
           <el-tag
-            v-for="item in model.roleList"
-            :key="item.name"
+            :key="i"
+            v-for="(permission,i) in model.permissionList"
             type="success"
-            effect="dark"
-          >
-            {{ item.name }}
+            >
+            {{ `${permission.displayName}[${permission.frontendCode}]` }}
           </el-tag>
-        </div>
+        </template>
+        <template v-else>
+          无
+        </template>
       </el-form-item>
-      <el-form-item label="状态">
-        <span>{{ model.statusLabel || '-' }}</span>
-      </el-form-item>
-      <el-form-item label="电话">
-        <span>{{ model.mobilePhone || '-' }}</span>
-      </el-form-item>
-      <el-form-item label="邮箱">
-        <span>{{ model.email || '-' }}</span>
+      <el-form-item label="接口列表">
+        <template v-if="model.apiSetList && model.apiSetList.length > 0">
+          <el-tag
+            :key="i"
+            v-for="(api,i) in model.apiSetList"
+            type="primary"
+          >
+            {{ api }}
+          </el-tag>
+        </template>
+        <template v-else>
+          无
+        </template>
       </el-form-item>
     </el-form>
 
@@ -46,24 +50,13 @@
 </template>
 <script>
 import detail from '@/components/diboot/mixins/detail'
-import { dibootApi } from '@/utils/request'
 
 export default {
-  name: 'IamUserDetail',
+  name: 'IamFrontendPermissionDetail',
   mixins: [detail],
   data() {
     return {
-      baseApi: '/iam/user',
-      username: ''
-    }
-  },
-  methods: {
-    async afterOpen(id) {
-      // 获取account的username信息到表单中
-      const res = await dibootApi.get(`${this.baseApi}/getUsername/${id}`)
-      if (res.code === 0) {
-        this.username = res.data
-      }
+      baseApi: '/iam/frontendPermission'
     }
   }
 }
