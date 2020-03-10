@@ -129,7 +129,7 @@ export default {
       customQueryParam: { displayType: 'MENU' },
       formParentId: '0',
       listFormatter: false,
-      getMore: true
+      getMore: false
     }
   },
   methods: {

@@ -48,6 +48,7 @@ export default {
     close() {
       this.state.visible = false
       this.clearForm()
+      this.afterClose()
     },
     /** *
      * 提交前的验证流程
@@ -166,6 +167,9 @@ export default {
      * @param id
      */
     afterOpen(id) {
+
+    },
+    afterClose() {
 
     },
     attachMore() {

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" :visible.sync="state.visible" @closed="close">
+  <el-dialog :title="title" :visible.sync="state.visible" @closed="close" class="frontend-permission-form">
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
       <el-form-item label="上级菜单" prop="parentId">
         <el-select v-model="form.parentId" filterable placeholder="请选择上级菜单" style="width: 100%;">
@@ -11,7 +11,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="当前菜单选取" prop="parentId">
+      <el-form-item v-if="this.form.id === undefined" label="当前菜单选取">
         <el-select
           v-model="currentMenu"
           @change="onMenuNameChange"
@@ -43,54 +43,67 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="按钮/权限列表">
+        <el-button
+          v-if="form.permissionList && form.permissionList.length === 0"
+          @click="addNewPermission"
+          plain
+          type="primary"
+          icon="el-icon-plus">
+          添加
+        </el-button>
+        <el-tabs
+          v-else
+          v-model="currentPermissionActiveKey"
+          type="border-card"
+          editable
+          @edit="handleTabsEdit">
+          <el-tab-pane
+            v-for="(permission, index) in form.permissionList"
+            :key="index"
+            :label="permission.displayName"
+            :name="`${index}`"
+          >
+              <el-form-item label="按钮/权限编码">
+                <el-select
+                  v-if="reloadMore.frontendPermissionCodeKvList"
+                  v-model="permission.frontendCode"
+                  filterable
+                  placeholder="请选取当前按钮/权限编码"
+                  style="width: 100%;"
+                  @change="value => changePermissionName(permission, value)"
+                >
+                  <el-option
+                    v-for="(item, i) in reloadMore.frontendPermissionCodeKvList"
+                    :key="i"
+                    :label="`${item.k}[${item.v}]`"
+                    :value="item.v"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="按钮/权限名称">
+                <el-input v-model="permission.displayName" placeholder="请输入按钮/权限名称" />
+              </el-form-item>
+              <el-form-item label="当前页接口列表" prop="apiSetList">
+                <el-select
+                  v-model="permission.apiSetList"
+                  multiple
+                  filterable
+                  placeholder="请选取当前菜单页面接口列表"
+                  style="width: 100%;"
+                >
+                  <el-option
+                    v-for="item in apiList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-form-item>
+          </el-tab-pane>
+        </el-tabs>
+      </el-form-item>
     </el-form>
-    <el-tabs v-model="currentPermissionActiveKey" type="card" editable @edit="handleTabsEdit">
-      <el-tab-pane
-        v-for="(permission, index) in form.permissionList"
-        :key="index"
-        :label="permission.displayName"
-        :name="`${index}`"
-      >
-        <el-form label-position="right" label-width="120px">
-          <el-form-item label="按钮/权限编码">
-            <el-select
-              v-if="more.frontendPermissionCodeKvList"
-              v-model="permission.frontendCode"
-              filterable
-              placeholder="请选取当前按钮/权限编码"
-              style="width: 100%;"
-              @change="value => changePermissionName(permission, value)"
-            >
-              <el-option
-                v-for="(item, i) in more.frontendPermissionCodeKvList"
-                :key="i"
-                :label="`${item.k}[${item.v}]`"
-                :value="item.v"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="按钮/权限名称" prop="displayName">
-            <el-input v-model="permission.displayName" placeholder="请输入按钮/权限名称" />
-          </el-form-item>
-          <el-form-item label="当前页接口列表" prop="apiSetList">
-            <el-select
-              v-model="permission.apiSetList"
-              multiple
-              filterable
-              placeholder="请选取当前菜单页面接口列表"
-              style="width: 100%;"
-            >
-              <el-option
-                v-for="item in apiList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </el-tab-pane>
-    </el-tabs>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">
         取消
@@ -122,8 +135,7 @@ export default {
   data() {
     return {
       baseApi: '/iam/frontendPermission',
-      apiSetList: [],
-      permissionList: [],
+      getMore: true,
       apiTreeList: [],
       currentMenu: '',
       currentPermissionActiveKey: '0',
@@ -143,8 +155,10 @@ export default {
   },
   methods: {
     async afterOpen(id) {
+      this.attachMore()
       if (id) {
-        this.model.permissionList.forEach(item => {
+        this.form.parentId = `${this.form.parentId}`
+        this.form.permissionList.forEach(item => {
           if (!item.apiSetList || item.apiSetList.length === 0) {
             item.apiSetList = []
           }
@@ -185,6 +199,80 @@ export default {
         this.form.apiSetList.push(currentApi.value)
       }
     },
+
+    /** *
+     * 提交前的验证流程
+     * @returns {Promise<any>}
+     */
+    validate() {
+      return new Promise((resolve, reject) => {
+        this.$refs['dataForm'].validate((valid, values) => {
+          if (valid) {
+            const errMsgs = []
+            // 对按钮/权限列表进行验证
+            if (this.form.permissionList.length > 0) {
+              const notChangePerIdxList = []
+              const nullDisplayNameIdxList = []
+              const nullFrontendCodeIdxList = []
+              this.form.permissionList.forEach((permission, i) => {
+                // 校验按钮/权限名称是否为空以及是否更改
+                if (!permission.displayName) {
+                  nullDisplayNameIdxList.push(i + 1)
+                } else if (permission.displayName === NEW_PERMISSION_ITEM.displayName) {
+                  notChangePerIdxList.push(i + 1)
+                }
+                // 校验按钮/权限编码是否设置
+                if (!permission.frontendCode) {
+                  nullFrontendCodeIdxList.push(i + 1)
+                }
+              })
+              // 收集验证错误信息
+              if (notChangePerIdxList.length > 0) {
+                errMsgs.push(`第 ${notChangePerIdxList.join('、')} 个按钮/权限的名称没有更改`)
+              }
+              if (nullDisplayNameIdxList.length > 0) {
+                errMsgs.push(`第 ${nullDisplayNameIdxList.join('、')} 个按钮/权限的名称没有填写`)
+              }
+              if (nullFrontendCodeIdxList.length > 0) {
+                errMsgs.push(`第 ${nullFrontendCodeIdxList.join('、')} 个按钮/权限的编码没有填写`)
+              }
+            }
+            if (errMsgs.length > 0) {
+              const msg = errMsgs.join('；') + '。'
+              this.$message.error(msg)
+              reject(msg)
+            }
+
+            // 获取当前菜单的可用接口列表
+            this.form.apiSetList = this.form.apiSetList.filter(api => {
+              return api !== undefined && api !== ''
+            })
+
+            // 整理当前的按钮/权限列表以及对应的接口列表
+            const permissionList = _.cloneDeep(this.form.permissionList)
+            // 整理所有按钮/权限列表的可用接口列表，并设置菜单的id为当前的parentId
+            permissionList.forEach(permission => {
+              permission.apiSetList = permission.apiSetList.filter(api => {
+                return api !== undefined && api !== ''
+              })
+              if (this.form && this.form.id) {
+                permission.parentId = this.form.id
+              }
+            })
+
+            // 合并参数
+            this.form.displayType = 'MENU'
+
+            resolve(this.form)
+          } else {
+            reject('数据校验未通过')
+          }
+          setTimeout(() => {
+            this.state.submitBtn = false
+          }, 600)
+        })
+      })
+    },
     handleTabsEdit(targetName, action) {
       if (action === 'add') {
         this.addNewPermission()
@@ -197,8 +285,8 @@ export default {
       this.form.permissionList.push(newPermission)
       this.currentPermissionActiveKey = `${this.form.permissionList.length - 1}`
       // 自动补全编码选项
-      if (this.more && this.more.frontendPermissionCodeKvList) {
-        const validKv = this.more.frontendPermissionCodeKvList.find(kv => {
+      if (this.reloadMore && this.reloadMore.frontendPermissionCodeKvList) {
+        const validKv = this.reloadMore.frontendPermissionCodeKvList.find(kv => {
           return !this.existPermissionCodes.includes(kv.v)
         })
         newPermission.frontendCode = validKv.v
@@ -212,7 +300,7 @@ export default {
       this.currentPermissionActiveKey = currentKey > 0 ? `${currentKey - 1}` : '0'
     },
     changePermissionName(permission, value) {
-      const validKv = this.more.frontendPermissionCodeKvList.find(item => {
+      const validKv = this.reloadMore.frontendPermissionCodeKvList.find(item => {
         return item.v === value
       })
       // 自动补全按钮/权限名称
@@ -259,7 +347,7 @@ export default {
         callback()
         return
       }
-      const params = { id: this.model.id, code: value }
+      const params = { id: this.form.id, code: value }
       const res = await dibootApi.get(`${this.baseApi}/checkCodeDuplicate`, params)
       if (res.code === 0) {
         callback()
@@ -267,8 +355,11 @@ export default {
         callback(res.msg.split(':')[1])
       }
     },
-    async enhance(values) {
-      values.orgId = 0
+    afterClose() {
+      this.apiTreeList = []
+      this.currentMenu = ''
+      this.currentPermissionActiveKey = '0'
+      this.reloadMore = {}
     }
   },
   computed: {
@@ -285,10 +376,10 @@ export default {
       return treeList2IndentList(_.cloneDeep(this.apiTreeList), 0)
     },
     menuTreeData: function() {
-      if (!this.more || !this.more.menuList) {
+      if (!this.reloadMore || !this.reloadMore.menuList) {
         return []
       }
-      const menuTreeData = treeListFormatter(this.more.menuList, 'id', 'displayName', true)
+      const menuTreeData = treeListFormatter(this.reloadMore.menuList, 'id', 'displayName', true)
       menuTreeData.splice(0, 0, { key: '0', value: '0', label: '顶级菜单' })
       return menuTreeData
     },
@@ -306,14 +397,11 @@ export default {
         return item.frontendCode
       })
     }
-  },
-  props: {
-    more: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
   }
 }
 </script>
+<style>
+  .frontend-permission-form .el-tabs__new-tab {
+    margin-right: 10px;
+  }
+</style>
