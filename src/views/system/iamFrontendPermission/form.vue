@@ -1,83 +1,96 @@
 <template>
   <el-dialog :title="title" :visible.sync="state.visible" @closed="close">
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username" placeholder="请输入用户名" />
-      </el-form-item>
-      <el-form-item label="用户编号" prop="userNum">
-        <el-input v-model="form.userNum" placeholder="请输入用户编号" />
-      </el-form-item>
-      <el-form-item label="姓名" prop="realname">
-        <el-input v-model="form.realname" placeholder="请输入姓名" />
-      </el-form-item>
-      <el-form-item label="角色" prop="roleIdList">
-        <el-select
-          v-if="more.roleKvList"
-          v-model="form.roleIdList"
-          multiple
-          placeholder="请选择角色"
-          style="width: 100%;"
-        >
+      <el-form-item label="上级菜单" prop="parentId">
+        <el-select v-model="form.parentId" filterable placeholder="请选择上级菜单" style="width: 100%;">
           <el-option
-            v-for="(item, index) in more.roleKvList"
-            :key="index"
-            :value="item.v"
-            :label="item.k"
+            v-for="item in menuDataList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="性别" prop="gender">
+      <el-form-item label="当前菜单选取" prop="parentId">
         <el-select
-          v-if="more.genderKvList"
-          v-model="form.gender"
-          placeholder="请选择性别"
+          v-model="currentMenu"
+          @change="onMenuNameChange"
+          filterable
+          placeholder="请选取当前菜单"
           style="width: 100%;"
         >
           <el-option
-            v-for="(item, index) in more.genderKvList"
-            :key="index"
-            :value="item.v"
-            :label="item.k"
+            v-for="item in routerList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select
-          v-if="more.userStatusKvList"
-          v-model="form.status"
-          placeholder="请选择状态"
-          style="width: 100%;"
-        >
+      <el-form-item label="菜单名称" prop="displayName">
+        <el-input v-model="form.displayName" placeholder="请输入菜单名称" />
+      </el-form-item>
+      <el-form-item label="菜单编码" prop="frontendCode">
+        <el-input v-model="form.frontendCode" placeholder="请输入菜单编码" />
+      </el-form-item>
+      <el-form-item label="当前页接口列表" prop="apiSetList">
+        <el-select v-model="form.apiSetList" multiple filterable placeholder="请选取当前菜单页面接口列表" style="width: 100%;">
           <el-option
-            v-for="(item, index) in more.userStatusKvList"
-            :key="index"
-            :value="item.v"
-            :label="item.k"
+            v-for="item in apiList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-button
-          v-if="setPassword === false"
-          type="primary"
-          @click="setPassword = true"
-        >
-          重设密码
-        </el-button>
-        <el-input
-          v-if="setPassword === true"
-          v-model="form.password"
-          type="password"
-          placeholder="请输入密码"
-        />
-      </el-form-item>
-      <el-form-item label="电话" prop="mobilePhone">
-        <el-input v-model="form.mobilePhone" placeholder="请输入电话" />
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="form.email" placeholder="xxx@xxx.com" />
       </el-form-item>
     </el-form>
+    <el-tabs v-model="currentPermissionActiveKey" type="card" editable @edit="handleTabsEdit">
+      <el-tab-pane
+        v-for="(permission, index) in form.permissionList"
+        :key="index"
+        :label="permission.displayName"
+        :name="`${index}`"
+      >
+        <el-form label-position="right" label-width="120px">
+          <el-form-item label="按钮/权限编码">
+            <el-select
+              v-if="more.frontendPermissionCodeKvList"
+              v-model="permission.frontendCode"
+              filterable
+              placeholder="请选取当前按钮/权限编码"
+              style="width: 100%;"
+              @change="value => changePermissionName(permission, value)"
+            >
+              <el-option
+                v-for="(item, i) in more.frontendPermissionCodeKvList"
+                :key="i"
+                :label="`${item.k}[${item.v}]`"
+                :value="item.v"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="按钮/权限名称" prop="displayName">
+            <el-input v-model="permission.displayName" placeholder="请输入按钮/权限名称" />
+          </el-form-item>
+          <el-form-item label="当前页接口列表" prop="apiSetList">
+            <el-select
+              v-model="permission.apiSetList"
+              multiple
+              filterable
+              placeholder="请选取当前菜单页面接口列表"
+              style="width: 100%;"
+            >
+              <el-option
+                v-for="item in apiList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">
         取消
@@ -89,115 +102,217 @@
   </el-dialog>
 </template>
 <script>
+import _ from 'lodash'
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
+import { mapState } from 'vuex'
+import { apiListFormatter, routersFormatter, treeListFormatter, treeList2IndentList } from '@/utils/treeDataUtil'
 
+const NEW_PERMISSION_ITEM = {
+  id: undefined,
+  parentId: '',
+  displayType: 'PERMISSION',
+  displayName: '新按钮/权限',
+  frontendCode: '',
+  apiSetList: []
+}
 export default {
-  name: 'IamUserForm',
+  name: 'IamFrontendPermissionForm',
   mixins: [form],
+  data() {
+    return {
+      baseApi: '/iam/frontendPermission',
+      apiSetList: [],
+      permissionList: [],
+      apiTreeList: [],
+      currentMenu: '',
+      currentPermissionActiveKey: '0',
+      initFormData: {
+        parentId: '0',
+        displayName: '',
+        frontendCode: '',
+        apiSetList: [],
+        permissionList: []
+      },
+      rules: {
+        'parentId': [{ required: true, message: '上级菜单不能为空', trigger: 'blur' }],
+        'displayName': [{ required: true, message: '菜单名称不能为空', trigger: 'change' }],
+        'frontendCode': [{ required: true, message: '菜单编码不能为空', trigger: 'blur' }, { validator: this.checkCodeDuplicate, trigger: 'blur' }]
+      }
+    }
+  },
+  methods: {
+    async afterOpen(id) {
+      if (id) {
+        this.model.permissionList.forEach(item => {
+          if (!item.apiSetList || item.apiSetList.length === 0) {
+            item.apiSetList = []
+          }
+        })
+      }
+
+      dibootApi.get(`${this.baseApi}/apiList`).then(res => {
+        if (res.code === 0) {
+          this.apiTreeList = apiListFormatter(res.data)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    onMenuNameChange(value) {
+      if (this.routerList || this.routerList.length > 0) {
+        const currentMenu = this.routerList.find(item => {
+          return item.value === value
+        })
+        if (currentMenu === undefined) {
+          return false
+        }
+        // 自动设置菜单名称与菜单编码
+        this.form.frontendCode = currentMenu.value
+        // eslint-disable-next-line no-irregular-whitespace
+        this.form.displayName = currentMenu.label ? currentMenu.label.replace(/　/g, '') : ''
+        // 自动设置菜单页面所需接口
+        this.form.apiSetList = []
+        if (!currentMenu.value) {
+          return false
+        }
+        const currentApi = this.apiList.find(item => {
+          return item.value && item.value.toLowerCase().includes(currentMenu.value.toLowerCase())
+        })
+        if (currentApi === undefined || !currentApi.value) {
+          return false
+        }
+        this.form.apiSetList.push(currentApi.value)
+      }
+    },
+    handleTabsEdit(targetName, action) {
+      if (action === 'add') {
+        this.addNewPermission()
+      } else if (action === 'remove') {
+        this.removePermission(targetName)
+      }
+    },
+    addNewPermission() {
+      const newPermission = _.cloneDeep(NEW_PERMISSION_ITEM)
+      this.form.permissionList.push(newPermission)
+      this.currentPermissionActiveKey = `${this.form.permissionList.length - 1}`
+      // 自动补全编码选项
+      if (this.more && this.more.frontendPermissionCodeKvList) {
+        const validKv = this.more.frontendPermissionCodeKvList.find(kv => {
+          return !this.existPermissionCodes.includes(kv.v)
+        })
+        newPermission.frontendCode = validKv.v
+        this.changePermissionName(newPermission, validKv.v)
+      }
+    },
+    removePermission(index) {
+      const idx = parseInt(index, 10)
+      const currentKey = parseInt(this.currentPermissionActiveKey, 10)
+      this.form.permissionList.splice(idx, 1)
+      this.currentPermissionActiveKey = currentKey > 0 ? `${currentKey - 1}` : '0'
+    },
+    changePermissionName(permission, value) {
+      const validKv = this.more.frontendPermissionCodeKvList.find(item => {
+        return item.v === value
+      })
+      // 自动补全按钮/权限名称
+      if (validKv !== undefined) {
+        permission.displayName = validKv['k']
+      }
+      // 自动补全接口列表
+      permission.apiSetList = []
+      if (this.form.apiSetList.length === 0 || !value) {
+        return false
+      }
+      const matchStrList = this.form.apiSetList[0].match(/\/(\S*)\//)
+      if (!matchStrList || matchStrList.length < 2) {
+        return false
+      }
+      const matchStr = matchStrList[0]
+      let uri
+      if (value === 'detail') {
+        uri = `GET:${matchStr}{`
+      } else if (value === 'create') {
+        uri = `POST:${matchStr}`
+      } else if (value === 'update') {
+        uri = `PUT:${matchStr}{`
+      } else if (value === 'delete') {
+        uri = `DELETE:${matchStr}{`
+      } else if (value === 'export') {
+        uri = `POST:${matchStr}export`
+      } else if (value === 'import') {
+        uri = `POST:${matchStr}import`
+      }
+      if (!uri) {
+        return false
+      }
+      const matchApi = this.apiList.find(api => {
+        return api.value && api.value.includes(uri)
+      })
+      if (matchApi === undefined) {
+        return false
+      }
+      permission.apiSetList.push(matchApi.value)
+    },
+    async checkCodeDuplicate(rule, value, callback) {
+      if (!value) {
+        callback()
+        return
+      }
+      const params = { id: this.model.id, code: value }
+      const res = await dibootApi.get(`${this.baseApi}/checkCodeDuplicate`, params)
+      if (res.code === 0) {
+        callback()
+      } else {
+        callback(res.msg.split(':')[1])
+      }
+    },
+    async enhance(values) {
+      values.orgId = 0
+    }
+  },
+  computed: {
+    ...mapState({
+      addRoutes: state => state.permission.addRoutes
+    }),
+    routerTreeList: function() {
+      return routersFormatter(this.addRoutes)
+    },
+    routerList: function() {
+      return treeList2IndentList(_.cloneDeep(this.routerTreeList), 0)
+    },
+    apiList: function() {
+      return treeList2IndentList(_.cloneDeep(this.apiTreeList), 0)
+    },
+    menuTreeData: function() {
+      if (!this.more || !this.more.menuList) {
+        return []
+      }
+      const menuTreeData = treeListFormatter(this.more.menuList, 'id', 'displayName', true)
+      menuTreeData.splice(0, 0, { key: '0', value: '0', label: '顶级菜单' })
+      return menuTreeData
+    },
+    menuDataList: function() {
+      if (this.menuTreeData.length === 0) {
+        return []
+      }
+      return treeList2IndentList(_.cloneDeep(this.menuTreeData), 0)
+    },
+    existPermissionCodes: function() {
+      if (!this.form.permissionList) {
+        return []
+      }
+      return this.form.permissionList.map(item => {
+        return item.frontendCode
+      })
+    }
+  },
   props: {
     more: {
       type: Object,
       default: () => {
         return {}
       }
-    }
-  },
-  data() {
-    return {
-      baseApi: '/iam/user',
-      setPassword: false,
-      initFormData: {
-        username: '',
-        userNum: '',
-        realname: '',
-        roleIdList: [],
-        roleList: [],
-        gender: '',
-        status: '',
-        mobilePhone: '',
-        email: ''
-      },
-      rules: {
-        'username': [{ required: true, message: '用户名不能为空', trigger: 'blur' }, { validator: this.checkUsernameDuplicate, trigger: 'blur' }],
-        'userNum': [{ required: true, message: '用户编号不能为空', trigger: 'blur' }, { validator: this.checkUserNumDuplicate, trigger: 'blur' }],
-        'realname': [{ required: true, message: '姓名不能为空', trigger: 'change' }],
-        'password': [{ validator: this.checkPassword, trigger: 'blur' }],
-        'roleIdList': [{ required: true, message: '角色不能为空', trigger: 'change' }],
-        'gender': [{ required: true, message: '性别不能为空', trigger: 'change' }],
-        'status': [{ required: true, message: '用户状态不能为空', trigger: 'change' }]
-      }
-    }
-  },
-  methods: {
-    async afterOpen(id) {
-      if (id === undefined) {
-        this.setPassword = true
-      } else {
-        this.setPassword = false
-      }
-      // 将roleList设置到表单中
-      if (this.form.roleList && this.form.roleList.length > 0) {
-        const roleIdList = this.form.roleList.map(role => {
-          return role.id
-        })
-        this.$set(this.form, 'roleIdList', roleIdList)
-      }
-      // 获取account的username信息到表单中
-      if (id !== undefined) {
-        const res = await dibootApi.get(`${this.baseApi}/getUsername/${id}`)
-        if (res.code === 0) {
-          this.$set(this.form, 'username', res.data)
-        }
-      }
-    },
-    checkUsernameDuplicate(rule, value, callback) {
-      if (!value) {
-        callback()
-        return
-      } else {
-        const params = { id: this.form.id, username: value }
-        dibootApi.get(`${this.baseApi}/checkUsernameDuplicate`, params).then(res => {
-          if (res.code === 0) {
-            callback()
-          } else {
-            callback(new Error(res.msg.split(':')[1]))
-          }
-        }).catch(err => {
-          callback(new Error(err))
-        })
-      }
-    },
-    async checkUserNumDuplicate(rule, value, callback) {
-      if (!value) {
-        callback()
-        return
-      }
-      const params = { id: this.form.id, userNum: value }
-      try {
-        const res = await dibootApi.get(`${this.baseApi}/checkUserNumDuplicate`, params)
-        if (res.code === 0) {
-          callback()
-        } else {
-          callback(res.msg.split(':')[1])
-        }
-      } catch (err) {
-        callback(new Error(err))
-      }
-    },
-    checkPassword(rule, value, callback) {
-      if (!this.setPassword) {
-        callback()
-        return
-      }
-      if (!value) {
-        callback('密码不能为空')
-        return
-      }
-      callback()
-    },
-    async enhance(values) {
-      values.orgId = 0
     }
   }
 }

@@ -19,6 +19,8 @@ export default {
       list: [],
       // 关联相关的更多数据
       more: {},
+      // 是否将children转化为_children
+      listFormatter: true,
       // 是否从mixin中自动获取初始的列表数据
       getListFromMixin: true,
       // 是否从mixin中自动获取关联数据
@@ -132,6 +134,9 @@ export default {
       }
     },
     filterListData(list) {
+      if (!this.listFormatter) {
+        return list
+      }
       if (list && list.length > 0) {
         list.forEach(item => {
           // 解决elementui对于具有children字段的列表显示不出的问题

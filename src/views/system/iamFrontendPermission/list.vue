@@ -20,27 +20,25 @@
       </el-col>
     </el-row>
     <el-table
-      v-loading="loadingData"
       v-if="list && list.length > 0"
+      v-loading="loadingData"
       :data="list"
       element-loading-text="Loading"
       border
       fit
       highlight-current-row
       :default-expand-all="true"
-      :tree-props="{children: '_children', hasChildren: 'hasChildren'}">
+      :tree-props="{children: '_children', hasChildren: 'hasChildren'}"
       row-key="id"
     >
-      <el-table-column label="菜单名称">
-        <template slot-scope="scope">
-          {{ scope.row.displayName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="菜单编码">
-        <template slot-scope="scope">
-          {{ scope.row.frontendCode }}
-        </template>
-      </el-table-column>
+      <el-table-column
+        prop="displayName"
+        label="菜单名称"
+      />
+      <el-table-column
+        prop="frontendCode"
+        label="菜单编码"
+      />
       <el-table-column label="页面按钮/权限">
         <template slot-scope="scope">
           <div v-if="scope.row.permissionList && scope.row.permissionList.length > 0" class="tag-group">
@@ -54,11 +52,12 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="150" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.createTime }}
-        </template>
-      </el-table-column>
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        width="150"
+        align="center"
+      />
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
@@ -81,7 +80,7 @@
             @command="command => menuCommand(command, row)"
           >
             <el-button type="text">
-              更多<i class="el-icon-arrow-down el-icon--right"></i>
+              更多<i class="el-icon-arrow-down el-icon--right" />
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
@@ -120,20 +119,29 @@ import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
 import detailModal from './detail'
 import formModal from './form'
+import { listPageTreeFormatter } from '@/utils/treeDataUtil'
 
 export default {
   name: 'IamFrontendPermissionList',
+  data() {
+    return {
+      baseApi: '/iam/frontendPermission',
+      customQueryParam: { displayType: 'MENU' },
+      formParentId: '0',
+      listFormatter: false,
+      getMore: true
+    }
+  },
+  methods: {
+    afterLoadList(list) {
+      this.list = listPageTreeFormatter(list)
+    }
+  },
   components: {
     detailModal,
     formModal
   },
   directives: { waves },
-  mixins: [list],
-  data() {
-    return {
-      baseApi: '/iam/frontendPermission',
-      getMore: true
-    }
-  }
+  mixins: [list]
 }
 </script>
