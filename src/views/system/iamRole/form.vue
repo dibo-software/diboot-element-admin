@@ -15,46 +15,18 @@
         />
       </el-form-item>
       <el-form-item label="拥有权限" prop="permissionList">
-        <el-row>请配置该角色权限</el-row>
-        <el-row
-          v-for="(permission, idx) in permissionList"
-          :key="idx"
-          :gutter="16"
-        >
-          <template v-if="isAdmin">
-            <el-col :span="4">
-              {{ permission.name }}：
-            </el-col>
-            <el-cole :span="20">
-              <el-tag>所有权限</el-tag>
-            </el-cole>
-          </template>
-          <template v-else>
-            <el-col :span="4">
-              <el-checkbox
-                v-model="permission.checked"
-                :indeterminate="permission.indeterminate"
-                @change="checked => onCheckAllChange(checked, permission)"
-              >
-                {{ permission.name }}：
-              </el-checkbox>
-            </el-col>
-            <el-col :span="20">
-              <el-checkbox-group
-                v-model="permissionIdsMap[permission.id]"
-                @change="checked => changePermission(checked, permission, idx)"
-              >
-                <el-checkbox
-                  v-for="(item, index) in permission.children"
-                  :key="index"
-                  :label="item.id"
-                >
-                  {{ item.operationName }}
-                </el-checkbox>
-              </el-checkbox-group>
-            </el-col>
-          </template>
-        </el-row>
+        <el-tree
+          v-if="permissionTreeList && permissionTreeList.length > 0"
+          class="filter-tree"
+          node-key="id"
+          show-checkbox
+          check-strictly
+          :data="permissionTreeList"
+          :props="{label: 'label', children: 'children'}"
+          default-expand-all
+          :filter-node-method="filterNode"
+          ref="tree">
+        </el-tree>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -70,6 +42,7 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
+import { permissionTreeListFormatter, treeList2list, list2childrenMap } from '@/utils/treeDataUtil'
 import _ from 'lodash'
 
 export default {
@@ -97,8 +70,8 @@ export default {
         'name': [{ required: true, message: '角色名称不能为空', trigger: 'change' }]
       },
       isAdmin: false,
-      permissionList: [],
-      permissionIdsMap: {}
+      checkedKeys: [],
+      permissionTreeList: []
     }
   },
   methods: {
@@ -109,68 +82,30 @@ export default {
       }
 
       // 获取系统中所有的permissionList
-      const res = await dibootApi.get(`/iam/permission/list`, { parentId: 0 })
+      const res = await dibootApi.get(`/iam/frontendPermission/list`)
       if (res.code === 0) {
-        this.permissionList = res.data
-      }
-      // 获取所有已设置的权限
-      let allSelectedIds = []
-      if (this.form && this.form.permissionList && this.form.permissionList.length > 0) {
-        allSelectedIds = this.form.permissionList.map(per => {
-          return per.id
-        })
-      }
-      this.permissionList.forEach((per, index) => {
-        const selectIds = []
-        if (per.children && per.children.length > 0) {
-          per.children.forEach(item => {
-            if (allSelectedIds.includes(item.id)) {
-              selectIds.push(item.id)
-            }
-          })
+        if (!res.data || res.data.length === 0) {
+          this.$message.error('请先添加菜单及权限')
         } else {
-          per.children = []
-        }
-        this.$set(this.permissionIdsMap, per.id, selectIds)
-        // 对全选按钮的选中状态进行处理
-        per.indeterminate = !!selectIds.length && selectIds.length < per.children.length
-        per.checked = per.children.length === 0 ? allSelectedIds.includes(per.id) : selectIds.length === per.children.length
-        this.$set(this.permissionList, index, per)
-      })
-    },
-    onCheckAllChange(checked, permission) {
-      if (checked) {
-        if (permission.children && permission.children.length > 0) {
-          this.permissionIdsMap[permission.id] = permission.children.map(per => {
-            return per.id
-          })
+          this.permissionTreeList = permissionTreeListFormatter(res.data, 'id', 'displayName')
         }
       } else {
-        this.permissionIdsMap[permission.id] = []
+        this.$message.error(res.msg)
       }
-      // 改变全选按钮状态
-      Object.assign(permission, {
-        indeterminate: false,
-        checked
-      })
-      this.$forceUpdate()
+
+      // 设置checkedKeys初值
+      if (this.form && this.form.permissionList) {
+        this.checkedKeys = this.form.permissionList.map(item => {
+          return item.id
+        })
+        setTimeout(() => {
+          this.$refs.tree.setCheckedKeys(this.checkedKeys)
+        }, 200)
+      }
     },
-    changePermission(checked, permission, idx) {
-      this.permissionIdsMap[permission.id] = checked
-      const indeterminate = !!this.permissionIdsMap[permission.id].length && this.permissionIdsMap[permission.id].length < permission.children.length
-      const allChecked = this.permissionIdsMap[permission.id].length === permission.children.length
-      Object.assign(permission, {
-        indeterminate,
-        checked: allChecked
-      })
-      this.$forceUpdate()
-    },
-    close() {
-      this.state.visible = false
-      this.permissionIdsMap = {}
-      this.permissionList = []
-      this.isAdmin = false
-      this.clearForm()
+    filterNode(value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
     },
     async checkCodeDuplicate(rule, value, callback) {
       const params = { id: this.form.id, code: value }
@@ -190,6 +125,9 @@ export default {
         }
       })
       values.permissionIdList = permissionIds
+    },
+    afterClose() {
+      this.isAdmin = false
     }
   }
 }

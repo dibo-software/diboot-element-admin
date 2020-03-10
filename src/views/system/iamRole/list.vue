@@ -28,42 +28,11 @@
       highlight-current-row
       row-key="id"
     >
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="table-item-expand">
-            <el-form-item v-if="props.row.superAdmin === true" label="">
-              <el-tag type="primary" effect="dark">拥有所有权限</el-tag>
-            </el-form-item>
-            <template v-else>
-              <el-form-item v-for="(per, index) in props.row.permissions" :key="index" :label="per.name">
-                <div v-if="per.children && per.children.length > 0" class="tag-group">
-                  <el-tag
-                    v-for="(p, k) in per.children"
-                    :key="k"
-                    type="success"
-                  >
-                    {{ p.operationName }}
-                  </el-tag>
-                </div>
-              </el-form-item>
-            </template>
-          </el-form>
-        </template>
+      <el-table-column label="角色名称" prop="name">
       </el-table-column>
-      <el-table-column label="角色名称">
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
+      <el-table-column label="编码" prop="code">
       </el-table-column>
-      <el-table-column label="编码">
-        <template slot-scope="scope">
-          {{ scope.row.code }}
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" width="150" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.createTime }}
-        </template>
+      <el-table-column label="创建时间" width="150" align="center" prop="createTime">
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -130,7 +99,6 @@
 import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
 import formModal from './form'
-import _ from 'lodash'
 
 export default {
   name: 'IamRoleList',
@@ -143,33 +111,6 @@ export default {
     return {
       baseApi: '/iam/role',
       getMore: false
-    }
-  },
-  methods: {
-    afterLoadList(list) {
-      list.forEach(role => {
-        if (role.permissionList && role.permissionList.length > 0) {
-          const childrenListMap = {}
-          role.permissionList.forEach(per => {
-            if (per.parentId !== 0) {
-              if (childrenListMap[per.parentId] === undefined) {
-                childrenListMap[per.parentId] = []
-              }
-              childrenListMap[per.parentId].push(per)
-            }
-          })
-          // 合并childrenListMap为permissions
-          const permissions = []
-          _.forEach(childrenListMap, (values, key) => {
-            if (values && values.length > 0) {
-              const per = { name: values[0]['name'] }
-              per.children = values
-              permissions.push(per)
-            }
-          })
-          role.permissions = permissions
-        }
-      })
     }
   }
 }

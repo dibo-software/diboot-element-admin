@@ -207,7 +207,7 @@ const permissionTreeListFormatter = function(treeList, valueField, titleField) {
       sortId: item.sortId,
       key: item[valueField],
       value: item[valueField],
-      title: item[titleField]
+      label: item[titleField]
     }
     if (item.children !== undefined && item.children.length > 0) {
       formatterItem.children = permissionTreeListFormatter(item.children, valueField, titleField, toString)
