@@ -109,7 +109,7 @@
     <form-modal
       ref="form"
       :more="more"
-      @refreshList="getList"
+      @complete="getList"
     />
   </div>
 </template>

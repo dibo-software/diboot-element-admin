@@ -117,7 +117,7 @@
       @pagination="handlePaginationChanged"
     />
     <detail-modal ref="detail" />
-    <form-modal ref="form" @refreshList="getList" />
+    <form-modal ref="form" @complete="getList" />
   </div>
 </template>
 

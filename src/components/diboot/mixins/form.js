@@ -136,7 +136,7 @@ export default {
       this.$message.success(result.msg)
       this.close()
       this.clearForm()
-      this.$emit('refreshList')
+      this.$emit('complete')
       this.$emit('changeKey', result.data)
     },
     /** *
