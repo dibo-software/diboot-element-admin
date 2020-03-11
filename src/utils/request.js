@@ -71,6 +71,14 @@ service.interceptors.response.use(
       throw new Error('登录过期，请重新登录')
     }
 
+    // 如果当前请求是下载请求
+    if (response.headers.filename) {
+      return {
+        data: response.data,
+        filename: decodeURI(response.headers.filename)
+      }
+    }
+
     return response.data
   },
   error => {
@@ -152,12 +160,32 @@ const dibootApi = {
     })
   },
   /**
-   * 导出
+   * GET下载文件
    * @param url
    * @param data
    * @returns {AxiosPromise}
    */
-  download(url, data) {
+  download(url, params) {
+    return service({
+      url,
+      method: 'GET',
+      responseType: 'arraybuffer',
+      observe: 'response',
+      params,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      withCredentials: true
+    })
+  },
+  /**
+   * POST下载文件（常用于提交json数据下载文件）
+   * @param url
+   * @param data
+   * @returns {AxiosPromise}
+   */
+  postDownload(url, data) {
     return service({
       url,
       method: 'POST',

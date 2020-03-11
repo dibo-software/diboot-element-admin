@@ -191,8 +191,25 @@ export default {
         })
       })
     },
+    exportData() {
+      const tempQueryParam = {}
+      // 合并自定义查询参数
+      _.merge(tempQueryParam, this.customQueryParam)
+      // 合并搜索参数
+      _.merge(tempQueryParam, this.queryParam)
+      const exportApi = this.exportApi ? this.exportApi : '/export'
+      dibootApi.download(`${this.baseApi}${exportApi}`, tempQueryParam).then(res => {
+        if (res.filename) {
+          this.downloadFile(res)
+        } else {
+          var decoder = new TextDecoder('utf-8')
+          var result = JSON.parse(decoder.decode(new Uint8Array(res)))
+          this.$message.error(result.msg)
+        }
+      })
+    },
     /**
-     * 导出数据
+     * 下载文件
      * @param res
      */
     downloadFile(res) {
