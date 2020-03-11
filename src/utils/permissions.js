@@ -1,3 +1,4 @@
+
 /**
  * 将后端的permissionList转为permissions
  * @param permissionList
@@ -7,48 +8,47 @@ export function permissionListToPermissions(permissionList) {
     return permissionList
   }
 
-  const permissions = []
-  const actionListMap = {}
-  permissionList.forEach(per => {
-    // 将不重复code的permission添加到permissions中
-    const duplicatePermissions = permissions.filter(p => {
-      return p.code === per.code
-    })
-    if (duplicatePermissions.length === 0) {
-      permissions.push(per)
-    }
-    // 整理actionList到code的map中
-    let actionList = actionListMap[per.code]
+  const menuPermissionList = permissionList.filter(item => {
+    return item.displayType === 'MENU'
+  })
+  const actionPermissionList = permissionList.filter(item => {
+    return item.displayType !== 'MENU'
+  })
+  const actionPermissionListMap = {}
+  actionPermissionList.forEach(item => {
+    let actionList = actionPermissionListMap[item.parentId]
     if (actionList === undefined) {
       actionList = []
-      actionListMap[per.code] = actionList
+      actionPermissionListMap[item.parentId] = actionList
     }
-    if (per.operationCode) {
-      const oprationCode = per.operationCode
-      let action = ''
-      if (oprationCode) {
-        const codes = oprationCode.split(':')
-        if (codes.length === 2) {
-          action = codes[1]
-        }
-      }
-      actionList.push({
-        action,
-        describe: per.operationName,
-        defaultCheck: false
-      })
-    }
+    actionList.push(item)
   })
 
-  // 对于每个不重复的permission设置actionList
-  permissions.map(per => {
-    per.permissionId = per.code
-    per.permissionName = per.name
-    per.actionEntitySet = actionListMap[per.code]
-    per.actionList = actionListMap[per.code].map(item => {
+  const permissions = []
+  menuPermissionList.forEach(item => {
+    // 获取actionList
+    let actionEntitySet = actionPermissionListMap[item.id]
+    if (actionEntitySet !== undefined) {
+      actionEntitySet = actionEntitySet.map(action => {
+        return {
+          action: action.frontendCode,
+          describe: action.displayName,
+          defaultCheck: false
+        }
+      })
+    } else {
+      actionEntitySet = []
+    }
+    const actionList = actionEntitySet.map(item => {
       return item.action
     })
-  })
 
+    permissions.push({
+      permissionId: item.frontendCode,
+      permissionName: item.displayName,
+      actionEntitySet,
+      actionList
+    })
+  })
   return permissions
 }
