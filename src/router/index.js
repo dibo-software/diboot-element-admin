@@ -100,12 +100,6 @@ export const asyncRoutes = [
         meta: { title: '菜单权限管理', permission: ['IamFrontendPermission'] }
       },
       {
-        path: 'iamPermission/list',
-        name: 'IamPermissionList',
-        component: () => import('@/views/system/iamPermission/list'),
-        meta: { title: '系统权限查看', permission: ['IamPermission'] }
-      },
-      {
         path: 'iamLoginTrace/list',
         name: 'IamLoginTraceList',
         component: () => import('@/views/system/iamLoginTrace/list'),

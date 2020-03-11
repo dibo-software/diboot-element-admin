@@ -32,50 +32,54 @@
       </el-table-column>
       <el-table-column label="编码" prop="code">
       </el-table-column>
+      <el-table-column label="描述" prop="description">
+      </el-table-column>
       <el-table-column label="创建时间" width="150" align="center" prop="createTime">
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <div v-if="row.superAdmin === true">
-            -
-          </div>
-          <div v-else>
-            <el-button
-              v-permission="['update']"
-              type="text"
-              @click="$refs.form.open(row.id)"
-            >
-              更新
+          <el-button
+            v-permission="['detail']"
+            type="text"
+            @click="$refs.detail.open(row.id)"
+          >
+            详情
+          </el-button>
+          <span
+            v-permission="['detail']"
+            v-permission-again="['update', 'delete']"
+          >
+            <el-divider
+              direction="vertical"
+            />
+          </span>
+          <el-dropdown
+            v-permission="['update', 'delete']"
+            @command="command => menuCommand(command, row)"
+          >
+            <el-button type="text">
+              更多<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <span
-              v-permission="['detail']"
-              v-permission-again="['delete']"
-            >
-              <el-divider
-                direction="vertical"
-              />
-            </span>
-            <el-dropdown
-              v-permission="['delete']"
-              @command="command => menuCommand(command, row)"
-            >
-              <el-button type="text">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-permission="['delete']"
-                  command="delete"
-                  icon="el-icon-delete"
-                >
-                  删除
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-            <span v-permission-missing="['update', 'delete']">
-              -
-            </span>
-          </div>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-permission="['update']"
+                command="update"
+                icon="el-icon-edit"
+              >
+                更新
+              </el-dropdown-item>
+              <el-dropdown-item
+                v-permission="['delete']"
+                command="delete"
+                icon="el-icon-delete"
+              >
+                删除
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span v-permission-missing="['detail', 'update', 'delete']">
+            -
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -92,6 +96,7 @@
       :more="more"
       @refreshList="getList"
     />
+    <detail-modal ref="detail"></detail-modal>
   </div>
 </template>
 
@@ -99,11 +104,13 @@
 import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
 import formModal from './form'
+import detailModal from './detail'
 
 export default {
   name: 'IamRoleList',
   components: {
-    formModal
+    formModal,
+    detailModal
   },
   directives: { waves },
   mixins: [list],

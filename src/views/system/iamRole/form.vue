@@ -200,27 +200,31 @@ export default {
       }
     },
     enhance(values) {
-      const permissionIds = []
-      _.forEach(this.permissionIdsMap, (value, key) => {
-        if (value && value.length > 0) {
-          permissionIds.push(parseInt(key))
-          permissionIds.push(...value)
+      const checkedIdList = this.checkedKeys
+      // 自动选择没有选到的父级
+      checkedIdList.forEach(id => {
+        const permission = this.permissionList.find(item => {
+          return item.value === id
+        })
+        if (permission !== undefined && permission.parentId !== undefined && !checkedIdList.includes(permission.parentId)) {
+          checkedIdList.push(permission.parentId)
         }
       })
-      values.permissionIdList = permissionIds
+      values.permissionIdList = checkedIdList
     },
     afterClose() {
       this.isAdmin = false
+      this.checkedKeys = []
     }
   },
   computed: {
-    permissionList: function () {
+    permissionList: function() {
       if (!this.permissionTreeList || this.permissionTreeList.length === 0) {
         return []
       }
       return treeList2list(_.cloneDeep(this.permissionTreeList))
     },
-    childrenMap: function () {
+    childrenMap: function() {
       return list2childrenMap(this.permissionList)
     }
   }
