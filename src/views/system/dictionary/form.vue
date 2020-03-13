@@ -82,7 +82,7 @@ export default {
       childrenBtnConfig: _.cloneDeep(CHILDREN_BTN_CONFIG_DEFAULT),
       rules: {
         'itemName': [{ required: true, message: '类型名称不能为空', trigger: 'blur' }],
-        'type': [{ required: true, message: '类型编码不能为空', trigger: 'blur' }]
+        'type': [{ required: true, message: '类型编码不能为空', trigger: 'blur' }, { validator: this.checkTypeDuplicate, trigger: 'blur' }]
       }
     }
   },
