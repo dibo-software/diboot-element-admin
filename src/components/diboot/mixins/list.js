@@ -47,11 +47,13 @@ export default {
       return new Promise((resolve, reject) => {
         this.loadingData = true
         // 过滤掉不存在值的属性
-        const tempQueryParam = {}
+        let tempQueryParam = {}
         // 合并自定义查询参数
         _.merge(tempQueryParam, this.customQueryParam)
         // 合并搜索参数
         _.merge(tempQueryParam, this.queryParam)
+        // 改造查询条件（用于列表页扩展）
+        tempQueryParam = this.rebuildQuery(tempQueryParam)
         // 使用post方式请求列表数据（多用于复杂参数通过json对象进行传输到后端进行筛选）
         dibootApi.post(
           this.listApi ? this.listApi : `${this.baseApi}/list`,
@@ -90,11 +92,13 @@ export default {
       return new Promise((resolve, reject) => {
         this.loadingData = true
         // 过滤掉不存在值的属性
-        const tempQueryParam = {}
+        let tempQueryParam = {}
         // 合并自定义查询参数
         _.merge(tempQueryParam, this.customQueryParam)
         // 合并搜索参数
         _.merge(tempQueryParam, this.queryParam)
+        // 改造查询条件（用于列表页扩展）
+        tempQueryParam = this.rebuildQuery(tempQueryParam)
         dibootApi.get(
           this.listApi ? this.listApi : `${this.baseApi}/list`,
           tempQueryParam
@@ -149,6 +153,9 @@ export default {
       }
       return list
     },
+    rebuildQuery (query) {
+      return query
+    },
     async attachMore() {
       const res = await dibootApi.get(`${this.baseApi}/attachMore`)
       this.more = res.data
@@ -192,11 +199,13 @@ export default {
       })
     },
     exportData() {
-      const tempQueryParam = {}
+      let tempQueryParam = {}
       // 合并自定义查询参数
       _.merge(tempQueryParam, this.customQueryParam)
       // 合并搜索参数
       _.merge(tempQueryParam, this.queryParam)
+      // 改造查询条件（用于列表页扩展）
+      tempQueryParam = this.rebuildQuery(tempQueryParam)
       const exportApi = this.exportApi ? this.exportApi : '/export'
       dibootApi.download(`${this.baseApi}${exportApi}`, tempQueryParam).then(res => {
         if (res.filename) {
