@@ -153,7 +153,7 @@ export default {
       }
       return list
     },
-    rebuildQuery (query) {
+    rebuildQuery(query) {
       return query
     },
     async attachMore() {
