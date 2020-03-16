@@ -1,89 +1,54 @@
-# vue-admin-template
+# diboot-element-admin
 
-English | [简体中文](./README-zh.md)
+介绍
+-----
+diboot-element-admin前端基础项目，是一个与diboot其他后端组件构成的后端系统相吻合的前端项目。您可以将此用于您的日常开发中，和diboot其他组件一起用于快速构建您的实际项目，享受自动化带来的快速开发体验。
 
-> A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
+相关技术栈
+------
+ * Vue
+ * Vue全家桶套餐：[Vue](https://cn.vuejs.org/index.html), [vue-router](https://router.vuejs.org/zh/), [axios](https://github.com/axios/axios), [vuex](https://vuex.vuejs.org/zh/) 
+ * 组件库：[Element](https://element.eleme.cn/#/zh-CN)
+ * 基于Element的中后台管理基础项目：[vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/zh/)
+ * ES6 语法
 
-**Live demo:** http://panjiachen.github.io/vue-admin-template
+项目特性
+------
+* 基于开源项目[vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/zh/)的基础模板[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)；
+* 在**vue-admin-template**项目基础上，增加了vue-element-admin具有的多页签、菜单搜索、全屏显示、调整布局大小等功能；
+* 登录、权限、接口对接上，与diboot-v2相关组件构建的后端应用无缝集成且开箱可用；
+* 提取CRUD页面相关通用属性与方法到mixins文件中，少写代码，多做事情；
+* 菜单到按钮级别的细粒度权限控制；
+* 智能化的权限配置方案；
+* 自动化的token交换方案；
+* 预置多种常用请求方式，轻松完成异步文件下载等；
+* 数据字典管理功能；
+* 登录人员管理界面；
+* 角色与权限管理功能；
+* 权限管理功能；
+* 登录日志管理功能。
 
 
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0), it does not rely on `vue-cli`**
+项目下载与运行
+-----
 
-## Build Setup
-
-
+* 项目下载：
 ```bash
-# clone the project
-git clone https://github.com/PanJiaChen/vue-admin-template.git
+git clone https://github.com/dibo-software/diboot-element-admin.git
+cd diboot-element-admin
+```
 
-# enter the project directory
-cd vue-admin-template
-
-# install dependency
+* 安装依赖
+```bash
+yarn
+# OR
 npm install
-
-# develop
-npm run dev
 ```
 
-This will automatically open http://localhost:9528
-
-## Build
-
+* 运行项目
 ```bash
-# build for test environment
-npm run build:stage
-
-# build for production environment
-npm run build:prod
+yarn serve
+# OR
+npm run serve
 ```
 
-## Advanced
-
-```bash
-# preview the release environment effect
-npm run preview
-
-# preview the release environment effect + static resource analysis
-npm run preview -- --report
-
-# code format check
-npm run lint
-
-# code format check and auto fix
-npm run lint -- --fix
-```
-
-Refer to [Documentation](https://panjiachen.github.io/vue-element-admin-site/guide/essentials/deploy.html) for more information
-
-## Demo
-
-![demo](https://github.com/PanJiaChen/PanJiaChen.github.io/blob/master/images/demo.gif)
-
-## Extra
-
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
-
-For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
-
-## Related Project
-
-[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
-
-[electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-
-[vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-## Browsers support
-
-Modern browsers and Internet Explorer 10+.
-
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
-| --------- | --------- | --------- | --------- |
-| IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
-
-## License
-
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
-
-Copyright (c) 2017-present PanJiaChen
