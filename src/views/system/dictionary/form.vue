@@ -43,7 +43,7 @@
       <el-button @click="close">
         取消
       </el-button>
-      <el-button type="primary" :loading="state.submitBtn" :disabled="state.submitBtn" @click="onSubmit">
+      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit">
         确定
       </el-button>
     </div>
@@ -82,7 +82,7 @@ export default {
       childrenBtnConfig: _.cloneDeep(CHILDREN_BTN_CONFIG_DEFAULT),
       rules: {
         'itemName': [{ required: true, message: '类型名称不能为空', trigger: 'blur' }],
-        'type': [{ required: true, message: '类型编码不能为空', trigger: 'blur' }]
+        'type': [{ required: true, message: '类型编码不能为空', trigger: 'blur' }, { validator: this.checkTypeDuplicate, trigger: 'blur' }]
       }
     }
   },

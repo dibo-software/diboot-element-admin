@@ -108,7 +108,7 @@
       <el-button @click="close">
         取消
       </el-button>
-      <el-button type="primary" :loading="state.submitBtn" :disabled="state.submitBtn" @click="onSubmit">
+      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit">
         确定
       </el-button>
     </div>
@@ -268,7 +268,7 @@ export default {
             reject('数据校验未通过')
           }
           setTimeout(() => {
-            this.state.submitBtn = false
+            this.state.confirmSubmit = false
           }, 600)
         })
       })

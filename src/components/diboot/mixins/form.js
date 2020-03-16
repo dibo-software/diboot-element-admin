@@ -17,7 +17,7 @@ export default {
       reloadMore: {},
       state: {
         visible: false,
-        submitBtn: false
+        confirmSubmit: false
       }
     }
   },
@@ -63,7 +63,7 @@ export default {
             reject('数据校验未通过')
           }
           setTimeout(() => {
-            this.state.submitBtn = false
+            this.state.confirmSubmit = false
           }, 600)
         })
       })
@@ -107,7 +107,7 @@ export default {
      * @returns {Promise<void>}
      */
     async onSubmit() {
-      this.state.submitBtn = true
+      this.state.confirmSubmit = true
       const values = await this.validate()
       await this.enhance(values)
       try {
