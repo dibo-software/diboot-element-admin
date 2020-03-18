@@ -56,11 +56,13 @@ const actions = {
       getInfo(state.token).then(response => {
         const { data } = response
 
-        if (data.role && data.role.permissionList.length > 0) {
+        if (data.role) {
           const role = data.role
           // 更改permission的默认的列表字段
-          role.permissions = permissionListToPermissions(data.role.permissionList)
-          role.permissionList = role.permissions.map(permission => { return permission.permissionId })
+          if (data.role.permissionList.length > 0) {
+            role.permissions = permissionListToPermissions(data.role.permissionList)
+            role.permissionList = role.permissions.map(permission => { return permission.permissionId })
+          }
           // 记录role
           commit('SET_ROLES', role)
         } else {
