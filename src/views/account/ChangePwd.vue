@@ -24,6 +24,7 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
+import {removeToken } from '@/utils/auth'
 
 export default {
   name: 'AccountSetting',
@@ -68,6 +69,13 @@ export default {
         message: result.msg
       })
       this.$refs['dataForm'].resetFields()
+      this.$store.dispatch('user/logout').then(res => {
+        window.location.reload()
+      })
+        .catch(err => {
+          console.log(err)
+          window.location.reload()
+        })
     },
     confirmPwdValidator(rule, value, callback) {
       if (!value) {

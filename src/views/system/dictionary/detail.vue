@@ -43,7 +43,8 @@ export default {
   mixins: [detail],
   data() {
     return {
-      baseApi: '/dictionary'
+      baseApi: '/dictionary',
+      children: []
     }
   },
   methods: {
