@@ -376,10 +376,10 @@ export default {
       return treeList2IndentList(_.cloneDeep(this.apiTreeList), 0)
     },
     menuTreeData: function() {
-      if (!this.reloadMore || !this.reloadMore.menuList) {
-        return []
+      let menuTreeData = []
+      if (this.reloadMore && this.reloadMore.menuList) {
+        menuTreeData = treeListFormatter(this.reloadMore.menuList, 'id', 'displayName', true)
       }
-      const menuTreeData = treeListFormatter(this.reloadMore.menuList, 'id', 'displayName', true)
       menuTreeData.splice(0, 0, { key: '0', value: '0', label: '顶级菜单' })
       return menuTreeData
     },
