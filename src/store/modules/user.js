@@ -62,6 +62,9 @@ const actions = {
           if (data.role.permissionList.length > 0) {
             role.permissions = permissionListToPermissions(data.role.permissionList)
             role.permissionList = role.permissions.map(permission => { return permission.permissionId })
+          } else {
+            role.permissions = []
+            role.permissionList = []
           }
           // 记录role
           commit('SET_ROLES', role)
