@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row>
-      <el-col :lg="20" :md="24">
+      <el-col :lg="16" :md="24">
         <div class="filter-container">
           <el-input v-model="queryParam.displayName" placeholder="菜单名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
           <el-input v-model="queryParam.frontendCode" placeholder="菜单编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
@@ -13,7 +13,10 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :lg="4" :md="24" style="text-align: right;">
+      <el-col :lg="8" :md="24" style="text-align: right;">
+        <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
+          排序
+        </el-button>
         <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
@@ -111,6 +114,7 @@
       :more="more"
       @complete="getList"
     />
+    <permission-tree-sort ref="sort" @complete="getList"></permission-tree-sort>
   </div>
 </template>
 
@@ -119,6 +123,7 @@ import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
 import detailModal from './detail'
 import formModal from './form'
+import permissionTreeSort from './treeSort'
 import { listPageTreeFormatter } from '@/utils/treeDataUtil'
 
 export default {
@@ -139,7 +144,8 @@ export default {
   },
   components: {
     detailModal,
-    formModal
+    formModal,
+    permissionTreeSort
   },
   directives: { waves },
   mixins: [list]
