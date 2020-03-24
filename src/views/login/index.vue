@@ -61,9 +61,10 @@
         <el-col :span="8" style="text-align: right;">
           <img
             :src="`${baseURL}/auth/captcha?p=${captchaParam}`"
-            @click="++captchaParam"
             alt="验证码"
-            style="height: 40px; margin-top: 4px; margin-right: 8px; cursor: pointer;">
+            style="height: 40px; margin-top: 4px; margin-right: 8px; cursor: pointer;"
+            @click="++captchaParam"
+          >
         </el-col>
       </el-row>
 

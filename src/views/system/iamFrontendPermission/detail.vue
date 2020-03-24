@@ -13,10 +13,10 @@
       <el-form-item label="按钮/权限">
         <template v-if="model.permissionList && model.permissionList.length > 0">
           <el-tag
-            :key="i"
             v-for="(permission,i) in model.permissionList"
+            :key="i"
             type="success"
-            >
+          >
             {{ `${permission.displayName}[${permission.frontendCode}]` }}
           </el-tag>
         </template>
@@ -27,8 +27,8 @@
       <el-form-item label="接口列表">
         <template v-if="model.apiSetList && model.apiSetList.length > 0">
           <el-tag
-            :key="i"
             v-for="(api,i) in model.apiSetList"
+            :key="i"
             type="primary"
           >
             {{ api }}

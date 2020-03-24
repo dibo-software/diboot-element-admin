@@ -28,14 +28,10 @@
       highlight-current-row
       row-key="id"
     >
-      <el-table-column label="角色名称" prop="name">
-      </el-table-column>
-      <el-table-column label="编码" prop="code">
-      </el-table-column>
-      <el-table-column label="描述" prop="description">
-      </el-table-column>
-      <el-table-column label="创建时间" width="150" align="center" prop="createTime">
-      </el-table-column>
+      <el-table-column label="角色名称" prop="name" />
+      <el-table-column label="编码" prop="code" />
+      <el-table-column label="描述" prop="description" />
+      <el-table-column label="创建时间" width="150" align="center" prop="createTime" />
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
@@ -58,7 +54,7 @@
             @command="command => menuCommand(command, row)"
           >
             <el-button type="text">
-              更多<i class="el-icon-arrow-down el-icon--right"></i>
+              更多<i class="el-icon-arrow-down el-icon--right" />
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
@@ -96,7 +92,7 @@
       :more="more"
       @complete="getList"
     />
-    <detail-modal ref="detail"></detail-modal>
+    <detail-modal ref="detail" />
   </div>
 </template>
 

@@ -83,7 +83,7 @@
             @command="command => menuCommand(command, row)"
           >
             <el-button type="text">
-              更多<i class="el-icon-arrow-down el-icon--right"></i>
+              更多<i class="el-icon-arrow-down el-icon--right" />
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item

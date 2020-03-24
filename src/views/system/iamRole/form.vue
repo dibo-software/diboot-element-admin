@@ -17,17 +17,17 @@
       <el-form-item label="拥有权限" prop="permissionList">
         <el-tree
           v-if="permissionTreeList && permissionTreeList.length > 0"
+          ref="tree"
           class="filter-tree"
           node-key="id"
           show-checkbox
           check-strictly
-          @check="onNodeCheck"
           :data="permissionTreeList"
           :props="{label: 'label', children: 'children'}"
           default-expand-all
           :filter-node-method="filterNode"
-          ref="tree">
-        </el-tree>
+          @check="onNodeCheck"
+        />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -73,6 +73,17 @@ export default {
       isAdmin: false,
       checkedKeys: [],
       permissionTreeList: []
+    }
+  },
+  computed: {
+    permissionList: function() {
+      if (!this.permissionTreeList || this.permissionTreeList.length === 0) {
+        return []
+      }
+      return treeList2list(_.cloneDeep(this.permissionTreeList))
+    },
+    childrenMap: function() {
+      return list2childrenMap(this.permissionList)
     }
   },
   methods: {
@@ -215,17 +226,6 @@ export default {
     afterClose() {
       this.isAdmin = false
       this.checkedKeys = []
-    }
-  },
-  computed: {
-    permissionList: function() {
-      if (!this.permissionTreeList || this.permissionTreeList.length === 0) {
-        return []
-      }
-      return treeList2list(_.cloneDeep(this.permissionTreeList))
-    },
-    childrenMap: function() {
-      return list2childrenMap(this.permissionList)
     }
   }
 }

@@ -13,14 +13,14 @@
       <el-form-item label="已授权权限">
         <el-tree
           v-if="permissionTreeList && permissionTreeList.length > 0"
+          ref="tree"
           class="filter-tree"
           node-key="id"
           :data="permissionTreeList"
           :props="{label: 'label', children: 'children'}"
           default-expand-all
           :filter-node-method="filterNode"
-          ref="tree">
-        </el-tree>
+        />
       </el-form-item>
     </el-form>
 

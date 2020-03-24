@@ -2,6 +2,7 @@
   <el-dialog class="detailModal" :visible.sync="visible" title="拖拽排序" @closed="close">
     <el-tree
       v-if="treeList && treeList.length > 0"
+      ref="tree"
       class="filter-tree"
       node-key="id"
       :data="treeList"
@@ -9,10 +10,9 @@
       default-expand-all
       :filter-node-method="filterNode"
       draggable
-      @node-drop="onNodeDrop"
       :allow-drop="allowDrop"
-      ref="tree">
-    </el-tree>
+      @node-drop="onNodeDrop"
+    />
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">
         关闭

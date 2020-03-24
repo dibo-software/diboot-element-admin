@@ -114,7 +114,7 @@
       :more="more"
       @complete="getList"
     />
-    <permission-tree-sort ref="sort" @complete="getList"></permission-tree-sort>
+    <permission-tree-sort ref="sort" @complete="getList" />
   </div>
 </template>
 
@@ -128,6 +128,13 @@ import { listPageTreeFormatter } from '@/utils/treeDataUtil'
 
 export default {
   name: 'IamFrontendPermissionList',
+  components: {
+    detailModal,
+    formModal,
+    permissionTreeSort
+  },
+  directives: { waves },
+  mixins: [list],
   data() {
     return {
       baseApi: '/iam/frontendPermission',
@@ -141,13 +148,6 @@ export default {
     afterLoadList(list) {
       this.list = listPageTreeFormatter(list)
     }
-  },
-  components: {
-    detailModal,
-    formModal,
-    permissionTreeSort
-  },
-  directives: { waves },
-  mixins: [list]
+  }
 }
 </script>

@@ -24,7 +24,6 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
-import {removeToken } from '@/utils/auth'
 
 export default {
   name: 'AccountSetting',
