@@ -92,6 +92,7 @@
                 multiple
                 filterable
                 placeholder="请选取当前菜单页面接口列表"
+                @change="value => {permission.apiSetList = value; $forceUpdate();}"
                 style="width: 100%;"
               >
                 <el-option
