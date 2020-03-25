@@ -13,7 +13,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="请输入用户名"
+          placeholder="请输入用户名：guest"
           name="username"
           type="text"
           tabindex="1"
@@ -30,7 +30,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="请输入密码"
+          placeholder="请输入密码：123456"
           name="password"
           tabindex="2"
           auto-complete="on"
