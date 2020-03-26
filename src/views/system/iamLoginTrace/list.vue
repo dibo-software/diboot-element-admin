@@ -3,6 +3,16 @@
     <div class="filter-container">
       <el-input v-model="queryParam.authAccount" placeholder="用户名" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
       <el-input v-model="queryParam.ipAddress" placeholder="IP地址" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
+      <el-select v-model="queryParam.success" placeholder="登录状态" style="width: 200px;" class="filter-item">
+        <el-option
+          :value="true"
+          label="成功"
+        />
+        <el-option
+          :value="false"
+          label="失败"
+        />
+      </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
         查询
       </el-button>
@@ -42,6 +52,12 @@
       <el-table-column label="登录方式">
         <template slot-scope="scope">
           {{ scope.row.authTypeLabel }}
+        </template>
+      </el-table-column>
+      <el-table-column label="登录状态">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.success === true" type="success">成功</el-tag>
+          <el-tag v-else type="danger">失败</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="登录时间" width="150" align="center">
