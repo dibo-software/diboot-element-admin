@@ -3,9 +3,9 @@
     <el-row>
       <el-col :lg="20" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-          <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
+          <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>
           <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">

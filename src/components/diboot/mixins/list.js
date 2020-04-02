@@ -43,6 +43,10 @@ export default {
       this.queryParam.pageSize = this.pagination.pageSize
       this.getList()
     },
+    onSearch() {
+      this.pagination.current = 1
+      this.handlePaginationChanged()
+    },
     postList() {
       return new Promise((resolve, reject) => {
         this.loadingData = true

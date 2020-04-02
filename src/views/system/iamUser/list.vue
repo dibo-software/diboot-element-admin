@@ -3,8 +3,8 @@
     <el-row>
       <el-col :lg="20" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="getList" />
-          <el-select v-model="queryParam.status" placeholder="请选择" style="width: 200px;" class="filter-item">
+          <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-select v-model="queryParam.status" placeholder="状态" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch">
             <el-option
               v-for="(item, index) in more.userStatusKvList"
               :key="index"
@@ -12,7 +12,7 @@
               :label="item.k"
             />
           </el-select>
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="getList">
+          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>
           <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
