@@ -225,7 +225,7 @@ const permissionTreeListFormatter = function(treeList, valueField, titleField) {
  * @param titleField
  * @returns {undefined}
  */
-const sortTreeListFormatter = function (treeList, valueField, titleField) {
+const sortTreeListFormatter = function(treeList, valueField, titleField) {
   if (treeList === undefined || treeList.length === 0) {
     return undefined
   }
