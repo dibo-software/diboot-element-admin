@@ -210,7 +210,39 @@ const permissionTreeListFormatter = function(treeList, valueField, titleField) {
       label: item[titleField]
     }
     if (item.children !== undefined && item.children.length > 0) {
-      formatterItem.children = permissionTreeListFormatter(item.children, valueField, titleField, toString)
+      formatterItem.children = permissionTreeListFormatter(item.children, valueField, titleField)
+    }
+    formatterList.push(formatterItem)
+  })
+
+  return formatterList
+}
+
+/***
+ * 排序树状结构格式化
+ * @param treeList
+ * @param valueField
+ * @param titleField
+ * @returns {undefined}
+ */
+const sortTreeListFormatter = function (treeList, valueField, titleField) {
+  if (treeList === undefined || treeList.length === 0) {
+    return undefined
+  }
+
+  const formatterList = []
+  treeList.forEach(item => {
+    const formatterItem = {
+      type: item.displayType,
+      parentId: item.parentId,
+      id: item.id,
+      sortId: item.sortId,
+      key: item[valueField],
+      value: item[valueField],
+      title: item[titleField]
+    }
+    if (item.children !== undefined && item.children.length > 0) {
+      formatterItem.children = sortTreeListFormatter(item.children, valueField, titleField)
     }
     formatterList.push(formatterItem)
   })
@@ -227,5 +259,6 @@ export {
   list2childrenMap,
   routersFormatter,
   apiListFormatter,
-  permissionTreeListFormatter
+  permissionTreeListFormatter,
+  sortTreeListFormatter
 }
