@@ -218,7 +218,7 @@ const permissionTreeListFormatter = function(treeList, valueField, titleField) {
   return formatterList
 }
 
-/***
+/** *
  * 排序树状结构格式化
  * @param treeList
  * @param valueField
