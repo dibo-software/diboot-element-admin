@@ -5,6 +5,8 @@ export default {
     return {
       baseApi: '/',
       visible: false,
+      // 是否全屏
+      fullscreen: false,
       model: {},
       title: '',
       spinning: false

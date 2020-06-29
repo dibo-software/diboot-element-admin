@@ -1,0 +1,26 @@
+.table-page-search-wrapper {
+  .el-form--inline .el-form-item {
+    display: inline-flex;
+    .el-form-item__content {
+      width: 100%;
+    }
+  }
+}
+.table-operator {
+  margin-bottom: 18px;
+
+  button {
+    margin-right: 8px;
+  }
+}
+.controller-height {
+  .el-dialog__body {
+    height: 500px;
+    overflow: auto;
+  }
+}
+.excel-import {
+  .el-dialog__body {
+    padding: unset;
+  }
+}

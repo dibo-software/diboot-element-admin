@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import moment from 'moment'
 import { dibootApi } from '@/utils/request'
 import Pagination from '@/components/Pagination'
 export default {
@@ -11,14 +12,22 @@ export default {
       listApi: '',
       // 删除接口
       deleteApiPrefix: '',
+      // 导出接口
+      exportApi: '',
       // 自定义参数（不被查询表单重置和改变的参数）
       customQueryParam: {},
       // 与查询条件绑定的参数（会被查询表单重置和改变的参数）
       queryParam: {},
+      // 日期区间选择配置
+      dateRangeQuery: {},
+      // 高级搜索 展开/关闭
+      advanced: false,
       // 列表数据
       list: [],
       // 关联相关的更多数据
       more: {},
+      // 获取关联数据列表的配置列表
+      attachMoreList: [],
       // 是否将children转化为_children
       listFormatter: true,
       // 是否从mixin中自动获取初始的列表数据
@@ -43,13 +52,31 @@ export default {
       this.queryParam.pageSize = this.pagination.pageSize
       this.getList()
     },
+    appendSorterParam({ column, prop, order }) {
+      const sorter = undefined
+      console.log(column, prop, order)
+      if (sorter !== undefined && sorter.field !== undefined) {
+        const field = sorter.field
+        const order = sorter.order === 'ascend' ? 'ASC' : 'DESC'
+        const orderBy = `${field}:${order}`
+        this.queryParam.orderBy = orderBy
+      } else {
+        this.queryParam.orderBy = undefined
+      }
+    },
     onSearch() {
       this.pagination.current = 1
       this.handlePaginationChanged()
     },
+    toggleAdvanced() {
+      this.advanced = !this.advanced
+    },
     postList() {
+      this.dateRange2queryParam()
       return new Promise((resolve, reject) => {
         this.loadingData = true
+        // 转化包含moment的时间类型
+        this.contentTransform(this.queryParam)
         // 过滤掉不存在值的属性
         let tempQueryParam = {}
         // 合并自定义查询参数
@@ -93,8 +120,11 @@ export default {
       })
     },
     getList() {
+      this.dateRange2queryParam()
       return new Promise((resolve, reject) => {
         this.loadingData = true
+        // 转化包含moment的时间类型
+        this.contentTransform(this.queryParam)
         // 过滤掉不存在值的属性
         let tempQueryParam = {}
         // 合并自定义查询参数
@@ -161,11 +191,20 @@ export default {
       return query
     },
     async attachMore() {
-      const res = await dibootApi.get(`${this.baseApi}/attachMore`)
-      this.more = res.data
+      let res = {}
+      if (this.getMore === true) {
+        res = await dibootApi.get(`${this.baseApi}/attachMore`)
+      } else if (this.attachMoreList.length > 0) {
+        res = await dibootApi.post('/common/attachMore', this.attachMoreList)
+      }
+      if (res.code === 0) {
+        this.more = res.data
+        return res.data
+      }
     },
     reset() {
       this.queryParam = {}
+      this.dateRangeQuery = {}
       this.getList()
     },
     async remove(id) {
@@ -204,19 +243,21 @@ export default {
     },
     exportData() {
       let tempQueryParam = {}
+      // 转化包含moment的时间类型
+      this.contentTransform(this.queryParam)
       // 合并自定义查询参数
       _.merge(tempQueryParam, this.customQueryParam)
       // 合并搜索参数
       _.merge(tempQueryParam, this.queryParam)
       // 改造查询条件（用于列表页扩展）
       tempQueryParam = this.rebuildQuery(tempQueryParam)
-      const exportApi = this.exportApi ? this.exportApi : '/export'
+      const exportApi = this.exportApi ? this.exportApi : '/excel/export'
       dibootApi.download(`${this.baseApi}${exportApi}`, tempQueryParam).then(res => {
         if (res.filename) {
           this.downloadFile(res)
         } else {
-          var decoder = new TextDecoder('utf-8')
-          var result = JSON.parse(decoder.decode(new Uint8Array(res)))
+          const decoder = new TextDecoder('utf-8')
+          const result = JSON.parse(decoder.decode(new Uint8Array(res)))
           this.$message.error(result.msg)
         }
       })
@@ -240,16 +281,50 @@ export default {
         navigator.msSaveBlob(blob, res.filename)
       }
     },
+    /**
+     * 处理查询参数中的moment数据 默认转化为YYYY-MM-DD
+     * 如果需要单独处理属性，那么请传入transform对象，指定属性的转化类型
+     * 示例：{createTime: 'YYYY-MM-DD'}
+     * @param content 待转化内容
+     * @param transform 需要转化的格式
+     */
+    contentTransform(content, transform = {}) {
+      if (content) {
+        for (const key in content) {
+          const value = content[key]
+          const format = transform[key] || 'YYYY-MM-DD'
+          if (value instanceof Array) {
+            // 如果类型是moment，那么进行转化
+            if (value && value[0] instanceof moment) {
+              const transformTime = []
+              for (let i = 0; i < value.length; i++) {
+                transformTime[i] = value[i].format(format)
+              }
+              content[key] = transformTime
+            }
+          } else if (value instanceof moment) {
+            content[key] = value.format(format)
+          }
+        }
+      }
+      return content
+    },
     afterLoadList(list) {
 
+    },
+    dateRange2queryParam() {
+      _.forEach(this.dateRangeQuery, (v, k) => {
+        if (k && v && v.length === 2) {
+          this.queryParam[`${k}Begin`] = v[0].format('YYYY-MM-DD')
+          this.queryParam[`${k}End`] = v[1].format('YYYY-MM-DD')
+        }
+      })
     }
   },
   async mounted() {
     if (this.getListFromMixin === true) {
       await this.getList()
     }
-    if (this.getMore === true) {
-      await this.attachMore()
-    }
+    await this.attachMore()
   }
 }

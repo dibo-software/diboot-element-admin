@@ -1,4 +1,4 @@
-import { axios, dibootApi } from '@/utils/request'
+import { dibootApi } from '@/utils/request'
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 
@@ -11,14 +11,37 @@ export default {
       // 更新接口
       updateApiPrefix: '',
       title: '',
+      // 是否全屏
+      fullscreen: false,
       form: {},
       initFormData: {},
+      more: {},
+      // 获取关联数据列表的配置列表
+      attachMoreList: [],
+      // 是否使mixin在当前业务的attachMore接口中自动获取关联数据
       getMore: false,
       reloadMore: {},
       state: {
         visible: false,
         confirmSubmit: false
-      }
+      },
+      // 当前form是否包含上传
+      isUpload: false,
+      /**
+       * 所有文件的集合都放置与fileWrapper对象中，提交的时候会自动遍历
+       * 格式如下：
+       * fileWrapper: {
+       *  singleImageList: [],
+       *  multiImageList: [],
+       *  singleFileList: [],
+       *  multiFileList: []
+       * }
+       */
+      fileWrapper: {},
+      /**
+       * uuid集合
+       */
+      fileUuidList: []
     }
   },
   computed: {
@@ -47,6 +70,7 @@ export default {
     },
     close() {
       this.state.visible = false
+      this.__defaultFileWrapperKeys__()
       this.clearForm()
       this.afterClose()
     },
@@ -172,13 +196,17 @@ export default {
     afterClose() {
 
     },
-    attachMore() {
-      axios({
-        url: `${this.baseApi}/attachMore`,
-        method: 'get'
-      }).then(res => {
-        this.reloadMore = res.data
-      })
+    async attachMore() {
+      let res = {}
+      if (this.getMore === true) {
+        res = await dibootApi.get(`${this.baseApi}/attachMore`)
+      } else if (this.attachMoreList.length > 0) {
+        res = await dibootApi.post('/common/attachMore', this.attachMoreList)
+      }
+      if (res.code === 0) {
+        this.more = res.data
+        return res.data
+      }
     },
     /** *
      * select选择框启用search功能后的过滤器
@@ -194,11 +222,43 @@ export default {
     clearForm() {
       this.form = _.cloneDeep(this.initFormData)
       this.$refs['dataForm'].resetFields()
+    },
+    /**
+     * 设置文件uuid
+     * @private
+     */
+    __setFileUuidList__(values) {
+      // 如果包含上传功能，那么设置uuid
+      if (this.isUpload) {
+        const fileWrapperKeys = Object.keys(this.fileWrapper)
+        if (fileWrapperKeys.length > 0) {
+          for (const fileWrapperKey of fileWrapperKeys) {
+            const tempFileList = this.fileWrapper[fileWrapperKey]
+            if (tempFileList && tempFileList.length && tempFileList.length > 0) {
+              this.fileUuidList.push(...tempFileList.map(item => item.uid))
+            }
+          }
+          values['fileUuidList'] = this.fileUuidList
+        }
+      }
+    },
+    /**
+     * 初始化fileWrapper
+     * @private
+     */
+    __defaultFileWrapperKeys__() {
+      const fileWrapperKeys = Object.keys(this.fileWrapper)
+      if (fileWrapperKeys.length > 0) {
+        for (const fileWrapperKey of fileWrapperKeys) {
+          this.fileWrapper[fileWrapperKey] = []
+        }
+      } else {
+        this.fileWrapper = {}
+      }
+      this.fileUuidList = []
     }
   },
   async mounted() {
-    if (this.getMore === true) {
-      await this.attachMore()
-    }
+    await this.attachMore()
   }
 }

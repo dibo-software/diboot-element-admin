@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
 import router from '@/router/index'
+import qs from 'qs'
 import { setToken, getToken, removeToken } from '@/utils/auth'
 
 // token在Header中的key
@@ -11,10 +12,11 @@ const TOKEN_REFRESH_EXPIRE = 10
 // 心跳计时器
 let pingTimer = {}
 setPingTimer()
-
+// baseURL
+const BASE_URL = process.env.VUE_APP_BASE_API
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: BASE_URL, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 60000 // request timeout
 })
@@ -29,6 +31,13 @@ service.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers[JWT_HEADER_KEY] = getToken()
+    }
+
+    // 只针对get方式进行序列化
+    if (config.method === 'get') {
+      config.paramsSerializer = function(params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
     }
     return config
   },
@@ -222,5 +231,6 @@ function resetPingTimer() {
 export default service
 export {
   service as axios,
+  BASE_URL as baseURL,
   dibootApi
 }
