@@ -58,7 +58,7 @@ export default {
   },
   created() {
     if (this.limitCount === 1 && this.isImage && this.value) {
-      this.imageUrl = `${this.prefix}${this.value}`
+      this.imageUrl = `${this.prefix}${this.value}/image`
     }
   },
   watch: {
@@ -168,11 +168,11 @@ export default {
         uid: data.uuid, // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
         name: data.fileName || ' ', // 文件名
         filePath: data.accessUrl, // 文件路径
-        url: `${this.prefix}${data.accessUrl}`
+        url: `${this.prefix}${data.accessUrl}/image`
       }
       // 如果是但图片设置URL
       if (this.isImage && this.limitCount === 1) {
-        this.imageUrl = `${this.prefix}${data.accessUrl}`
+        this.imageUrl = `${this.prefix}${data.accessUrl}/image`
       }
       return file
     }

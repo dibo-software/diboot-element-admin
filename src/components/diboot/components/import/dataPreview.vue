@@ -12,7 +12,7 @@
         <el-table-column
           v-for="(column, index) in columns"
           :key="`data-preview-${_uid}-${index}`"
-          :prop="column.key"
+          :prop="column.dataIndex"
           :label="column.title">
         </el-table-column>
       </el-table>
