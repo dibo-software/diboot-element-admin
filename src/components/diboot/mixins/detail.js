@@ -32,6 +32,9 @@ export default {
       this.model = {}
       this.afterClose()
     },
+    downloadFile(path) {
+      window.location.href = path
+    },
     /** **
      * 打开表单之后的操作
      * @param id
