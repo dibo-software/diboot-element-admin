@@ -18,6 +18,9 @@ import '@/permission' // permission control
 
 import permission from '@/directive/permission/index'
 
+import Viewer from 'v-viewer'
+import 'viewerjs/dist/viewer.css'
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -30,6 +33,11 @@ import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
+
+Vue.use(Viewer)
+Viewer.setDefaults({
+  Options: { 'inline': true, 'button': true, 'navbar': true, 'title': true, 'toolbar': true, 'tooltip': true, 'movable': true, 'zoomable': true, 'rotatable': true, 'scalable': true, 'transition': true, 'fullscreen': true, 'keyboard': true, 'url': 'data-source' }
+})
 
 // 设置ElementUI的默认语言为简体中文
 // 设置ElementUI的布局尺寸
