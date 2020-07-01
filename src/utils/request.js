@@ -79,12 +79,13 @@ service.interceptors.response.use(
       router.push('/login')
       throw new Error('登录过期，请重新登录')
     }
-
     // 如果当前请求是下载请求
     if (response.headers.filename) {
       return {
         data: response.data,
-        filename: decodeURI(response.headers.filename)
+        filename: decodeURI(response.headers.filename),
+        code: parseInt(response.headers['err-code'] || '0'),
+        msg: decodeURI(response.headers['err-msg'] || '')
       }
     }
 

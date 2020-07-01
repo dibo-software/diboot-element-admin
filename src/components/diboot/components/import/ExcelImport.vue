@@ -10,6 +10,7 @@
       <el-row :gutter="16">
         <el-col :md="6">
           <el-upload
+            action=""
             :fileList="fileList"
             :remove="handleRemove"
             :beforeUpload="beforeUpload"
@@ -89,6 +90,10 @@ export default {
     handleDownloadExample() {
       dibootApi.download(this.exampleUrl)
         .then(res => {
+          if (res.code && res.code === 4006) {
+            this.$message.error(res.msg)
+            return
+          }
           const blob = new Blob([res.data])
           if ('download' in document.createElement('a')) {
             // 非IE下载
