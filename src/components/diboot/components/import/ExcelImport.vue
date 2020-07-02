@@ -145,8 +145,10 @@ export default {
             this.importFileNameObj[this.fileNameFields.previewFileName] = res.data[this.fileNameFields.previewFileName]
             this.$refs.dataPreview.preview(res.data.header, res.data.dataList)
             this.errMsg = ''
+            this.uploadDisabled = false
           } else {
             this.errMsg = res.msg
+            this.uploadDisabled = true
           }
         })
     },
