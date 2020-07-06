@@ -36,6 +36,8 @@ export default {
       getMore: false,
       // 标记加载状态
       loadingData: false,
+      // 标记导出
+      exportLoadingData: false,
       // 分页数据
       pagination: {
         pageSize: 10,
@@ -242,6 +244,7 @@ export default {
       })
     },
     exportData() {
+      this.exportLoadingData = true
       let tempQueryParam = {}
       // 转化包含moment的时间类型
       this.contentTransform(this.queryParam)
@@ -260,6 +263,10 @@ export default {
           const result = JSON.parse(decoder.decode(new Uint8Array(res)))
           this.$message.error(result.msg)
         }
+        this.exportLoadingData = false
+      }).catch(err => {
+        console.log(err)
+        this.exportLoadingData = false
       })
     },
     /**
@@ -315,13 +322,13 @@ export default {
     dateRange2queryParam() {
       _.forEach(this.dateRangeQuery, (v, k) => {
         if (k && v && v.length === 2) {
-          this.queryParam[`${k}Begin`] = v[0].format('YYYY-MM-DD')
-          this.queryParam[`${k}End`] = v[1].format('YYYY-MM-DD')
+          this.queryParam[`${k}Begin`] = v[0]
+          this.queryParam[`${k}End`] = v[1]
         }
       })
     }
   },
-  async mounted() {
+  async created() {
     if (this.getListFromMixin === true) {
       await this.getList()
     }
