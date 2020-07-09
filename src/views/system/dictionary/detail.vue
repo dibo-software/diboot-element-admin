@@ -1,5 +1,22 @@
 <template>
-  <el-dialog class="detailModal" :visible.sync="visible" title="查看详情" @closed="close">
+  <el-dialog
+    class="detailModal"
+    :visible.sync="visible"
+    :fullscreen="fullscreen"
+    :custom-class="!fullscreen ? 'controller-height': ''"
+    :show-close="false"
+  >
+    <el-row slot="title" type="flex">
+      <el-col :span="20">查看详情</el-col>
+      <el-col :span="4" style="text-align: right">
+        <svg-icon
+          :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
+          style="cursor: pointer; margin-right: 10px"
+          @click="() => {fullscreen = !fullscreen}"
+        />
+        <i class="el-icon-close" style="cursor: pointer" @click="close" />
+      </el-col>
+    </el-row>
     <el-form label-position="left" inline class="detail-item-container">
       <el-form-item label="类型名称">
         <span>{{ model.itemName }}</span>

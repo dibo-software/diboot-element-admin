@@ -1,5 +1,21 @@
 <template>
-  <el-dialog :title="title" :visible.sync="state.visible" @closed="close">
+  <el-dialog
+    :visible.sync="state.visible"
+    :fullscreen="fullscreen"
+    :custom-class="!fullscreen ? 'controller-height': ''"
+    :show-close="false"
+  >
+    <el-row slot="title" type="flex">
+      <el-col :span="20">{{title}}</el-col>
+      <el-col :span="4" style="text-align: right">
+        <svg-icon
+          :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
+          style="cursor: pointer; margin-right: 10px"
+          @click="() => {fullscreen = !fullscreen}"
+        />
+        <i class="el-icon-close" style="cursor: pointer" @click="close" />
+      </el-col>
+    </el-row>
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
       <el-form-item label="角色名称" prop="name">
         <el-input v-model="form.name" placeholder="请输入角色名称" />

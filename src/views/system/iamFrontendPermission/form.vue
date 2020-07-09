@@ -1,5 +1,22 @@
 <template>
-  <el-dialog :title="title" :visible.sync="state.visible" class="frontend-permission-form" @closed="close">
+  <el-dialog
+    :visible.sync="state.visible"
+    :fullscreen="fullscreen"
+    class="frontend-permission-form"
+    :custom-class="!fullscreen ? 'controller-height': ''"
+    :show-close="false"
+  >
+    <el-row slot="title" type="flex">
+      <el-col :span="20">{{title}}</el-col>
+      <el-col :span="4" style="text-align: right">
+        <svg-icon
+          :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
+          style="cursor: pointer; margin-right: 10px"
+          @click="() => {fullscreen = !fullscreen}"
+        />
+        <i class="el-icon-close" style="cursor: pointer" @click="close" />
+      </el-col>
+    </el-row>
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
       <el-form-item label="上级菜单" prop="parentId">
         <el-select v-model="form.parentId" filterable placeholder="请选择上级菜单" style="width: 100%;">
