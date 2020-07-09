@@ -26,6 +26,7 @@
       element-loading-text="Loading"
       border
       fit
+      @sort-change="appendSorterParam"
       highlight-current-row
       row-key="id"
     >
@@ -60,7 +61,7 @@
           <el-tag v-else type="danger">失败</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="登录时间" width="150" align="center">
+      <el-table-column label="登录时间" width="150" align="center"  prop="createTime" sortable>
         <template slot-scope="scope">
           {{ scope.row.createTime }}
         </template>
@@ -93,7 +94,6 @@ export default {
   data() {
     return {
       baseApi: '/iam/loginTrace',
-      getMore: true
     }
   },
   methods: {

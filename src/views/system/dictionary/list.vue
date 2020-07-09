@@ -25,6 +25,7 @@
       element-loading-text="Loading"
       border
       fit
+      @sort-change="appendSorterParam"
       highlight-current-row
       row-key="id"
     >
@@ -55,7 +56,7 @@
           <span>{{ scope.row.type }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="150" align="center">
+      <el-table-column label="创建时间" width="150" align="center" prop="createTime" sortable>
         <template slot-scope="scope">
           {{ scope.row.createTime }}
         </template>

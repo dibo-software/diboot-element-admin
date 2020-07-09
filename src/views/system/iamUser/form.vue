@@ -12,14 +12,14 @@
       </el-form-item>
       <el-form-item label="角色" prop="roleIdList">
         <el-select
-          v-if="more.roleKvList"
+          v-if="more.iamRoleKvList"
           v-model="form.roleIdList"
           multiple
           placeholder="请选择角色"
           style="width: 100%;"
         >
           <el-option
-            v-for="(item, index) in more.roleKvList"
+            v-for="(item, index) in more.iamRoleKvList"
             :key="index"
             :value="item.v"
             :label="item.k"

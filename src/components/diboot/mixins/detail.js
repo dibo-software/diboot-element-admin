@@ -32,6 +32,11 @@ export default {
       this.model = {}
       this.afterClose()
     },
+
+    /**
+     * 下载
+     * @param path
+     */
     downloadFile(path) {
       dibootApi.download(path)
         .then(res => {

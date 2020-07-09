@@ -11,16 +11,17 @@ export default {
       // 更新接口
       updateApiPrefix: '',
       title: '',
-      // 是否全屏
-      fullscreen: false,
       form: {},
       initFormData: {},
-      more: {},
       // 获取关联数据列表的配置列表
       attachMoreList: [],
       // 是否使mixin在当前业务的attachMore接口中自动获取关联数据
       getMore: false,
-      reloadMore: {},
+      more: {},
+      // 是否全屏
+      fullscreen: false,
+      // 主键字段名
+      primaryKey: 'id',
       state: {
         visible: false,
         confirmSubmit: false
@@ -119,7 +120,7 @@ export default {
      */
     async update(values) {
       const updateApiPrefix = this.updateApiPrefix ? this.updateApiPrefix : ''
-      const res = await dibootApi.put(`${this.baseApi}${updateApiPrefix}/${this.form.id}`, values)
+      const res = await dibootApi.put(`${this.baseApi}${updateApiPrefix}/${this.form[this.primaryKey]}`, values)
       if (res.code === 0) {
         return { data: res.data, msg: '更新记录成功' }
       } else {
@@ -136,7 +137,7 @@ export default {
       await this.enhance(values)
       try {
         let result = {}
-        if (this.form.id === undefined) {
+        if (this.form[this.primaryKey] === undefined) {
           // 新增该记录
           result = await this.add(values)
         } else {

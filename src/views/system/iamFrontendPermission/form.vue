@@ -62,13 +62,13 @@
         >
           <el-tab-pane
             v-for="(permission, index) in form.permissionList"
-            :key="index"
+            :key="`border-card_${_uid}_${index}`"
             :label="permission.displayName"
             :name="`${index}`"
           >
             <el-form-item label="按钮/权限编码">
               <el-select
-                v-if="reloadMore.frontendPermissionCodeKvList"
+                v-if="more.frontendPermissionCodeKvList"
                 v-model="permission.frontendCode"
                 filterable
                 placeholder="请选取当前按钮/权限编码"
@@ -76,8 +76,8 @@
                 @change="value => changePermissionName(permission, value)"
               >
                 <el-option
-                  v-for="(item, i) in reloadMore.frontendPermissionCodeKvList"
-                  :key="i"
+                  v-for="(item, i) in more.frontendPermissionCodeKvList"
+                  :key="`frontend-code_${_uid}_${i}`"
                   :label="`${item.k}[${item.v}]`"
                   :value="item.v"
                 />
@@ -172,8 +172,8 @@ export default {
     },
     menuTreeData: function() {
       let menuTreeData = []
-      if (this.reloadMore && this.reloadMore.menuList) {
-        menuTreeData = treeListFormatter(this.reloadMore.menuList, 'id', 'displayName', true)
+      if (this.more && this.more.menuList) {
+        menuTreeData = treeListFormatter(this.more.menuList, 'id', 'displayName', true)
       }
       menuTreeData.splice(0, 0, { key: '0', value: '0', label: '顶级菜单' })
       return menuTreeData
@@ -325,8 +325,8 @@ export default {
       this.form.permissionList.push(newPermission)
       this.currentPermissionActiveKey = `${this.form.permissionList.length - 1}`
       // 自动补全编码选项
-      if (this.reloadMore && this.reloadMore.frontendPermissionCodeKvList) {
-        const validKv = this.reloadMore.frontendPermissionCodeKvList.find(kv => {
+      if (this.more && this.more.frontendPermissionCodeKvList) {
+        const validKv = this.more.frontendPermissionCodeKvList.find(kv => {
           return !this.existPermissionCodes.includes(kv.v)
         })
         newPermission.frontendCode = validKv.v
@@ -340,7 +340,7 @@ export default {
       this.currentPermissionActiveKey = currentKey > 0 ? `${currentKey - 1}` : '0'
     },
     changePermissionName(permission, value) {
-      const validKv = this.reloadMore.frontendPermissionCodeKvList.find(item => {
+      const validKv = this.more.frontendPermissionCodeKvList.find(item => {
         return item.v === value
       })
       // 自动补全按钮/权限名称
@@ -399,7 +399,7 @@ export default {
       this.apiTreeList = []
       this.currentMenu = ''
       this.currentPermissionActiveKey = '0'
-      this.reloadMore = {}
+      this.more = {}
     }
   }
 }
