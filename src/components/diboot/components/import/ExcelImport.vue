@@ -131,6 +131,10 @@ export default {
           console.log(err)
         })
     },
+
+    /**
+     * 删除操作
+     */
     handleRemove(file) {
       const index = this.fileList.indexOf(file)
       const newFileList = this.fileList.slice()
@@ -141,6 +145,9 @@ export default {
       this.importFileNameObj = {}
       this.$refs.dataPreview.close()
     },
+    /**
+     * 上传之前操作
+     */
     beforeUpload(file) {
       this.fileList = [...this.fileList, file].splice(-1)
       this.previewDisabled = this.fileList.length === 0
