@@ -66,13 +66,9 @@ export default {
      * @param order
      */
     appendSorterParam({ column, prop, order }) {
-      const sorter = undefined
       console.log(column, prop, order)
-      if (sorter !== undefined && sorter.field !== undefined) {
-        const field = sorter.field
-        const order = sorter.order === 'ascend' ? 'ASC' : 'DESC'
-        const orderBy = `${field}:${order}`
-        this.queryParam.orderBy = orderBy
+      if (prop !== undefined && order !== undefined) {
+        this.queryParam.orderBy = `${prop}:${order === 'ascending' ? 'ASC' : 'DESC'}`
       } else {
         this.queryParam.orderBy = undefined
       }
@@ -196,8 +192,8 @@ export default {
 
     /**
      * 更新或者删除
-     * @param command
-     * @param row
+     * @param command update/delete
+     * @param row     操作的行内容
      */
     menuCommand(command, row) {
       if (command === 'update') {
@@ -227,9 +223,6 @@ export default {
         })
       }
       return list
-    },
-    rebuildQuery(query) {
-      return query
     },
     /**
      * 加载当前页面关联的对象或者字典
@@ -329,7 +322,7 @@ export default {
     },
     /**
      * 下载文件
-     * @param res
+     * @param res 服务端响应，经过axios处理后的数据，详见src/utils/request.js部分的响应值配置
      */
     downloadFile(res) {
       const blob = new Blob([res.data])
@@ -374,9 +367,9 @@ export default {
       }
       return content
     },
-    afterLoadList(list) {
-
-    },
+    /**
+     * 构建区间查询参数
+     */
     dateRange2queryParam() {
       _.forEach(this.dateRangeQuery, (v, k) => {
         if (k && v && v.length === 2) {
@@ -384,6 +377,21 @@ export default {
           this.queryParam[`${k}End`] = v[1]
         }
       })
+    },
+    /**
+     * 加载数据之后操作
+     * @param list
+     */
+    afterLoadList(list) {
+
+    },
+    /**
+     * 重新构建查询条件
+     * @param query
+     * @returns {*}
+     */
+    rebuildQuery(query) {
+      return query
     }
   },
   async created() {

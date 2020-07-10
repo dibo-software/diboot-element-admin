@@ -55,6 +55,11 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    /**
+     * 打开表单
+     * @param id
+     * @returns {Promise<void>}
+     */
     async open(id) {
       if (id === undefined) {
         // 没有id数据则认为是新建
@@ -75,6 +80,9 @@ export default {
         }
       }
     },
+    /**
+     * 关闭表单
+     */
     close() {
       this.state.visible = false
       this.__defaultFileWrapperKeys__()
@@ -101,13 +109,13 @@ export default {
     },
     /** *
      * 提交前对数据的处理（在验证正确之后的处理）
-     * @param values
+     * @param values 提交的参数
      */
     async enhance(values) {
     },
     /** *
      * 新建记录的提交
-     * @param values
+     * @param values 提交的参数
      * @returns {Promise<string>}
      */
     async add(values) {
@@ -190,9 +198,9 @@ export default {
       this.$message.error(msg)
     },
     // 解决带有下拉框组件在滚动时下拉框不随之滚动的问题
-    getPopupContainer(trigger) {
-      return trigger.parentElement
-    },
+    // getPopupContainer(trigger) {
+    //   return trigger.parentElement
+    // },
     /** **
      * 打开表单之后的操作
      * @param id
@@ -200,6 +208,9 @@ export default {
     afterOpen(id) {
 
     },
+    /**
+     * 关闭之后操作
+     */
     afterClose() {
 
     },
@@ -226,6 +237,9 @@ export default {
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
     },
+    /**
+     * 清除form内容
+     */
     clearForm() {
       this.form = _.cloneDeep(this.initFormData)
       this.$refs['dataForm'].resetFields()
