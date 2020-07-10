@@ -143,6 +143,7 @@ export default {
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
       this.importFileNameObj = {}
+      this.errMsg = ''
       this.$refs.dataPreview.close()
     },
     /**
@@ -152,6 +153,7 @@ export default {
       this.fileList = [...this.fileList, file].splice(-1)
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
+      this.errMsg = ''
       console.log('this.refs==>', this.$refs)
       this.$refs.dataPreview.close()
       return false
@@ -208,7 +210,7 @@ export default {
       dibootApi.upload(url, formData)
         .then(res => {
           if (res.code === 0) {
-            this.$notification.success({
+            this.$message.success({
               message: '上传数据成功',
               description: res.msg
             })
