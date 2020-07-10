@@ -192,13 +192,6 @@ export default {
       required: true
     },
     /**
-     * 接受类型
-     */
-    accept: {
-      type: Array,
-      default: () => []
-    },
-    /**
      * 绑定的业务对象
      */
     relObjType: {
@@ -220,7 +213,7 @@ export default {
       required: true
     },
     /**
-       * 上传列表的内建样式，支持三种基本样式 text, picture 和 picture-card 默认text
+       * 上传列表的内建样式，支持2种基本样式 text,  picture-card，去掉 picture 默认text
        */
     listType: {
       type: String,

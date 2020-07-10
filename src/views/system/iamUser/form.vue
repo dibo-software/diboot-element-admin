@@ -111,14 +111,6 @@ import { dibootApi } from '@/utils/request'
 export default {
   name: 'IamUserForm',
   mixins: [form],
-  props: {
-    more: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  },
   data() {
     return {
       baseApi: '/iam/user',
@@ -142,7 +134,23 @@ export default {
         'roleIdList': [{ required: true, message: '角色不能为空', trigger: 'change' }],
         'gender': [{ required: true, message: '性别不能为空', trigger: 'change' }],
         'status': [{ required: true, message: '用户状态不能为空', trigger: 'change' }]
-      }
+      },
+      attachMoreList: [
+        {
+          type: 'D',
+          target: 'GENDER'
+        },
+        {
+          type: 'D',
+          target: 'USER_STATUS'
+        },
+        {
+          type: 'T',
+          target: 'iamRole',
+          key: 'name',
+          value: 'id'
+        }
+      ]
     }
   },
   methods: {

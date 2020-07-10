@@ -5,23 +5,29 @@ import _ from 'lodash'
 export default {
   data() {
     return {
+      // 主键字段名
+      primaryKey: 'id',
+      // 请求接口基础路径
       baseApi: '/',
       // 新建接口
       createApi: '',
       // 更新接口
       updateApiPrefix: '',
+      // 标题
       title: '',
-      form: {},
+      // 表单初始数据（表示表单数据结构）
       initFormData: {},
-      // 获取关联数据列表的配置列表
-      attachMoreList: [],
+      // 存储当前对象form数据
+      form: {},
       // 是否使mixin在当前业务的attachMore接口中自动获取关联数据
       getMore: false,
+      // 获取关联数据列表的配置列表
+      attachMoreList: [],
+      // 关联相关的更多数据
       more: {},
-      // 是否全屏
+      // 当前组件全屏控制
       fullscreen: false,
-      // 主键字段名
-      primaryKey: 'id',
+      // 当前组件状态对象
       state: {
         visible: false,
         confirmSubmit: false

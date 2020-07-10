@@ -71,15 +71,33 @@ export default {
   },
   data() {
     return {
+      /**
+       * 上传的文件
+       */
       fileList: [],
+      /**
+       * 文件备注
+       */
       comment: '',
+      /**
+       * 是否禁用预览
+       */
       previewDisabled: true,
+      /**
+       * 是否禁用上传
+       */
       uploadDisabled: true,
+      /**
+       * 预览时候使用
+       */
       importFileNameObj: {},
       fileNameFields: {
         originFileName: 'originFileName',
         previewFileName: 'previewFileName'
       },
+      /**
+       * 错误信息提示
+       */
       errMsg: ''
     }
   },

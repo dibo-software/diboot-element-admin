@@ -127,7 +127,6 @@
     <detail-modal ref="detail" />
     <form-modal
       ref="form"
-      :more="more"
       @complete="getList"
     />
   </div>
