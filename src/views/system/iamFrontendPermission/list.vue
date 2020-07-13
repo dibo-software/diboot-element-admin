@@ -27,7 +27,6 @@
       v-loading="loadingData"
       :data="list"
       element-loading-text="Loading"
-      border
       fit
       highlight-current-row
       :default-expand-all="true"
