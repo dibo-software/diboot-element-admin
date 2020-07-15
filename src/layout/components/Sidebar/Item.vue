@@ -18,7 +18,7 @@ export default {
 
     if (icon) {
       if (icon.startsWith('el-')) {
-        vnodes.push(<span class={'svg-icon ' + icon} style='width:14px'></span>)
+        vnodes.push(<i class={'svg-icon ' + icon} style='width:14px; color: unset'></i>)
       } else {
         vnodes.push(<svg-icon icon-class={icon}/>)
       }
