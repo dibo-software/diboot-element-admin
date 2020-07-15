@@ -3,7 +3,7 @@
     :visible.sync="state.visible"
     :fullscreen="fullscreen"
     class="frontend-permission-form"
-    :custom-class="!fullscreen ? 'controller-height': ''"
+    :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
     :show-close="false"
   >
     <el-row slot="title" type="flex">

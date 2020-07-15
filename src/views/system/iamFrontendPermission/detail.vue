@@ -3,7 +3,7 @@
     class="detailModal"
     :visible.sync="visible"
     :fullscreen="fullscreen"
-    :custom-class="!fullscreen ? 'controller-height': ''"
+    :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
     :show-close="false"
   >
     <el-row slot="title" type="flex">
