@@ -71,15 +71,33 @@ export default {
   },
   data() {
     return {
+      /**
+       * 上传的文件
+       */
       fileList: [],
+      /**
+       * 文件备注
+       */
       comment: '',
+      /**
+       * 是否禁用预览
+       */
       previewDisabled: true,
+      /**
+       * 是否禁用上传
+       */
       uploadDisabled: true,
+      /**
+       * 预览时候使用
+       */
       importFileNameObj: {},
       fileNameFields: {
         originFileName: 'originFileName',
         previewFileName: 'previewFileName'
       },
+      /**
+       * 错误信息提示
+       */
       errMsg: ''
     }
   },
@@ -113,6 +131,10 @@ export default {
           console.log(err)
         })
     },
+
+    /**
+     * 删除操作
+     */
     handleRemove(file) {
       const index = this.fileList.indexOf(file)
       const newFileList = this.fileList.slice()
@@ -121,12 +143,17 @@ export default {
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
       this.importFileNameObj = {}
+      this.errMsg = ''
       this.$refs.dataPreview.close()
     },
+    /**
+     * 上传之前操作
+     */
     beforeUpload(file) {
       this.fileList = [...this.fileList, file].splice(-1)
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
+      this.errMsg = ''
       console.log('this.refs==>', this.$refs)
       this.$refs.dataPreview.close()
       return false
@@ -183,7 +210,7 @@ export default {
       dibootApi.upload(url, formData)
         .then(res => {
           if (res.code === 0) {
-            this.$notification.success({
+            this.$message.success({
               message: '上传数据成功',
               description: res.msg
             })

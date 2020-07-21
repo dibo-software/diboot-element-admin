@@ -6,6 +6,8 @@ export default {
   components: { Pagination },
   data() {
     return {
+      // 主键字段名
+      primaryKey: 'id',
       // 请求接口基础路径
       baseApi: '/',
       // 列表数据接口
@@ -24,16 +26,16 @@ export default {
       advanced: false,
       // 列表数据
       list: [],
+      // 是否从mixin中自动获取关联数据
+      getMore: false,
       // 关联相关的更多数据
-      more: {},
       // 获取关联数据列表的配置列表
       attachMoreList: [],
+      more: {},
       // 是否将children转化为_children
       listFormatter: true,
       // 是否从mixin中自动获取初始的列表数据
       getListFromMixin: true,
-      // 是否从mixin中自动获取关联数据
-      getMore: false,
       // 标记加载状态
       loadingData: false,
       // 标记导出
@@ -49,30 +51,47 @@ export default {
     }
   },
   methods: {
+    /**
+     * 分页
+     */
     handlePaginationChanged() {
       this.queryParam.pageIndex = this.pagination.current
       this.queryParam.pageSize = this.pagination.pageSize
       this.getList()
     },
+    /**
+     * 构建排序
+     * @param column
+     * @param prop
+     * @param order
+     */
     appendSorterParam({ column, prop, order }) {
-      const sorter = undefined
       console.log(column, prop, order)
-      if (sorter !== undefined && sorter.field !== undefined) {
-        const field = sorter.field
-        const order = sorter.order === 'ascend' ? 'ASC' : 'DESC'
-        const orderBy = `${field}:${order}`
-        this.queryParam.orderBy = orderBy
+      if (prop !== undefined && order !== undefined) {
+        this.queryParam.orderBy = `${prop}:${order === 'ascending' ? 'ASC' : 'DESC'}`
       } else {
         this.queryParam.orderBy = undefined
       }
     },
+    /**
+     * 搜索，查询第一页
+     */
     onSearch() {
       this.pagination.current = 1
       this.handlePaginationChanged()
     },
+
+    /**
+     * 切换展示更多搜索框
+     */
     toggleAdvanced() {
       this.advanced = !this.advanced
     },
+
+    /**
+     * post 请求的获取list
+     * @returns {Promise<any>}
+     */
     postList() {
       this.dateRange2queryParam()
       return new Promise((resolve, reject) => {
@@ -121,6 +140,10 @@ export default {
           })
       })
     },
+    /**
+     * get请求获取列表
+     * @returns {Promise<any>}
+     */
     getList() {
       this.dateRange2queryParam()
       return new Promise((resolve, reject) => {
@@ -166,13 +189,25 @@ export default {
         })
       })
     },
+
+    /**
+     * 更新或者删除
+     * @param command update/delete
+     * @param row     操作的行内容
+     */
     menuCommand(command, row) {
       if (command === 'update') {
-        this.$refs.form.open(row.id)
+        this.$refs.form.open(row[this.primaryKey])
       } else if (command === 'delete') {
-        this.remove(row.id)
+        this.remove(row[this.primaryKey])
       }
     },
+
+    /**
+     * 处理list中含有children字段的问题
+     * @param list
+     * @returns {*}
+     */
     filterListData(list) {
       if (!this.listFormatter) {
         return list
@@ -189,14 +224,17 @@ export default {
       }
       return list
     },
-    rebuildQuery(query) {
-      return query
-    },
+    /**
+     * 加载当前页面关联的对象或者字典
+     * @returns {Promise<*>}
+     */
     async attachMore() {
       let res = {}
+      // 个性化接口
       if (this.getMore === true) {
         res = await dibootApi.get(`${this.baseApi}/attachMore`)
       } else if (this.attachMoreList.length > 0) {
+        // 通用获取当前对象关联的数据的接口
         res = await dibootApi.post('/common/attachMore', this.attachMoreList)
       }
       if (res.code === 0) {
@@ -204,11 +242,20 @@ export default {
         return res.data
       }
     },
+    /**
+     * 重置查询
+     */
     reset() {
       this.queryParam = {}
       this.dateRangeQuery = {}
       this.getList()
     },
+
+    /**
+     * 根据id删除
+     * @param id
+     * @returns {Promise<*>}
+     */
     async remove(id) {
       return new Promise((resolve, reject) => {
         const _this = this
@@ -243,6 +290,10 @@ export default {
         })
       })
     },
+
+    /**
+     * 导出数据至excel
+     */
     exportData() {
       this.exportLoadingData = true
       let tempQueryParam = {}
@@ -271,7 +322,7 @@ export default {
     },
     /**
      * 下载文件
-     * @param res
+     * @param res 服务端响应，经过axios处理后的数据，详见src/utils/request.js部分的响应值配置
      */
     downloadFile(res) {
       const blob = new Blob([res.data])
@@ -316,9 +367,9 @@ export default {
       }
       return content
     },
-    afterLoadList(list) {
-
-    },
+    /**
+     * 构建区间查询参数
+     */
     dateRange2queryParam() {
       _.forEach(this.dateRangeQuery, (v, k) => {
         if (k && v && v.length === 2) {
@@ -326,6 +377,21 @@ export default {
           this.queryParam[`${k}End`] = v[1]
         }
       })
+    },
+    /**
+     * 加载数据之后操作
+     * @param list
+     */
+    afterLoadList(list) {
+
+    },
+    /**
+     * 重新构建查询条件
+     * @param query
+     * @returns {*}
+     */
+    rebuildQuery(query) {
+      return query
     }
   },
   async created() {

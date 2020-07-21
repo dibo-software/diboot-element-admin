@@ -24,7 +24,6 @@
       v-loading="loadingData"
       :data="list"
       element-loading-text="Loading"
-      border
       fit
       @sort-change="appendSorterParam"
       highlight-current-row

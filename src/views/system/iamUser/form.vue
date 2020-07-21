@@ -1,5 +1,21 @@
 <template>
-  <el-dialog :title="title" :visible.sync="state.visible" @closed="close">
+  <el-dialog
+    :visible.sync="state.visible"
+    :fullscreen="fullscreen"
+    :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
+    :show-close="false"
+  >
+    <el-row slot="title" type="flex">
+      <el-col :span="20">{{title}}</el-col>
+      <el-col :span="4" style="text-align: right">
+        <svg-icon
+          :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
+          style="cursor: pointer; margin-right: 10px"
+          @click="() => {fullscreen = !fullscreen}"
+        />
+        <i class="el-icon-close" style="cursor: pointer" @click="close" />
+      </el-col>
+    </el-row>
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
       <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username" placeholder="请输入用户名" />
@@ -95,14 +111,6 @@ import { dibootApi } from '@/utils/request'
 export default {
   name: 'IamUserForm',
   mixins: [form],
-  props: {
-    more: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  },
   data() {
     return {
       baseApi: '/iam/user',
@@ -126,7 +134,23 @@ export default {
         'roleIdList': [{ required: true, message: '角色不能为空', trigger: 'change' }],
         'gender': [{ required: true, message: '性别不能为空', trigger: 'change' }],
         'status': [{ required: true, message: '用户状态不能为空', trigger: 'change' }]
-      }
+      },
+      attachMoreList: [
+        {
+          type: 'D',
+          target: 'GENDER'
+        },
+        {
+          type: 'D',
+          target: 'USER_STATUS'
+        },
+        {
+          type: 'T',
+          target: 'iamRole',
+          key: 'name',
+          value: 'id'
+        }
+      ]
     }
   },
   methods: {
