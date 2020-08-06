@@ -89,7 +89,6 @@
     />
     <form-modal
       ref="form"
-      :more="more"
       @complete="getList"
     />
     <detail-modal ref="detail" />
@@ -112,8 +111,7 @@ export default {
   mixins: [list],
   data() {
     return {
-      baseApi: '/iam/role',
-      getMore: false
+      baseApi: '/iam/role'
     }
   }
 }

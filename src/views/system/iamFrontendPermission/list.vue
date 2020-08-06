@@ -110,7 +110,6 @@
     <detail-modal ref="detail" />
     <form-modal
       ref="form"
-      :more="more"
       @complete="getList"
     />
     <permission-tree-sort ref="sort" @complete="getList" />
@@ -139,8 +138,7 @@ export default {
       baseApi: '/iam/frontendPermission',
       customQueryParam: { displayType: 'MENU' },
       formParentId: '0',
-      listFormatter: false,
-      getMore: false
+      listFormatter: false
     }
   },
   methods: {

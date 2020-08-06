@@ -28,6 +28,12 @@
         <span>{{ model.description || '-' }}</span>
       </el-form-item>
       <el-form-item label="已授权权限">
+        <el-row>
+          <el-col :span="24">
+            <el-input v-model="filterText" size="small" placeholder="请输入节点内容开始搜索" class="input-with-select">
+            </el-input>
+          </el-col>
+        </el-row>
         <el-tree
           v-if="permissionTreeList && permissionTreeList.length > 0"
           ref="tree"
@@ -35,8 +41,8 @@
           node-key="id"
           :data="permissionTreeList"
           :props="{label: 'label', children: 'children'}"
-          default-expand-all
           :filter-node-method="filterNode"
+          default-expand-all
         />
       </el-form-item>
     </el-form>
@@ -59,7 +65,8 @@ export default {
   data() {
     return {
       baseApi: '/iam/role',
-      permissionTreeList: []
+      permissionTreeList: [],
+      filterText: ''
     }
   },
   methods: {
@@ -68,8 +75,17 @@ export default {
         this.permissionTreeList = permissionTreeListFormatter(this.model.permissionVOList, 'id', 'displayName')
       }
     },
+    filterNode(value, data) {
+      if (!value) return true
+      return data && data.label && data.label.indexOf(value) !== -1
+    },
     afterClose() {
       this.permissionTreeList = []
+    }
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val)
     }
   }
 }

@@ -65,14 +65,6 @@ import _ from 'lodash'
 export default {
   name: 'IamRoleForm',
   mixins: [form],
-  props: {
-    more: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  },
   data() {
     return {
       baseApi: '/iam/role',
@@ -88,7 +80,8 @@ export default {
       },
       isAdmin: false,
       checkedKeys: [],
-      permissionTreeList: []
+      permissionTreeList: [],
+      getMore: []
     }
   },
   computed: {

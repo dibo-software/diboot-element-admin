@@ -88,6 +88,7 @@
                 v-if="more.frontendPermissionCodeKvList"
                 v-model="permission.frontendCode"
                 filterable
+                allow-create
                 placeholder="请选取当前按钮/权限编码"
                 style="width: 100%;"
                 @change="value => changePermissionName(permission, value)"
