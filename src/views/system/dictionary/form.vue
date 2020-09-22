@@ -184,6 +184,9 @@ export default {
       this.state.visible = false
       this.form = {}
       this.children = []
+      // 重置
+      this.childItem = _.cloneDeep(CHILDREN_ITEM_DEFAULT)
+      this.childrenBtnConfig = _.cloneDeep(CHILDREN_BTN_CONFIG_DEFAULT)
       this.clearForm()
     },
     enhance(values) {
