@@ -84,8 +84,10 @@ export default {
         type: 'warning'
       }).then(async() => {
         await this.$store.dispatch('user/logout')
+        this.$router.push('/')
         window.location.reload()
       }).catch(() => {
+        this.$router.push('/')
         window.location.reload()
       })
     }
