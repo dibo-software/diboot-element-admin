@@ -73,7 +73,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/system/dictionary/list',
     name: 'System',
-    meta: { title: '系统管理', icon: 'dashboard' },
+    meta: { title: '系统管理', icon: 'dashboard', permission: ['system'] },
     children: [
       {
         path: 'dictionary/list',
