@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row>
-      <el-col :lg="20" :md="24">
+      <el-col :lg="16" :md="24">
         <div class="filter-container">
           <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
           <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
@@ -13,7 +13,10 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :lg="4" :md="24" style="text-align: right;">
+      <el-col :lg="8" :md="24" style="text-align: right;">
+        <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
+          排序
+        </el-button>
         <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
@@ -118,6 +121,7 @@
     />
     <detail-modal ref="detail" />
     <form-modal ref="form" @complete="getList" />
+    <tree-sort ref="sort" @complete="getList" />
   </div>
 </template>
 
@@ -126,12 +130,14 @@ import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
 import detailModal from './detail'
 import formModal from './form'
+import treeSort from '@/views/system/dictionary/treeSort'
 
 export default {
   name: 'DictionaryList',
   components: {
     detailModal,
-    formModal
+    formModal,
+    treeSort
   },
   directives: { waves },
   mixins: [list],

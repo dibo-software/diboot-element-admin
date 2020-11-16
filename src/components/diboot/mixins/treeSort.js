@@ -25,13 +25,17 @@ export default {
         const res = await dibootApi.get(treeListApi)
         if (res.code === 0) {
           this.afterOpen()
-          this.treeList = this.treeListFormatter(res.data, this.formatter.value, this.formatter.title)
+          this.treeList = this.treeListFormatter(this.treeListFilter(res.data), this.formatter.value, this.formatter.title)
         } else {
           this.$message.error(res.msg)
         }
       } catch (e) {
         console.log('获取树结构异常', e)
       }
+    },
+    // 对排序列表进行过滤处理
+    treeListFilter(list) {
+      return list
     },
     filterNode(value, data) {
       if (!value) return true
