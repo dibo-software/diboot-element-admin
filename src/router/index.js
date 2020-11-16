@@ -94,10 +94,10 @@ export const asyncRoutes = [
         meta: { title: '角色权限管理', permission: ['IamRole'] }
       },
       {
-        path: 'iamFrontendPermission/list',
-        name: 'IamFrontendPermission',
-        component: () => import('@/views/system/iamFrontendPermission/list'),
-        meta: { title: '菜单权限管理', permission: ['IamFrontendPermission'] }
+        path: 'iamResourcePermission/list',
+        name: 'IamResourcePermission',
+        component: () => import('@/views/system/iamResourcePermission/list'),
+        meta: { title: '资源权限管理', permission: ['IamResourcePermission'] }
       },
       {
         path: 'iamOperationLog/list',

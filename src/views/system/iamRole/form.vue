@@ -6,7 +6,7 @@
     :show-close="false"
   >
     <el-row slot="title" type="flex">
-      <el-col :span="20">{{title}}</el-col>
+      <el-col :span="20">{{ title }}</el-col>
       <el-col :span="4" style="text-align: right">
         <svg-icon
           :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
@@ -103,7 +103,7 @@ export default {
       }
 
       // 获取系统中所有的permissionList
-      const res = await dibootApi.get(`/iam/frontendPermission/list`)
+      const res = await dibootApi.get(`/iam/resourcePermission/list`)
       if (res.code === 0) {
         if (!res.data || res.data.length === 0) {
           this.$message.error('请先添加菜单及权限')

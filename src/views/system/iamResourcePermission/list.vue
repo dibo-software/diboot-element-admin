@@ -4,7 +4,7 @@
       <el-col :lg="16" :md="24">
         <div class="filter-container">
           <el-input v-model="queryParam.displayName" placeholder="菜单名称" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
-          <el-input v-model="queryParam.frontendCode" placeholder="菜单编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-input v-model="queryParam.resourceCode" placeholder="菜单编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
           <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>
@@ -38,7 +38,7 @@
         label="菜单名称"
       />
       <el-table-column
-        prop="frontendCode"
+        prop="resourceCode"
         label="菜单编码"
       />
       <el-table-column label="页面按钮/权限">
@@ -49,7 +49,7 @@
               :key="index"
               type="success"
             >
-              {{ `${item.displayName}[${item.frontendCode}]` }}
+              {{ `${item.displayName}[${item.resourceCode}]` }}
             </el-tag>
           </div>
         </template>
@@ -125,7 +125,7 @@ import permissionTreeSort from './treeSort'
 import { listPageTreeFormatter } from '@/utils/treeDataUtil'
 
 export default {
-  name: 'IamFrontendPermissionList',
+  name: 'IamResourcePermissionList',
   components: {
     detailModal,
     formModal,
@@ -135,7 +135,7 @@ export default {
   mixins: [list],
   data() {
     return {
-      baseApi: '/iam/frontendPermission',
+      baseApi: '/iam/resourcePermission',
       customQueryParam: { displayType: 'MENU' },
       formParentId: '0',
       listFormatter: false

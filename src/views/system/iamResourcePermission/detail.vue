@@ -25,7 +25,7 @@
         <span>{{ model.displayName }}</span>
       </el-form-item>
       <el-form-item label="菜单编码">
-        <span>{{ model.frontendCode }}</span>
+        <span>{{ model.resourceCode }}</span>
       </el-form-item>
       <el-form-item label="按钮/权限">
         <template v-if="model.permissionList && model.permissionList.length > 0">
@@ -34,7 +34,7 @@
             :key="i"
             type="success"
           >
-            {{ `${permission.displayName}[${permission.frontendCode}]` }}
+            {{ `${permission.displayName}[${permission.resourceCode}]` }}
           </el-tag>
         </template>
         <template v-else>
@@ -69,11 +69,11 @@
 import detail from '@/components/diboot/mixins/detail'
 
 export default {
-  name: 'IamFrontendPermissionDetail',
+  name: 'IamResourcePermissionDetail',
   mixins: [detail],
   data() {
     return {
-      baseApi: '/iam/frontendPermission'
+      baseApi: '/iam/resourcePermission'
     }
   }
 }

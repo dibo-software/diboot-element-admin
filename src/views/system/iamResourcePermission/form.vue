@@ -7,7 +7,7 @@
     :show-close="false"
   >
     <el-row slot="title" type="flex">
-      <el-col :span="20">{{title}}</el-col>
+      <el-col :span="20">{{ title }}</el-col>
       <el-col :span="4" style="text-align: right">
         <svg-icon
           :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
@@ -47,8 +47,8 @@
       <el-form-item label="菜单名称" prop="displayName">
         <el-input v-model="form.displayName" placeholder="请输入菜单名称" />
       </el-form-item>
-      <el-form-item label="菜单编码" prop="frontendCode">
-        <el-input v-model="form.frontendCode" placeholder="请输入菜单编码" />
+      <el-form-item label="菜单编码" prop="resourceCode">
+        <el-input v-model="form.resourceCode" placeholder="请输入菜单编码" />
       </el-form-item>
       <el-form-item label="当前页接口列表" prop="apiSetList">
         <el-select v-model="form.apiSetList" multiple filterable placeholder="请选取当前菜单页面接口列表" style="width: 100%;">
@@ -85,8 +85,8 @@
           >
             <el-form-item label="按钮/权限编码">
               <el-select
-                v-if="more.frontendPermissionCodeKvList"
-                v-model="permission.frontendCode"
+                v-if="more.resourcePermissionCodeKvList"
+                v-model="permission.resourceCode"
                 filterable
                 allow-create
                 placeholder="请选取当前按钮/权限编码"
@@ -94,7 +94,7 @@
                 @change="value => changePermissionName(permission, value)"
               >
                 <el-option
-                  v-for="(item, i) in more.frontendPermissionCodeKvList"
+                  v-for="(item, i) in more.resourcePermissionCodeKvList"
                   :key="`frontend-code_${_uid}_${i}`"
                   :label="`${item.k}[${item.v}]`"
                   :value="item.v"
@@ -110,8 +110,8 @@
                 multiple
                 filterable
                 placeholder="请选取当前菜单页面接口列表"
-                @change="value => {permission.apiSetList = value; $forceUpdate();}"
                 style="width: 100%;"
+                @change="value => {permission.apiSetList = value; $forceUpdate();}"
               >
                 <el-option
                   v-for="item in apiList"
@@ -147,15 +147,15 @@ const NEW_PERMISSION_ITEM = {
   parentId: '',
   displayType: 'PERMISSION',
   displayName: '新按钮/权限',
-  frontendCode: '',
+  resourceCode: '',
   apiSetList: []
 }
 export default {
-  name: 'IamFrontendPermissionForm',
+  name: 'IamResourcePermissionForm',
   mixins: [form],
   data() {
     return {
-      baseApi: '/iam/frontendPermission',
+      baseApi: '/iam/resourcePermission',
       getMore: true,
       apiTreeList: [],
       currentMenu: '',
@@ -163,14 +163,14 @@ export default {
       initFormData: {
         parentId: '0',
         displayName: '',
-        frontendCode: '',
+        resourceCode: '',
         apiSetList: [],
         permissionList: []
       },
       rules: {
         'parentId': [{ required: true, message: '上级菜单不能为空', trigger: 'blur' }],
         'displayName': [{ required: true, message: '菜单名称不能为空', trigger: 'change' }],
-        'frontendCode': [{ required: true, message: '菜单编码不能为空', trigger: 'blur' }, { validator: this.checkCodeDuplicate, trigger: 'blur' }]
+        'resourceCode': [{ required: true, message: '菜单编码不能为空', trigger: 'blur' }, { validator: this.checkCodeDuplicate, trigger: 'blur' }]
       }
     }
   },
@@ -207,7 +207,7 @@ export default {
         return []
       }
       return this.form.permissionList.map(item => {
-        return item.frontendCode
+        return item.resourceCode
       })
     }
   },
@@ -240,7 +240,7 @@ export default {
           return false
         }
         // 自动设置菜单名称与菜单编码
-        this.form.frontendCode = currentMenu.value
+        this.form.resourceCode = currentMenu.value
         // eslint-disable-next-line no-irregular-whitespace
         this.form.displayName = currentMenu.label ? currentMenu.label.replace(/　/g, '') : ''
         // 自动设置菜单页面所需接口
@@ -280,7 +280,7 @@ export default {
                   notChangePerIdxList.push(i + 1)
                 }
                 // 校验按钮/权限编码是否设置
-                if (!permission.frontendCode) {
+                if (!permission.resourceCode) {
                   nullFrontendCodeIdxList.push(i + 1)
                 }
               })
@@ -343,11 +343,11 @@ export default {
       this.form.permissionList.push(newPermission)
       this.currentPermissionActiveKey = `${this.form.permissionList.length - 1}`
       // 自动补全编码选项
-      if (this.more && this.more.frontendPermissionCodeKvList) {
-        const validKv = this.more.frontendPermissionCodeKvList.find(kv => {
+      if (this.more && this.more.resourcePermissionCodeKvList) {
+        const validKv = this.more.resourcePermissionCodeKvList.find(kv => {
           return !this.existPermissionCodes.includes(kv.v)
         })
-        newPermission.frontendCode = validKv.v
+        newPermission.resourceCode = validKv.v
         this.changePermissionName(newPermission, validKv.v)
       }
     },
@@ -358,7 +358,7 @@ export default {
       this.currentPermissionActiveKey = currentKey > 0 ? `${currentKey - 1}` : '0'
     },
     changePermissionName(permission, value) {
-      const validKv = this.more.frontendPermissionCodeKvList.find(item => {
+      const validKv = this.more.resourcePermissionCodeKvList.find(item => {
         return item.v === value
       })
       // 自动补全按钮/权限名称
