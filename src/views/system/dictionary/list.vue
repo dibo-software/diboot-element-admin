@@ -128,7 +128,7 @@ import detailModal from './detail'
 import formModal from './form'
 
 export default {
-  name: 'DictList',
+  name: 'DictionaryList',
   components: {
     detailModal,
     formModal
@@ -142,6 +142,29 @@ export default {
       getMore: false,
       listLoading: true
     }
+  },
+  methods: {
+    /**
+     * 更新或者删除
+     * @param command update/delete
+     * @param row     操作的行内容
+     */
+    menuCommand(command, row) {
+      if (command === 'update') {
+        if (row.editable) {
+          this.$refs.form.open(row[this.primaryKey])
+        } else {
+          this.$message.warning('当前数据字典不可编辑')
+        }
+      } else if (command === 'delete') {
+        if (row.deletable) {
+          this.remove(row[this.primaryKey])
+        } else {
+          this.$message.warning('当前数据字典不可删除')
+        }
+      }
+    }
+
   }
 }
 </script>
