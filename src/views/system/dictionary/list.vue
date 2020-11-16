@@ -24,9 +24,9 @@
       :data="list"
       element-loading-text="Loading"
       fit
-      @sort-change="appendSorterParam"
       highlight-current-row
       row-key="id"
+      @sort-change="appendSorterParam"
     >
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -38,7 +38,7 @@
                   :key="item.itemValue"
                   type="success"
                 >
-                  {{ item.itemName }}
+                  {{ item.itemName }}({{ item.itemValue }})
                 </el-tag>
               </div>
             </el-form-item>
