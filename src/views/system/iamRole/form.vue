@@ -80,8 +80,7 @@ export default {
       },
       isAdmin: false,
       checkedKeys: [],
-      permissionTreeList: [],
-      getMore: []
+      permissionTreeList: []
     }
   },
   computed: {
@@ -220,7 +219,7 @@ export default {
       }
     },
     enhance(values) {
-      const checkedIdList = this.checkedKeys
+      const checkedIdList = this.checkedKeys.checked ? this.checkedKeys.checked : []
       // 自动选择没有选到的父级
       checkedIdList.forEach(id => {
         const permission = this.permissionList.find(item => {
