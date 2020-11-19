@@ -30,8 +30,7 @@
       <el-form-item label="已授权权限">
         <el-row>
           <el-col :span="24">
-            <el-input v-model="filterText" size="small" placeholder="请输入节点内容开始搜索" class="input-with-select">
-            </el-input>
+            <el-input v-model="filterText" size="small" placeholder="请输入节点内容开始搜索" class="input-with-select" />
           </el-col>
         </el-row>
         <el-tree
@@ -69,6 +68,11 @@ export default {
       filterText: ''
     }
   },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val)
+    }
+  },
   methods: {
     async afterOpen(id) {
       if (this.model && this.model.permissionVOList) {
@@ -81,11 +85,6 @@ export default {
     },
     afterClose() {
       this.permissionTreeList = []
-    }
-  },
-  watch: {
-    filterText(val) {
-      this.$refs.tree.filter(val)
     }
   }
 }

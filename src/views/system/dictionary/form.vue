@@ -6,7 +6,7 @@
     :show-close="false"
   >
     <el-row slot="title" type="flex">
-      <el-col :span="20">{{title}}</el-col>
+      <el-col :span="20">{{ title }}</el-col>
       <el-col :span="4" style="text-align: right">
         <svg-icon
           :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"

@@ -31,9 +31,9 @@
       :data="list"
       element-loading-text="Loading"
       fit
-      @sort-change="appendSorterParam"
       highlight-current-row
       row-key="id"
+      @sort-change="appendSorterParam"
     >
       <el-table-column label="姓名">
         <template slot-scope="scope">
@@ -163,7 +163,7 @@ export default {
           key: 'name',
           value: 'id'
         }
-      ],
+      ]
     }
   }
 }

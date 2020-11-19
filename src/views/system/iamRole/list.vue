@@ -24,14 +24,14 @@
       :data="list"
       element-loading-text="Loading"
       fit
-      @sort-change="appendSorterParam"
       highlight-current-row
       row-key="id"
+      @sort-change="appendSorterParam"
     >
       <el-table-column label="角色名称" prop="name" />
       <el-table-column label="编码" prop="code" />
       <el-table-column label="描述" prop="description" />
-      <el-table-column label="创建时间" width="150" align="center" prop="createTime"  sortable/>
+      <el-table-column label="创建时间" width="150" align="center" prop="createTime" sortable />
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button

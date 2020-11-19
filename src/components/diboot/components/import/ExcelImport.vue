@@ -2,7 +2,7 @@
   <el-card class="diboot-import content">
     <div slot="header" class="clearfix">
       <span>数据上传</span>
-      <el-button style="float: right; padding: 3px 0" type="text" @click="handleDownloadExample" icon="el-icon-download">
+      <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-download" @click="handleDownloadExample">
         下载示例文件
       </el-button>
     </div>
@@ -11,9 +11,9 @@
         <el-col :md="6">
           <el-upload
             action=""
-            :fileList="fileList"
+            :file-list="fileList"
             :remove="handleRemove"
-            :beforeUpload="beforeUpload"
+            :before-upload="beforeUpload"
             class="upload-list-inline"
           >
             <el-button icon="el-icon-upload">
@@ -22,23 +22,23 @@
           </el-upload>
         </el-col>
         <el-col :md="8">
-          <el-input placeholder="备注信息" v-model="comment"/>
+          <el-input v-model="comment" placeholder="备注信息" />
         </el-col>
         <el-col :md="10">
           <el-button
             type="primary"
-            @click="handlePreview"
             :disabled="previewDisabled"
             style="margin-right: 8px;"
             icon="el-icon-view"
+            @click="handlePreview"
           >
             预览数据
           </el-button>
           <el-button
             :disabled="uploadDisabled"
             type="default"
-            @click="handleUpload"
             icon="el-icon-upload"
+            @click="handleUpload"
           >
             上传数据
           </el-button>
@@ -47,7 +47,7 @@
       <el-row v-if="errMsg">
         <el-col :span="24">
           <br>
-          <el-alert type="error" >
+          <el-alert type="error">
             <div>
               <b>请检查Excel文件，错误信息: </b><br>
               {{ errMsg }}
@@ -56,7 +56,7 @@
         </el-col>
       </el-row>
     </div>
-    <data-preview ref="dataPreview"></data-preview>
+    <data-preview ref="dataPreview" />
   </el-card>
 </template>
 
@@ -68,6 +68,43 @@ export default {
   name: 'ExcelImport',
   components: {
     dataPreview
+  },
+  props: {
+    /**
+     * 示例文件url
+     */
+    exampleUrl: {
+      type: String,
+      required: true
+    },
+    /**
+     * 上传url
+     */
+    uploadUrl: {
+      type: String,
+      required: true
+    },
+    /**
+     * 预览url
+     */
+    previewUrl: {
+      type: String,
+      required: true
+    },
+    /**
+     * 预览保存URL
+     */
+    previewSaveUrl: {
+      type: String,
+      required: true
+    },
+    /**
+     * 提交时候必须的参数
+     */
+    fieldsRequired: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
@@ -255,43 +292,6 @@ export default {
       this.previewDisabled = true
       this.uploadDisabled = true
       this.importFileNameObj = {}
-    }
-  },
-  props: {
-    /**
-     * 示例文件url
-     */
-    exampleUrl: {
-      type: String,
-      required: true
-    },
-    /**
-     * 上传url
-     */
-    uploadUrl: {
-      type: String,
-      required: true
-    },
-    /**
-     * 预览url
-     */
-    previewUrl: {
-      type: String,
-      required: true
-    },
-    /**
-     * 预览保存URL
-     */
-    previewSaveUrl: {
-      type: String,
-      required: true
-    },
-    /**
-     * 提交时候必须的参数
-     */
-    fieldsRequired: {
-      type: Object,
-      default: () => ({})
     }
   }
 }

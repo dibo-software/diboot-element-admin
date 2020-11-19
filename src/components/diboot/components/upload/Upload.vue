@@ -13,25 +13,25 @@
       @on-preview="handlePreview"
     >
       <template v-if="limitCount === 1 && isImage">
-        <img v-if="imageUrl" :src="imageUrl" alt="avatar" width="100%" />
+        <img v-if="imageUrl" :src="imageUrl" alt="avatar" width="100%">
         <div v-else>
-          <i :class="loading ? 'el-icon-loading' : 'el-icon-plus'"></i>
+          <i :class="loading ? 'el-icon-loading' : 'el-icon-plus'" />
           <div class="ant-upload-text">
-            {{uploadText}}
+            {{ uploadText }}
           </div>
         </div>
       </template>
       <template v-else>
         <template v-if="listType === 'picture-card'">
-          <i :class="loading ? 'el-icon-loading' : 'el-icon-plus'"></i>
+          <i :class="loading ? 'el-icon-loading' : 'el-icon-plus'" />
         </template>
         <template v-else>
           <el-button class="upload-btn">
-            <i :class="loading ? 'el-icon-loading' : 'el-icon-upload2'" />{{uploadText}}
+            <i :class="loading ? 'el-icon-loading' : 'el-icon-upload2'" />{{ uploadText }}
           </el-button>
         </template>
       </template>
-      <div slot="tip" class="el-upload__tip" v-if="fileList.length === 0" style="color: #ddd">请上传{{limitSize}}M以内的{{isImage ? 'jpg/png格式图片': '文件'}}</div>
+      <div v-if="fileList.length === 0" slot="tip" class="el-upload__tip" style="color: #ddd">请上传{{ limitSize }}M以内的{{ isImage ? 'jpg/png格式图片': '文件' }}</div>
     </el-upload>
     <el-dialog :visible.sync="previewVisible">
       <img width="100%" :src="imageUrl" alt="">
@@ -42,6 +42,90 @@
 import { dibootApi } from '@/utils/request'
 export default {
   name: 'Upload',
+  props: {
+    /**
+     * 地址前缀
+     */
+    prefix: {
+      type: String
+    },
+    /**
+     * 请求地址
+     */
+    action: {
+      type: String,
+      required: true
+    },
+    /**
+     * 绑定的业务对象
+     */
+    relObjType: {
+      type: String,
+      required: true
+    },
+    /**
+     * 绑定业务对象的属性
+     */
+    relObjField: {
+      type: String,
+      required: true
+    },
+    /**
+     * 文件存储位置
+     */
+    fileList: {
+      type: Array,
+      required: true
+    },
+    /**
+       * 上传列表的内建样式，支持2种基本样式 text,  picture-card，去掉 picture 默认text
+       */
+    listType: {
+      type: String,
+      default: 'text'
+    },
+    /**
+     * 上传数量限制，默认 1 （为1的时候则可以切换）
+     */
+    limitCount: {
+      type: Number,
+      default: 1
+    },
+    /**
+     * 上传类型限制，不传默认所有文件
+     */
+    limitType: {
+      type: String
+    },
+    /**
+    /**
+     * 单个文件上传大小，默认2M
+     */
+    limitSize: {
+      type: Number,
+      default: 2
+    },
+    /**
+     * 是否是图片，默认不是图片类型（主要用户上传后构建值）
+     */
+    isImage: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * 上传提示文本
+     */
+    uploadText: {
+      type: String,
+      default: '上传'
+    },
+    /**
+     * 值
+     */
+    value: {
+      type: String
+    }
+  },
   data() {
     return {
       loading: false,
@@ -56,14 +140,14 @@ export default {
       return this.limitCount === 1 && this.isImage ? 'picture-card' : this.listType
     }
   },
-  created() {
-    if (this.limitCount === 1 && this.isImage && this.value) {
-      this.imageUrl = `${this.prefix}${this.value}/image`
-    }
-  },
   watch: {
     fileList() {
       this.hideUpload = this.isImage && this.limitCount <= this.fileList.length
+    }
+  },
+  created() {
+    if (this.limitCount === 1 && this.isImage && this.value) {
+      this.imageUrl = `${this.prefix}${this.value}/image`
     }
   },
   methods: {
@@ -175,90 +259,6 @@ export default {
         this.imageUrl = `${this.prefix}${data.accessUrl}/image`
       }
       return file
-    }
-  },
-  props: {
-    /**
-     * 地址前缀
-     */
-    prefix: {
-      type: String
-    },
-    /**
-     * 请求地址
-     */
-    action: {
-      type: String,
-      required: true
-    },
-    /**
-     * 绑定的业务对象
-     */
-    relObjType: {
-      type: String,
-      required: true
-    },
-    /**
-     * 绑定业务对象的属性
-     */
-    relObjField: {
-      type: String,
-      required: true
-    },
-    /**
-     * 文件存储位置
-     */
-    fileList: {
-      type: Array,
-      required: true
-    },
-    /**
-       * 上传列表的内建样式，支持2种基本样式 text,  picture-card，去掉 picture 默认text
-       */
-    listType: {
-      type: String,
-      default: 'text'
-    },
-    /**
-     * 上传数量限制，默认 1 （为1的时候则可以切换）
-     */
-    limitCount: {
-      type: Number,
-      default: 1
-    },
-    /**
-     * 上传类型限制，不传默认所有文件
-     */
-    limitType: {
-      type: String
-    },
-    /**
-    /**
-     * 单个文件上传大小，默认2M
-     */
-    limitSize: {
-      type: Number,
-      default: 2
-    },
-    /**
-     * 是否是图片，默认不是图片类型（主要用户上传后构建值）
-     */
-    isImage: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * 上传提示文本
-     */
-    uploadText: {
-      type: String,
-      default: '上传'
-    },
-    /**
-     * 值
-     */
-    value: {
-      type: String
     }
   }
 }

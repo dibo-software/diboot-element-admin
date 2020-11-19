@@ -1,6 +1,6 @@
 <template>
-  <div class="import-preview" v-if="visible">
-    <el-divider></el-divider>
+  <div v-if="visible" class="import-preview">
+    <el-divider />
     <div v-if="dataList.length>0">
       <div class="alert alert-info">
         Excel文件解析成功，共有 <strong>{{ dataList.length }}</strong> 条数据可上传.
@@ -13,8 +13,8 @@
           v-for="(column, index) in columns"
           :key="`data-preview-${_uid}-${index}`"
           :prop="column.dataIndex"
-          :label="column.title">
-        </el-table-column>
+          :label="column.title"
+        />
       </el-table>
     </div>
   </div>

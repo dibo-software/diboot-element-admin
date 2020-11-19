@@ -70,7 +70,7 @@
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="异常信息" v-if="model.statusCode != 0">
+          <el-form-item v-if="model.statusCode != 0" label="异常信息">
             <span>{{ model.errorMsg }}</span>
           </el-form-item>
         </el-col>

@@ -25,9 +25,9 @@
       :data="list"
       element-loading-text="Loading"
       fit
-      @sort-change="appendSorterParam"
       highlight-current-row
       row-key="id"
+      @sort-change="appendSorterParam"
     >
       <el-table-column label="用户类型">
         <template slot-scope="scope">
@@ -60,7 +60,7 @@
           <el-tag v-else type="danger">失败</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="登录时间" width="150" align="center"  prop="createTime" sortable>
+      <el-table-column label="登录时间" width="150" align="center" prop="createTime" sortable>
         <template slot-scope="scope">
           {{ scope.row.createTime }}
         </template>
@@ -92,7 +92,7 @@ export default {
   mixins: [list],
   data() {
     return {
-      baseApi: '/iam/loginTrace',
+      baseApi: '/iam/loginTrace'
     }
   },
   methods: {

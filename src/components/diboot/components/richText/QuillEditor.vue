@@ -1,13 +1,13 @@
 <template>
   <div :class="prefixCls">
-    <div class="quill-editor"></div>
+    <div class="quill-editor" />
     <div v-show="false" class="icons">
-      <svg-icon class-name="column-left" icon-class="table-add-col-left"></svg-icon>
-      <svg-icon class-name="column-right" icon-class="table-add-col-right"></svg-icon>
-      <svg-icon class-name="row-above" icon-class="table-add-row-above"></svg-icon>
-      <svg-icon class-name="row-below" icon-class="table-add-row-below"></svg-icon>
-      <svg-icon class-name="delete-row" icon-class="table-del-row"></svg-icon>
-      <svg-icon class-name="delete-column" icon-class="table-del-col"></svg-icon>
+      <svg-icon class-name="column-left" icon-class="table-add-col-left" />
+      <svg-icon class-name="column-right" icon-class="table-add-col-right" />
+      <svg-icon class-name="row-above" icon-class="table-add-row-above" />
+      <svg-icon class-name="row-below" icon-class="table-add-row-below" />
+      <svg-icon class-name="delete-row" icon-class="table-del-row" />
+      <svg-icon class-name="delete-column" icon-class="table-del-col" />
     </div>
   </div>
 

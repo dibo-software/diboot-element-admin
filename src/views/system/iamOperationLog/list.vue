@@ -26,9 +26,9 @@
       :data="list"
       element-loading-text="Loading"
       fit
-      @sort-change="appendSorterParam"
       highlight-current-row
       row-key="id"
+      @sort-change="appendSorterParam"
     >
       <el-table-column label="用户姓名">
         <template slot-scope="scope">
@@ -71,7 +71,7 @@
           <el-tag v-else type="danger">失败</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作时间" width="150" align="center"  prop="createTime" sortable>
+      <el-table-column label="操作时间" width="150" align="center" prop="createTime" sortable>
         <template slot-scope="scope">
           {{ scope.row.createTime }}
         </template>
