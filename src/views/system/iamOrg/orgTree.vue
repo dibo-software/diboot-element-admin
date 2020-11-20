@@ -1,10 +1,10 @@
 <template>
   <div v-permission="['create', 'sortList']" class="app-container">
     <div v-if="canChange" class="table-operator">
-      <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.orgForm.open(undefined)">
+      <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.orgForm.open()">
         新建
       </el-button>
-      <el-button v-permission="['create']" style="margin-left: 10px;" type="default" icon="el-icon-rank" @click="$refs.form.open(undefined)">
+      <el-button v-permission="['create']" style="margin-left: 10px;" type="default" icon="el-icon-rank" @click="$refs.orgTreeSort.open()">
         排序
       </el-button>
     </div>
@@ -39,19 +39,22 @@
       </template>
     </tree>
     <org-form ref="orgForm" :current-node-id="`${currentNode.value}`" @complete="$refs.tree.loadTree()" @changeKey="$emit('changeCurrentNode', currentNode.value)" />
+    <org-tree-sort ref="orgTreeSort" @complete="$refs.tree.loadTree()" />
   </div>
 </template>
 
 <script>
 import tree from '@/components/diboot/components/tree/index'
 import orgForm from '@/views/system/iamOrg/form'
+import orgTreeSort from './treeSort'
 import { dibootApi } from '@/utils/request'
 
 export default {
   name: 'OrgTree',
   components: {
     tree,
-    orgForm
+    orgForm,
+    orgTreeSort
   },
   props: {
     canChange: {
