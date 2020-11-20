@@ -82,9 +82,15 @@ export const asyncRoutes = [
         meta: { title: '数据字典管理', permission: ['Dictionary'] }
       },
       {
-        path: 'iamUser/list',
-        name: 'IamUserList',
-        component: () => import('@/views/system/iamUser/list'),
+        path: 'iamOrg/index',
+        name: 'IamOrgIndex',
+        component: () => import('@/views/system/iamOrg/Index'),
+        meta: { title: '部门信息管理', permission: ['IamOrg'] }
+      },
+      {
+        path: 'iamUser/index',
+        name: 'IamUserIndex',
+        component: () => import('@/views/system/iamUser/Index'),
         meta: { title: '系统用户管理', permission: ['IamUser'] }
       },
       {

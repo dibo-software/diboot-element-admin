@@ -145,6 +145,12 @@ export default {
   },
   directives: { waves },
   mixins: [list],
+  props: {
+    currentNodeId: {
+      type: String,
+      default: '0'
+    }
+  },
   data() {
     return {
       baseApi: '/iam/user',
@@ -164,6 +170,16 @@ export default {
           value: 'id'
         }
       ]
+    }
+  },
+  watch: {
+    currentNodeId: function(val) {
+      if (!val || val === '0' || val === 0) {
+        this.customQueryParam = {}
+      } else {
+        this.customQueryParam = { orgId: val }
+      }
+      this.getList()
     }
   }
 }

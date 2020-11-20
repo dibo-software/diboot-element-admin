@@ -16,6 +16,7 @@
               style="margin-left: 10px;"
               @click="cancelSelect"
             >取消选中</a>
+            <slot name="header" :currentNodeId="currentNodeId" />
           </template>
         </el-alert>
         <el-row style="margin: 10px 0;">
