@@ -10,6 +10,7 @@
       :on-remove="handleRemoveFile"
       :accept="limitType"
       :show-file-list="limitCount !== 1 || !isImage"
+      :multiple="limitCount !== 1"
       @on-preview="handlePreview"
     >
       <template v-if="limitCount === 1 && isImage">
