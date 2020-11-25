@@ -119,7 +119,7 @@ export default {
               if (res.page) {
                 this.pagination.pageSize = res.page.pageSize
                 this.pagination.current = res.page.pageIndex
-                this.pagination.total = res.page.totalCount
+                this.pagination.total = res.page.totalCount ? Number(res.page.totalCount) : 0
               }
               resolve(this.list)
             } else {
@@ -169,7 +169,7 @@ export default {
             if (res.page) {
               this.pagination.pageSize = res.page.pageSize
               this.pagination.current = res.page.pageIndex
-              this.pagination.total = res.page.totalCount
+              this.pagination.total = res.page.totalCount ? Number(res.page.totalCount) : 0
             }
             resolve(this.list)
           } else {
