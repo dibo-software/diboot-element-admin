@@ -251,6 +251,7 @@ export default {
     __setFileUuidList__(values) {
       // 如果包含上传功能，那么设置uuid
       if (this.isUpload) {
+        this.fileUuidList = []
         const fileWrapperKeys = Object.keys(this.fileWrapper)
         if (fileWrapperKeys.length > 0) {
           for (const fileWrapperKey of fileWrapperKeys) {
