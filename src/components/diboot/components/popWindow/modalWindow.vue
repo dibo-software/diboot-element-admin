@@ -7,7 +7,7 @@
     <slot name="content" />
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
-      <el-button type="primary" @click="onConfirm">确 定</el-button>
+      <el-button type="primary" @click="confirm">确 定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -39,12 +39,8 @@ export default {
     open() {
       this.state.visible = true
     },
-    onConfirm() {
-      this.confirm()
-      this.state.visible = false
-    },
     confirm() {
-
+      this.$emit('confirm')
     },
     close() {
       this.state.visible = false
