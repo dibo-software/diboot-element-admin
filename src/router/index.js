@@ -106,6 +106,12 @@ export const asyncRoutes = [
         meta: { title: '资源权限管理', permission: ['IamResourcePermission'] }
       },
       {
+        path: 'scheduleJob/list',
+        name: 'ScheduleJobIndex',
+        component: () => import('@/views/system/scheduleJob/list'),
+        meta: { title: '定时任务管理', permission: ['ScheduleJob'] }
+      },
+      {
         path: 'iamOperationLog/list',
         name: 'IamOperationLogList',
         component: () => import('@/views/system/iamOperationLog/list'),
