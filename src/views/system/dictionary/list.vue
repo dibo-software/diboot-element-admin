@@ -157,13 +157,13 @@ export default {
      */
     menuCommand(command, row) {
       if (command === 'update') {
-        if (row.editable) {
+        if (row.isEditable) {
           this.$refs.form.open(row[this.primaryKey])
         } else {
           this.$message.warning('当前数据字典不可编辑')
         }
       } else if (command === 'delete') {
-        if (row.deletable) {
+        if (row.isDeletable) {
           this.remove(row[this.primaryKey])
         } else {
           this.$message.warning('当前数据字典不可删除')

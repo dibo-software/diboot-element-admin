@@ -73,25 +73,25 @@ export const asyncRoutes = [
     path: '/orgStructure',
     redirect: '/orgStructure/org-tree-list',
     component: Layout,
-    meta: { title: '组织管理', icon: 'el-icon-s-grid', keepAlive: false, permission: ['orgStructure'] },
+    meta: { title: '组织管理', icon: 'el-icon-s-grid', permission: ['orgStructure'] },
     children: [
       {
         path: '/orgStructure/org',
         name: 'OrgIndex',
         component: () => import('@/views/orgStructure/org/Index'),
-        meta: { title: '组织机构管理', keepAlive: false, permission: ['IamOrg'] }
+        meta: { title: '组织机构管理', permission: ['IamOrg'] }
       },
       {
         path: '/orgStructure/position',
         name: 'PositionIndex',
         component: () => import('@/views/orgStructure/position/list'),
-        meta: { title: '岗位管理', keepAlive: false, permission: ['IamPosition'] }
+        meta: { title: '岗位管理', permission: ['IamPosition'] }
       },
       {
         path: '/orgStructure/orgUser',
         name: 'OrgUserIndex',
         component: () => import('@/views/orgStructure/orgUser/Index'),
-        meta: { title: '组织人员管理', keepAlive: false, permission: ['IamOrgUser'] }
+        meta: { title: '组织人员管理', permission: ['IamOrgUser'] }
       }
     ]
   },
