@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-row>
-      <el-col :lg="16" :md="24">
+      <el-col :lg="20" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
-          <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-input v-model="queryParam.name" placeholder="岗位名称" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-input v-model="queryParam.code" placeholder="岗位编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
           <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>
@@ -13,12 +13,9 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :lg="8" :md="24" style="text-align: right;">
-        <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
-          排序
-        </el-button>
+      <el-col :lg="4" :md="24" style="text-align: right;">
         <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
-          新建
+          新建岗位
         </el-button>
       </el-col>
     </el-row>
@@ -31,41 +28,13 @@
       row-key="id"
       @sort-change="appendSorterParam"
     >
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="table-item-expand">
-            <el-form-item label="子项列表">
-              <div v-if="props.row._children && props.row._children.length > 0" class="tag-group">
-                <el-tag
-                  v-for="item in props.row._children"
-                  :key="item.itemValue"
-                  type="success"
-                >
-                  {{ item.itemName }}({{ item.itemValue }})
-                </el-tag>
-              </div>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column label="类型名称">
-        <template slot-scope="scope">
-          {{ scope.row.itemName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="类型编码" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.type }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" width="150" align="center" prop="createTime" sortable>
-        <template slot-scope="scope">
-          {{ scope.row.createTime }}
-        </template>
-      </el-table-column>
+      <el-table-column label="岗位名称" prop="name" />
+      <el-table-column label="岗位编码" prop="code" />
+      <el-table-column label="职级" prop="gradeValue" />
+      <el-table-column label="职级头衔" prop="gradeName" />
+      <el-table-column label="数据权限" width="150" align="center" prop="dataPermissionTypeLabel" sortable />
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-
           <el-button
             v-permission="['detail']"
             type="text"
@@ -119,58 +88,32 @@
       :style="{textAlign: 'right'}"
       @pagination="handlePaginationChanged"
     />
+    <form-modal
+      ref="form"
+      @complete="getList"
+    />
     <detail-modal ref="detail" />
-    <form-modal ref="form" @complete="getList" />
-    <tree-sort ref="sort" @complete="getList" />
   </div>
 </template>
 
 <script>
 import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
-import detailModal from './detail'
 import formModal from './form'
-import treeSort from '@/views/system/dictionary/treeSort'
+import detailModal from './detail'
 
 export default {
-  name: 'DictionaryList',
+  name: 'IamPositionList',
   components: {
-    detailModal,
     formModal,
-    treeSort
+    detailModal
   },
   directives: { waves },
   mixins: [list],
   data() {
     return {
-      baseApi: '/dictionary',
-      customQueryParam: { parentId: 0 },
-      getMore: false,
-      listLoading: true
+      baseApi: '/iam/position'
     }
-  },
-  methods: {
-    /**
-     * 更新或者删除
-     * @param command update/delete
-     * @param row     操作的行内容
-     */
-    menuCommand(command, row) {
-      if (command === 'update') {
-        if (row.isEditable) {
-          this.$refs.form.open(row[this.primaryKey])
-        } else {
-          this.$message.warning('当前数据字典不可编辑')
-        }
-      } else if (command === 'delete') {
-        if (row.isDeletable) {
-          this.remove(row[this.primaryKey])
-        } else {
-          this.$message.warning('当前数据字典不可删除')
-        }
-      }
-    }
-
   }
 }
 </script>

@@ -68,6 +68,34 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
+  // 组织架构管理
+  {
+    path: '/orgStructure',
+    redirect: '/orgStructure/org-tree-list',
+    component: Layout,
+    meta: { title: '组织管理', icon: 'el-icon-s-grid', permission: ['orgStructure'] },
+    children: [
+      {
+        path: '/orgStructure/org',
+        name: 'OrgIndex',
+        component: () => import('@/views/orgStructure/org/Index'),
+        meta: { title: '组织机构管理', permission: ['IamOrg'] }
+      },
+      {
+        path: '/orgStructure/position',
+        name: 'PositionIndex',
+        component: () => import('@/views/orgStructure/position/list'),
+        meta: { title: '岗位管理', permission: ['IamPosition'] }
+      },
+      {
+        path: '/orgStructure/orgUser',
+        name: 'OrgUserIndex',
+        component: () => import('@/views/orgStructure/orgUser/Index'),
+        meta: { title: '组织人员管理', permission: ['IamOrgUser'] }
+      }
+    ]
+  },
+
   {
     path: '/system',
     component: Layout,
@@ -80,12 +108,6 @@ export const asyncRoutes = [
         name: 'DictList',
         component: () => import('@/views/system/dictionary/list'),
         meta: { title: '数据字典管理', permission: ['Dictionary'] }
-      },
-      {
-        path: 'iamOrg/index',
-        name: 'IamOrgIndex',
-        component: () => import('@/views/system/iamOrg/Index'),
-        meta: { title: '部门信息管理', permission: ['IamOrg'] }
       },
       {
         path: 'iamUser/index',
@@ -104,6 +126,12 @@ export const asyncRoutes = [
         name: 'IamResourcePermission',
         component: () => import('@/views/system/iamResourcePermission/list'),
         meta: { title: '资源权限管理', permission: ['IamResourcePermission'] }
+      },
+      {
+        path: 'scheduleJob/list',
+        name: 'ScheduleJobIndex',
+        component: () => import('@/views/system/scheduleJob/list'),
+        meta: { title: '定时任务管理', permission: ['ScheduleJob'] }
       },
       {
         path: 'iamOperationLog/list',

@@ -1,10 +1,17 @@
 <template>
-  <div class="app-container">
+  <div class="orgUserList">
     <el-row>
-      <el-col :lg="16" :md="24">
+      <el-col :lg="20" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.itemName" placeholder="类型名称" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
-          <el-input v-model="queryParam.type" placeholder="类型编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-select v-model="queryParam.status" placeholder="状态" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch">
+            <el-option
+              v-for="(item, index) in more.userStatusKvList"
+              :key="index"
+              :value="item.v"
+              :label="item.k"
+            />
+          </el-select>
           <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>
@@ -13,10 +20,7 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :lg="8" :md="24" style="text-align: right;">
-        <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
-          排序
-        </el-button>
+      <el-col :lg="4" :md="24" style="text-align: right;">
         <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
@@ -31,41 +35,33 @@
       row-key="id"
       @sort-change="appendSorterParam"
     >
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="table-item-expand">
-            <el-form-item label="子项列表">
-              <div v-if="props.row._children && props.row._children.length > 0" class="tag-group">
-                <el-tag
-                  v-for="item in props.row._children"
-                  :key="item.itemValue"
-                  type="success"
-                >
-                  {{ item.itemName }}({{ item.itemValue }})
-                </el-tag>
-              </div>
-            </el-form-item>
-          </el-form>
+      <el-table-column label="用户编号">
+        <template slot-scope="scope">
+          {{ scope.row.userNum }}
         </template>
       </el-table-column>
-      <el-table-column label="类型名称">
+      <el-table-column label="姓名">
         <template slot-scope="scope">
-          {{ scope.row.itemName }}
+          {{ scope.row.realname }}
         </template>
       </el-table-column>
-      <el-table-column label="类型编码" align="center">
+      <el-table-column label="性别">
         <template slot-scope="scope">
-          <span>{{ scope.row.type }}</span>
+          {{ scope.row.genderLabel }}
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="150" align="center" prop="createTime" sortable>
+      <el-table-column label="电话" align="center">
         <template slot-scope="scope">
-          {{ scope.row.createTime }}
+          <span>{{ scope.row.mobilePhone }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="邮箱" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-
           <el-button
             v-permission="['detail']"
             type="text"
@@ -73,10 +69,21 @@
           >
             详情
           </el-button>
+
           <span
             v-permission="['detail']"
             v-permission-again="['update', 'delete']"
           >
+            <el-divider
+              direction="vertical"
+            />
+            <el-button
+              v-permission="['update']"
+              type="text"
+              @click="this.$refs.userPositionRefForm.open(row.id)"
+            >
+            岗位
+            </el-button>
             <el-divider
               direction="vertical"
             />
@@ -119,58 +126,58 @@
       :style="{textAlign: 'right'}"
       @pagination="handlePaginationChanged"
     />
-    <detail-modal ref="detail" />
-    <form-modal ref="form" @complete="getList" />
-    <tree-sort ref="sort" @complete="getList" />
+    <user-position-ref-form ref="userPositionRefForm" />
+    <user-detail ref="detail" />
+    <user-form
+      ref="form"
+      :current-node-id="currentNodeId"
+      @complete="getList"
+    />
   </div>
 </template>
-
 <script>
-import waves from '@/directive/waves' // waves directive
+import userDetail from './userDetail'
+import userForm from './userForm'
+import waves from '@/directive/waves'
 import list from '@/components/diboot/mixins/list'
-import detailModal from './detail'
-import formModal from './form'
-import treeSort from '@/views/system/dictionary/treeSort'
+import userPositionRefForm from '@/views/orgStructure/orgUser/userPositionRefForm'
 
 export default {
-  name: 'DictionaryList',
+  name: 'OrgUserList',
   components: {
-    detailModal,
-    formModal,
-    treeSort
+    userDetail,
+    userForm,
+    userPositionRefForm
   },
   directives: { waves },
   mixins: [list],
+  props: {
+    currentNodeId: {
+      type: String,
+      default: '0'
+    }
+  },
   data() {
     return {
-      baseApi: '/dictionary',
-      customQueryParam: { parentId: 0 },
-      getMore: false,
-      listLoading: true
+      baseApi: '/iam/user',
+      exportApi: '/excel/export',
+      getMore: true
+    }
+  },
+  watch: {
+    currentNodeId: function(val) {
+      if (!val || val === '0' || val === 0) {
+        this.customQueryParam = {}
+      } else {
+        this.customQueryParam = { orgId: val }
+      }
+      this.getList()
     }
   },
   methods: {
-    /**
-     * 更新或者删除
-     * @param command update/delete
-     * @param row     操作的行内容
-     */
-    menuCommand(command, row) {
-      if (command === 'update') {
-        if (row.isEditable) {
-          this.$refs.form.open(row[this.primaryKey])
-        } else {
-          this.$message.warning('当前数据字典不可编辑')
-        }
-      } else if (command === 'delete') {
-        if (row.isDeletable) {
-          this.remove(row[this.primaryKey])
-        } else {
-          this.$message.warning('当前数据字典不可删除')
-        }
-      }
+    openUserPositionRefForm(record) {
+      this.$refs.userPositionRefForm.open(record)
     }
-
   }
 }
 </script>
