@@ -14,9 +14,6 @@
         </div>
       </el-col>
       <el-col :lg="8" :md="24" style="text-align: right;">
-        <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
-          排序
-        </el-button>
         <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
@@ -121,7 +118,6 @@
     />
     <detail-modal ref="detail" />
     <form-modal ref="form" @complete="getList" />
-    <tree-sort ref="sort" @complete="getList" />
   </div>
 </template>
 
@@ -130,14 +126,12 @@ import waves from '@/directive/waves' // waves directive
 import list from '@/components/diboot/mixins/list'
 import detailModal from './detail'
 import formModal from './form'
-import treeSort from '@/views/system/dictionary/treeSort'
 
 export default {
   name: 'DictionaryList',
   components: {
     detailModal,
-    formModal,
-    treeSort
+    formModal
   },
   directives: { waves },
   mixins: [list],

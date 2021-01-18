@@ -51,6 +51,20 @@
           </el-col>
         </el-row>
       </el-form-item>
+      <el-form-item v-show="!childItem.itemName && !childItem.itemValue" label="拖拽排序">
+        <draggable v-model="children">
+          <el-tag
+            v-for="(item,i) in children"
+            :key="i"
+            type="success"
+            size="small"
+            class="draggable-element"
+            :style="{marginRight: '15px', cursor: 'pointer' }"
+          >
+            {{ item.itemName }}({{ item.itemValue }})
+          </el-tag>
+        </draggable>
+      </el-form-item>
       <el-form-item label="备注">
         <el-input v-model="form.description" :autosize="{ minRows: 3, maxRows: 5}" type="textarea" placeholder="请输入备注" />
       </el-form-item>
@@ -68,6 +82,7 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
+import draggable from 'vuedraggable'
 import _ from 'lodash'
 
 // 定义form结构常量
@@ -88,6 +103,9 @@ const CHILDREN_BTN_CONFIG_DEFAULT = {
 const CHILDREN_ITEM_DEFAULT = { id: '', itemName: '', itemValue: '' }
 export default {
   name: 'DictForm',
+  components: {
+    draggable
+  },
   mixins: [form],
   data() {
     return {
@@ -195,3 +213,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .draggable-element{
+    cursor: move !important;
+  }
+</style>
