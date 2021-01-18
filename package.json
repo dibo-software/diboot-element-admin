@@ -31,7 +31,8 @@
     "vue": "2.6.10",
     "vue-router": "3.0.6",
     "vuex": "3.1.0",
-    "vue-qr": "^2.3.0"
+    "vue-qr": "^2.3.0",
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",
