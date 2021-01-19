@@ -17,7 +17,7 @@
         <i class="el-icon-close" style="cursor: pointer" @click="close" />
       </el-col>
     </el-row>
-    <el-form label-position="left" inline class="detail-item-container">
+    <el-form label-position="left" label-width="100px" inline class="detail-item-container">
       <el-form-item label="上级菜单">
         <span>{{ model.parentDisplayName ? model.parentDisplayName : '无' }}</span>
       </el-form-item>
@@ -27,22 +27,8 @@
       <el-form-item label="菜单编码">
         <span>{{ model.resourceCode }}</span>
       </el-form-item>
-      <el-form-item label="按钮/权限">
-        <template v-if="model.permissionList && model.permissionList.length > 0">
-          <el-tag
-            v-for="(permission,i) in model.permissionList"
-            :key="i"
-            type="success"
-          >
-            {{ `${permission.displayName}[${permission.resourceCode}]` }}
-          </el-tag>
-        </template>
-        <template v-else>
-          无
-        </template>
-      </el-form-item>
-      <el-form-item label="接口列表">
-        <template v-if="model.apiSetList && model.apiSetList.length > 0">
+      <el-form-item label="页面接口列表">
+        <div v-if="model.apiSetList && model.apiSetList.length > 0" class="tag-group">
           <el-tag
             v-for="(api,i) in model.apiSetList"
             :key="i"
@@ -50,12 +36,47 @@
           >
             {{ api }}
           </el-tag>
-        </template>
+        </div>
         <template v-else>
           无
         </template>
       </el-form-item>
+      <el-form-item label="页面资源权限">
+        <template v-if="!model.permissionList || model.permissionList.length === 0">
+          无
+        </template>
+      </el-form-item>
     </el-form>
+    <el-tabs v-if="model.permissionList && model.permissionList.length > 0" type="border-card">
+      <el-tab-pane
+        v-for="(p,i) in model.permissionList"
+        :key="i"
+        :label="p.displayName"
+      >
+        <el-form label-position="left" inline class="detail-item-container">
+          <el-form-item label="名称">
+            <span>{{ p.displayName }}</span>
+          </el-form-item>
+          <el-form-item label="编码">
+            <span>{{ p.resourceCode }}</span>
+          </el-form-item>
+          <el-form-item label="接口列表">
+            <div v-if="p.apiSetList && p.apiSetList.length > 0" class="tag-group">
+              <el-tag
+                v-for="(api,j) in p.apiSetList"
+                :key="j"
+                type="primary"
+              >
+                {{ api }}
+              </el-tag>
+            </div>
+            <template v-else>
+              无
+            </template>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
 
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">
