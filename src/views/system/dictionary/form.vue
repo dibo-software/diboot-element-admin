@@ -51,7 +51,7 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item v-show="!childItem.itemName && !childItem.itemValue" label="拖拽排序">
+      <el-form-item v-show="children && children.length > 0 && !childItem.itemName && !childItem.itemValue" label="拖拽排序">
         <draggable v-model="children">
           <el-tag
             v-for="(item,i) in children"
