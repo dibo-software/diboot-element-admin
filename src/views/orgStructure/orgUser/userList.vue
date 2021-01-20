@@ -35,14 +35,19 @@
       row-key="id"
       @sort-change="appendSorterParam"
     >
-      <el-table-column label="用户编号">
+      <el-table-column label="部门">
         <template slot-scope="scope">
-          {{ scope.row.userNum }}
+          {{ scope.row.orgShortName }}
         </template>
       </el-table-column>
       <el-table-column label="姓名">
         <template slot-scope="scope">
           {{ scope.row.realname }}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户编号">
+        <template slot-scope="scope">
+          {{ scope.row.userNum }}
         </template>
       </el-table-column>
       <el-table-column label="性别">
@@ -82,7 +87,7 @@
               type="text"
               @click="this.$refs.userPositionRefForm.open(row.id)"
             >
-            岗位
+              岗位
             </el-button>
             <el-divider
               direction="vertical"

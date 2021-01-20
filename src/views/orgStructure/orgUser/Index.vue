@@ -33,7 +33,7 @@ export default {
       if (!this.currentNodeId || this.currentNodeId === '0' || this.currentNodeId === 0) {
         return '所有人员列表'
       } else {
-        return '当前部门人员列表'
+        return '部门人员列表'
       }
     }
   }
