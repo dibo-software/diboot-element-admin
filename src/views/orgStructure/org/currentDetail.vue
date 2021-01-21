@@ -76,7 +76,7 @@ export default {
       if (id === '0') {
         return
       }
-      dibootApi.get(`/iam/org/${id}`).then(res => {
+      dibootApi.get(`${this.baseApi}/${id}`).then(res => {
         if (res.code === 0) {
           this.model = res.data
         } else {
