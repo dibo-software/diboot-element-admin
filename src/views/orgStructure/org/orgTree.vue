@@ -1,127 +1,96 @@
 <template>
-  <div class="orgTree">
-    <el-row style="margin-bottom: 10px;">
-      <el-col :span="24">
-        <el-alert
-          v-if="currentNode.title"
-          type="success"
-          show-icon
-          :closable="false"
+  <div v-permission="['create', 'sortList']" class="app-container">
+    <div v-if="canChange" class="table-operator">
+      <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.orgForm.open()">
+        新建
+      </el-button>
+      <el-button v-permission="['create']" style="margin-left: 10px;" type="default" icon="el-icon-rank" @click="$refs.orgTreeSort.open()">
+        排序
+      </el-button>
+    </div>
+    <tree
+      ref="tree"
+      node-name="shortName"
+      :tree-api="treeApi"
+      :show-cancel="true"
+      @changeCurrentNode="onChangeCurrentNode"
+    >
+      <template slot="header" slot-scope="currentNode">
+        <a
+          v-if="canChange"
+          v-permission="['update']"
+          title="编辑"
+          href="javascript:;"
+          style="margin-left: 10px;"
+          @click="$refs.orgForm.open(currentNode.currentNodeId)"
         >
-          <template slot="title">
-            {{ currentNode.title }}
-            <a
-              v-if="showCancel"
-              href="javascript:;"
-              style="margin-left: 10px;"
-              @click="cancelSelect"
-            >取消选中</a>
-            <a
-              v-if="canChange"
-              v-permission="['create']"
-              href="javascript:;"
-              style="margin-left: 10px;"
-              @click="$refs.orgForm.open(undefined)"
-            >
-              <i class="el-icon-plus" />
-            </a>
-            <a
-              v-if="canChange"
-              v-permission="['update']"
-              href="javascript:;"
-              style="margin-left: 10px;"
-              @click="$refs.orgForm.open(currentNodeId)"
-            >
-              <i class="el-icon-edit" />
-            </a>
-            <a
-              v-if="canChange"
-              v-permission="['detail']"
-              href="javascript:;"
-              style="margin-left: 10px;"
-              @click="$refs.orgDetail.open(currentNodeId)"
-            >
-              <i class="el-icon-view" />
-            </a>
-            <a
-              v-if="canChange"
-              v-permission="['delete']"
-              href="javascript:;"
-              style="margin-left: 10px;"
-              @click="remove(currentNodeId)"
-            >
-              <i class="el-icon-delete" />
-            </a>
-          </template>
-        </el-alert>
-        <el-row style="margin: 10px 0;">
-          <el-col :span="24">
-            <el-input v-model="filterText" size="small" placeholder="请输入搜索内容" class="input-with-select" />
-          </el-col>
-        </el-row>
-        <el-tree
-          v-if="treeList && treeList.length > 0"
-          ref="tree"
-          class="filter-tree"
-          node-key="key"
-          :data="treeList"
-          :current-node-key="currentNodeId"
-          :props="{label: 'title', children: 'children'}"
-          :expand-on-click-node="false"
-          :filter-node-method="filterNode"
-          default-expand-all
-          @current-change="onTreeSelect"
-        />
-      </el-col>
-    </el-row>
+          <i class="el-icon-edit" />
+        </a>
+        <a
+          v-if="canChange"
+          v-permission="['detail']"
+          href="javascript:;"
+          style="margin-left: 10px;"
+          @click="$refs.orgDetail.open(currentNode.currentNodeId)"
+        >
+          <i class="el-icon-view" />
+        </a>
+        <a
+          v-if="canChange"
+          v-permission="['delete']"
+          title="删除"
+          href="javascript:;"
+          style="margin-left: 10px;"
+          @click="remove(currentNode.currentNodeId)"
+        >
+          <i class="el-icon-delete" />
+        </a>
+      </template>
+    </tree>
     <org-detail ref="orgDetail" />
-    <org-form ref="orgForm" :current-node-id="`${currentNodeId}`" @complete="loadTree()" />
+    <org-form ref="orgForm" :current-node-id="`${currentNode.value}`" @complete="$refs.tree.loadTree()" @changeKey="$emit('changeCurrentNode', currentNode.value)" />
+    <org-tree-sort ref="orgTreeSort" @complete="$refs.tree.loadTree()" />
   </div>
 </template>
+
 <script>
-import tree from '@/components/diboot/mixins/tree'
-import orgForm from './form'
+import tree from '@/components/diboot/components/tree/index'
 import orgDetail from './detail'
+import orgForm from './form'
+import orgTreeSort from './treeSort'
 import { dibootApi } from '@/utils/request'
 
 export default {
   name: 'OrgTree',
   components: {
+    tree,
     orgForm,
-    orgDetail
+    orgDetail,
+    orgTreeSort
   },
-  mixins: [tree],
   props: {
     showCancel: {
       type: Boolean,
-      default: () => {
-        return true
-      }
+      default: true
     },
     canChange: {
       type: Boolean,
-      default: () => {
-        return false
-      }
+      default: false
     }
   },
   data() {
     return {
+      currentNode: { value: '0' },
       baseApi: '/iam/org',
-      treeListApi: '/iam/org/tree',
-      filterText: ''
-    }
-  },
-  watch: {
-    filterText(val) {
-      this.$refs.tree.filter(val)
+      treeApi: '/iam/org/tree'
     }
   },
   methods: {
-    afterTreeSelect() {
-      this.$emit('changeCurrentNode', this.currentNode)
+    onChangeCurrentNode(currentNode) {
+      // 事件处理代码
+      this.currentNode = currentNode
+      this.$emit('changeCurrentNode', currentNode)
     },
-
     /**
        * 根据id删除
        * @param id
@@ -142,8 +111,8 @@ export default {
                 title: '删除成功',
                 message: '已删除该数据'
               })
-              _this.cancelSelect()
-              _this.loadTree()
+              _this.$refs.tree.cancelSelect()
+              _this.$refs.tree.loadTree()
               resolve(res.data)
             } else {
               this.$notify.error({
@@ -161,37 +130,10 @@ export default {
           })
         })
       })
-    },
-    /** *
-       * orgList格式化
-       * @param orgList
-       * @returns {undefined}
-       */
-    treeListFormatter(orgList) {
-      if (!orgList || orgList.length === 0) {
-        return undefined
-      }
-      const formatterOrgList = []
-      orgList.forEach(org => {
-        const formatterOrg = {}
-        formatterOrg.key = org.id
-        formatterOrg.value = org.id
-        formatterOrg.title = org.shortName
-        formatterOrg.scopedSlots = { title: 'title' }
-        const children = this.treeListFormatter(org.children)
-        if (children !== undefined) {
-          formatterOrg.children = children
-        }
-        formatterOrgList.push(formatterOrg)
-      })
-      // 如果需要默认展开所有，则初始化展开数据
-      this.expandedKeys = this.getInitSmartExpandedKeys(formatterOrgList, 5)
-      return formatterOrgList
-    },
-    filterNode(value, data) {
-      if (!value) return true
-      return data && data.title && data.title.indexOf(value) !== -1
     }
   }
+
 }
 </script>
+<style lang="less" scoped>
+</style>

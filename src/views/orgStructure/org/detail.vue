@@ -48,6 +48,11 @@
             <span>{{ model.managerName || '-' }}</span>
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <el-form-item label="备注">
+            <span>{{ model.orgComment || '-' }}</span>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">

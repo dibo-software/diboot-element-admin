@@ -2,7 +2,10 @@
   <div class="app-container">
     <el-row v-permission="['orgTree']">
       <el-col :span="6">
-        <org-tree ref="orgTree" @changeCurrentNode="onChangeCurrentNode" />
+        <org-tree
+          ref="orgTree"
+          @changeCurrentNode="node => this.currentNodeId = `${node.value ? node.value : '0'}`"
+        />
       </el-col>
       <el-col :span="18">
         <user-list ref="userList" :current-node-id="currentNodeId" />
@@ -13,7 +16,7 @@
 </template>
 
 <script>
-import orgTree from '@/views/system/iamOrg/orgTree'
+import orgTree from '@/views/orgStructure/org/orgTree'
 import userList from './list'
 
 export default {
@@ -25,12 +28,6 @@ export default {
   data() {
     return {
       currentNodeId: ''
-    }
-  },
-  methods: {
-    onChangeCurrentNode(value) {
-      // 事件处理代码
-      this.currentNodeId = value
     }
   }
 

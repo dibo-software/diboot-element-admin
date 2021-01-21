@@ -2,15 +2,6 @@
   <div class="orgIndex">
     <el-row :gutter="16">
       <el-col :span="8">
-        <el-button
-          v-permission="['drag']"
-          class="filter-item"
-          type="default"
-          icon="el-icon-rank"
-          @click="$refs.orgTreeSort.open()"
-        >
-          排序
-        </el-button>
         <org-tree
           ref="orgTree"
           :can-change="true"
@@ -27,13 +18,11 @@
         </el-tabs>
       </el-col>
     </el-row>
-    <org-tree-sort ref="orgTreeSort" @complete="onOrgTreeSortComplete" />
   </div>
 </template>
 <script>
 import orgTree from '@/views/orgStructure/org/orgTree'
 import orgList from './list'
-import orgTreeSort from './treeSort'
 import currentDetail from '@/views/orgStructure/org/currentDetail'
 
 export default {
@@ -41,7 +30,6 @@ export default {
   components: {
     orgTree,
     orgList,
-    orgTreeSort,
     currentDetail
   },
   data() {

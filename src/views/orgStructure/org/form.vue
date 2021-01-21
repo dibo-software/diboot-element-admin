@@ -131,6 +131,14 @@
             <el-button type="text" @click="$refs.userSelectModal.open()">设置</el-button>
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <el-form-item
+            label="备注"
+            prop="orgComment"
+          >
+            <el-input v-model="form.orgComment" :autosize="{ minRows: 3, maxRows: 5}" type="textarea" placeholder="请输入备注" />
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -222,10 +230,11 @@ export default {
       }
     },
     getInitParentId() {
-      if (this.model === undefined || !this.model.parentId) {
-        return this.currentNodeId.toString(10)
+      if (this.form && this.form.parentId === undefined) {
+        return `${this.currentNodeId}`
+      } else {
+        return this.form.parentId
       }
-      return this.model.parentId.toString(10)
     }
   }
 }
