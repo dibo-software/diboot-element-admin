@@ -24,6 +24,12 @@
         <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
+        <el-button v-permission="['import']" class="filter-item" style="margin-left: 10px;" type="default" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+          批量导入
+        </el-button>
+        <el-button v-permission="['export']" class="filter-item" style="margin-left: 10px;" type="default" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+          导出
+        </el-button>
       </el-col>
     </el-row>
     <el-table
@@ -74,21 +80,25 @@
           >
             详情
           </el-button>
-
           <span
             v-permission="['detail']"
-            v-permission-again="['update', 'delete']"
+            v-permission-again="['position', 'update', 'delete']"
           >
             <el-divider
               direction="vertical"
             />
-            <el-button
-              v-permission="['update']"
-              type="text"
-              @click="this.$refs.userPositionRefForm.open(row.id)"
-            >
-              岗位
-            </el-button>
+          </span>
+          <el-button
+            v-permission="['position']"
+            type="text"
+            @click="this.$refs.userPositionRefForm.open(row.id)"
+          >
+            岗位
+          </el-button>
+          <span
+            v-permission="['position']"
+            v-permission-again="['update', 'delete']"
+          >
             <el-divider
               direction="vertical"
             />

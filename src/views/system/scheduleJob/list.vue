@@ -13,8 +13,8 @@
               />
             </el-select>
             <el-select v-model="queryParam.jobStatus" placeholder="请选择状态" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch">
-              <el-option value="A" label="启用"/>
-              <el-option value="I" label="停用"/>
+              <el-option value="A" label="启用" />
+              <el-option value="I" label="停用" />
             </el-select>
             <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
               查询
@@ -27,7 +27,7 @@
             <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
               新建
             </el-button>
-            <el-button v-permission="['detail']" style="margin-left: 10px;" type="default" icon="el-icon-tickets" @click="$refs.logList.open()">
+            <el-button v-permission="['logList']" style="margin-left: 10px;" type="default" icon="el-icon-tickets" @click="$refs.logList.open()">
               日志记录
             </el-button>
           </el-col>
@@ -56,7 +56,7 @@
       </el-table-column>
       <el-table-column align="center" label="初始化策略">
         <template slot-scope="scope">
-          <span>{{initStrategyEnum[scope.row.initStrategy] || '周期执行'}}</span>
+          <span>{{ initStrategyEnum[scope.row.initStrategy] || '周期执行' }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="状态">
@@ -64,12 +64,30 @@
           <el-switch
             :key="loadingData"
             v-model="scope.row.jobStatus"
+            v-permission="['update']"
             active-value="A"
             inactive-value="I"
-            @change="handleSwitchChange(scope.row)"
             active-text="启用"
-            inactive-text="停用">
-          </el-switch>
+            inactive-text="停用"
+            @change="handleSwitchChange(scope.row)"
+          />
+          <span v-permission-missing="['update']">
+            <el-tag
+              v-if="scope.row.jobStatus === 'A'"
+              :key="scope.row.jobStatusLabel"
+              effect="dark"
+            >
+              {{ scope.row.jobStatusLabel }}
+            </el-tag>
+            <el-tag
+              v-else
+              :key="scope.row.jobStatusLabel"
+              type="info"
+              effect="dark"
+            >
+              {{ scope.row.jobStatusLabel }}
+            </el-tag>
+          </span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="备注">
@@ -91,12 +109,17 @@
           >
             详情
           </el-button>
-          <el-divider
-            direction="vertical"
-          />
-          <el-button type="text" v-permission="['update']" href="javascript:;" @click="handleExecuteOnce(row.id)">运行一次</el-button>
           <span
             v-permission="['detail']"
+            v-permission-again="['executeOnce', 'update', 'delete']"
+          >
+            <el-divider
+              direction="vertical"
+            />
+          </span>
+          <el-button v-permission="['executeOnce']" type="text" href="javascript:;" @click="handleExecuteOnce(row.id)">运行一次</el-button>
+          <span
+            v-permission="['executeOnce']"
             v-permission-again="['update', 'delete']"
           >
             <el-divider
@@ -140,7 +163,7 @@
     />
     <diboot-form ref="form" @complete="getList" />
     <diboot-detail ref="detail" />
-    <diboot-log-list ref="logList"></diboot-log-list>
+    <diboot-log-list ref="logList" />
   </div>
 </template>
 

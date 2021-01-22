@@ -209,7 +209,7 @@ const permissionTreeListFormatter = function(treeList, valueField, titleField) {
       value: item[valueField],
       label: item[titleField]
     }
-    if (item.children !== undefined && item.children.length > 0) {
+    if (item.children && item.children.length > 0) {
       formatterItem.children = permissionTreeListFormatter(item.children, valueField, titleField)
     }
     formatterList.push(formatterItem)
