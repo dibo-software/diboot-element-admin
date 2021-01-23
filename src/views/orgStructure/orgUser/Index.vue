@@ -2,7 +2,7 @@
   <div class="OrgUserIndex">
     <el-row :gutter="16">
       <el-col :span="8">
-        <org-tree ref="orgTree" @changeCurrentNode="node => this.currentNodeId = `${node.value ? node.value : '0'}`" />
+        <org-tree ref="orgTree" @changeCurrentNode="node => currentNodeId = `${node.value ? node.value : '0'}`" />
       </el-col>
       <el-col :span="16">
         <el-tabs :value="'1'">

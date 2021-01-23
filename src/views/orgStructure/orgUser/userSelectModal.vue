@@ -20,7 +20,7 @@
     </el-row>
     <el-row :gutter="16">
       <el-col :span="8">
-        <readonly-org-tree ref="readonlyOrgTree" @changeCurrentNode="node => this.currentNodeId = `${node.value ? node.value : '0'}`" />
+        <readonly-org-tree ref="readonlyOrgTree" @changeCurrentNode="node => currentNodeId = `${node.value ? node.value : '0'}`" />
       </el-col>
       <el-col :span="16">
         <user-select-list ref="userSelectList" :current-node-id="currentNodeId" @select="record => selectUser(record)" />

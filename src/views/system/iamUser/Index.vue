@@ -4,7 +4,7 @@
       <el-col :span="6">
         <org-tree
           ref="orgTree"
-          @changeCurrentNode="node => this.currentNodeId = `${node.value ? node.value : '0'}`"
+          @changeCurrentNode="node => currentNodeId = `${node.value ? node.value : '0'}`"
         />
       </el-col>
       <el-col :span="18">

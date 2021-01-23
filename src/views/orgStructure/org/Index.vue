@@ -5,7 +5,7 @@
         <org-tree
           ref="orgTree"
           :can-change="true"
-          @changeCurrentNode="node => this.currentNodeId = `${node.value ? node.value : '0'}`"
+          @changeCurrentNode="node => currentNodeId = `${node.value ? node.value : '0'}`"
           @change="onTreeChange"
         />
       </el-col>
