@@ -3,6 +3,7 @@
     :title="title"
     :width="width"
     :visible.sync="state.visible"
+    append-to-body
   >
     <slot name="content" />
     <span slot="footer" class="dialog-footer">
