@@ -131,8 +131,6 @@ export default {
      * @param e
      */
     onNodeCheck(currentNode, data) {
-      console.log('currentNode', currentNode)
-      console.log('data', data)
       const { value } = currentNode
       const checked = data.checkedKeys.includes(value)
       if (checked === true) {
@@ -219,7 +217,7 @@ export default {
       }
     },
     enhance(values) {
-      const checkedIdList = this.checkedKeys.checked ? this.checkedKeys.checked : []
+      const checkedIdList = this.checkedKeys ? this.checkedKeys : []
       // 自动选择没有选到的父级
       checkedIdList.forEach(id => {
         const permission = this.permissionList.find(item => {
