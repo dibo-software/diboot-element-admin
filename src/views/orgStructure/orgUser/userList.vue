@@ -125,7 +125,7 @@
           <el-button
             v-permission="['position']"
             type="text"
-            @click="this.$refs.userPositionRefForm.open(row.id)"
+            @click="$refs.userPositionRefForm.open(row)"
           >
             岗位
           </el-button>

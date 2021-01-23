@@ -32,6 +32,7 @@
               v-model="item.positionId"
               placeholder="请选择岗位列表"
               style="width: 160px;"
+              @change="$forceUpdate()"
               filterable
             >
               <template v-if="positionKvList && positionKvList.length > 0">
@@ -173,6 +174,7 @@ export default {
       dibootApi.get('/iam/position/kvList').then(res => {
         if (res.code === 0) {
           this.positionKvList = res.data
+          this.$forceUpdate()
         }
       })
     },
@@ -180,6 +182,7 @@ export default {
       dibootApi.get('/iam/org/tree').then(res => {
         if (res.code === 0) {
           this.orgList = res.data
+          this.$forceUpdate()
         } else {
           this.$message.error(res.msg)
         }
@@ -203,7 +206,10 @@ export default {
             }
             this.form.userPositionList = res.data
           })
+        } else {
+          this.form.userPositionList = []
         }
+        this.$forceUpdate()
       }).catch(() => {
         this.form.userPositionList = []
       })
@@ -211,7 +217,12 @@ export default {
     async onSubmit() {
       try {
         this.state.confirmSubmit = true
-        await this.formModelValidate()
+        try {
+          await this.formModelValidate()
+        } catch (e) {
+          this.$message.error('请完善岗位信息')
+          return false
+        }
         const values = {
           userType: 'IamUser',
           userId: this.user.id,

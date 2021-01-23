@@ -118,10 +118,8 @@
         <el-input v-model="form.email" placeholder="xxx@xxx.com" />
       </el-form-item>
       <el-form-item label="生日" prop="birthdate">
-        <a-form-item label="生日">
-          <el-date-picker v-model="form.birthdate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-          </el-date-picker>
-        </a-form-item>
+        <el-date-picker v-model="form.birthdate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -223,6 +221,11 @@ export default {
           return role.id
         })
         this.$set(this.form, 'roleIdList', roleIdList)
+      }
+      // 如果orgId为空，则将当前节点设置到表单中
+      console.log('formOrgid', this.form.orgId)
+      if (!this.form.orgId || this.form.orgId === 0 || this.form.orgId === '0') {
+        this.form.orgId = this.currentNodeId
       }
     },
     async loadOrgTree() {
