@@ -153,6 +153,14 @@ const NEW_PERMISSION_ITEM = {
 export default {
   name: 'IamResourcePermissionForm',
   mixins: [form],
+  props: {
+    initParentId: {
+      type: String,
+      default: () => {
+        return '0'
+      }
+    }
+  },
   data() {
     return {
       baseApi: '/iam/resourcePermission',
@@ -421,14 +429,6 @@ export default {
       this.currentMenu = ''
       this.currentPermissionActiveKey = '0'
       this.more = {}
-    }
-  },
-  props: {
-    initParentId: {
-      type: String,
-      default: () => {
-        return '0'
-      }
     }
   }
 }

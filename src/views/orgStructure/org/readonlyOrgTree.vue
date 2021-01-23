@@ -42,7 +42,6 @@
 </template>
 <script>
 import tree from '@/components/diboot/mixins/tree'
-import { dibootApi } from '@/utils/request'
 
 export default {
   name: 'ReadonlyOrgTree',

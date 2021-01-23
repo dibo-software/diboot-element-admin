@@ -54,10 +54,10 @@
             >
               <template v-if="orgIndentList.length > 0">
                 <el-option
-                  v-for="(item, index) in orgIndentList"
+                  v-for="(org, index) in orgIndentList"
                   :key="index"
-                  :value="`${item.value}`"
-                  :label="item.label"
+                  :value="`${org.value}`"
+                  :label="org.label"
                 />
               </template>
             </el-select>

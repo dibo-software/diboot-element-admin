@@ -135,6 +135,7 @@
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
 import { treeListFormatter, treeList2IndentList } from '@/utils/treeDataUtil'
+import _ from 'lodash'
 
 export default {
   name: 'OrgUserForm',

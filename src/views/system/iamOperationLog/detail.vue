@@ -87,7 +87,6 @@
 </template>
 <script>
 import detail from '@/components/diboot/mixins/detail'
-import { dibootApi } from '@/utils/request'
 
 export default {
   name: 'IamOperationLogDetail',

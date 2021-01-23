@@ -25,7 +25,7 @@ export default {
       })
     },
     onTreeSelect(cnode) {
-      if (cnode != undefined) {
+      if (cnode !== undefined) {
         // 设置当前节点
         this.currentNodeId = cnode.key
         this.afterTreeSelect()

@@ -63,6 +63,7 @@
             >
               <el-option
                 v-for="kv in more.dataPermissionTypeKvList"
+                :key="kv.v"
                 :label="kv.k"
                 :value="kv.v"
               />
@@ -82,6 +83,7 @@
             >
               <el-option
                 v-for="kv in more.positionGradeKvList"
+                :key="kv.v"
                 :label="kv.v"
                 :value="kv.v"
               />
