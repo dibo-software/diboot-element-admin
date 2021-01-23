@@ -29,7 +29,7 @@
             <template v-if="orgIndentList.length > 0">
               <el-select
                 v-model="form.parentId"
-                placeholder="请选择上级部门"
+                placeholder="选择上级部门"
                 style="width: 100%;"
                 filterable
               >

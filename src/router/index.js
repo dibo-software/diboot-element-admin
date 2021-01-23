@@ -62,7 +62,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '我的工作台', icon: 'component' }
+      meta: { title: '我的工作台', icon: 'dashboard' }
     }]
   }
 ]
@@ -101,7 +101,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/system/dictionary/list',
     name: 'System',
-    meta: { title: '系统管理', icon: 'dashboard', permission: ['system'] },
+    meta: { title: '系统管理', icon: 'el-icon-setting', permission: ['system'] },
     children: [
       {
         path: 'dictionary/list',
