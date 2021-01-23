@@ -37,7 +37,7 @@
       <el-form-item label="耗时(s)">
         {{ model.elapsedSeconds }}
       </el-form-item>
-      <el-form-item label="执行结果信息">
+      <el-form-item label="结果信息">
         {{ model.executeMsg }}
       </el-form-item>
       <el-form-item label="创建时间">
