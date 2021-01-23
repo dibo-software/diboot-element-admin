@@ -15,14 +15,14 @@
       :show-cancel="true"
       @changeCurrentNode="onChangeCurrentNode"
     >
-      <template slot="header" slot-scope="currentNode">
+      <template slot="header" slot-scope="node">
         <a
           v-if="canChange"
           v-permission="['update']"
           title="编辑"
           href="javascript:;"
           style="margin-left: 10px;"
-          @click="$refs.orgForm.open(currentNode.currentNodeId)"
+          @click="$refs.orgForm.open(node.currentNodeId)"
         >
           <i class="el-icon-edit" />
         </a>
@@ -31,7 +31,7 @@
           v-permission="['detail']"
           href="javascript:;"
           style="margin-left: 10px;"
-          @click="$refs.orgDetail.open(currentNode.currentNodeId)"
+          @click="$refs.orgDetail.open(node.currentNodeId)"
         >
           <i class="el-icon-view" />
         </a>
@@ -41,7 +41,7 @@
           title="删除"
           href="javascript:;"
           style="margin-left: 10px;"
-          @click="remove(currentNode.currentNodeId)"
+          @click="remove(node.currentNodeId)"
         >
           <i class="el-icon-delete" />
         </a>

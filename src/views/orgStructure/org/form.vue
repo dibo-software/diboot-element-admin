@@ -57,7 +57,7 @@
             :rules="[{
               required: true, message: '编码不能为空', trigger: 'blur', whitespace: true
             }, {
-              validator: this.checkCodeDuplicate, trigger: 'blur'
+              validator: checkCodeDuplicate, trigger: 'blur'
             }]"
           >
             <el-input

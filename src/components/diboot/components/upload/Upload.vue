@@ -48,7 +48,8 @@ export default {
      * 地址前缀
      */
     prefix: {
-      type: String
+      type: String,
+      default: ''
     },
     /**
      * 请求地址
@@ -96,7 +97,8 @@ export default {
      * 上传类型限制，不传默认所有文件
      */
     limitType: {
-      type: String
+      type: String,
+      default: ''
     },
     /**
     /**
@@ -124,7 +126,8 @@ export default {
      * 值
      */
     value: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   data() {
