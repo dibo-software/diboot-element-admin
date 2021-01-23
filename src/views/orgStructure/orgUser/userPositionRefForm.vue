@@ -32,8 +32,8 @@
               v-model="item.positionId"
               placeholder="请选择岗位列表"
               style="width: 160px;"
-              @change="$forceUpdate()"
               filterable
+              @change="$forceUpdate()"
             >
               <template v-if="positionKvList && positionKvList.length > 0">
                 <el-option

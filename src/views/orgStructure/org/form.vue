@@ -31,8 +31,8 @@
                 v-model="form.parentId"
                 placeholder="选择上级部门"
                 style="width: 100%;"
-                @change="$forceUpdate()"
                 filterable
+                @change="$forceUpdate()"
               >
                 <template
                   v-for="(item, index) in orgIndentList"

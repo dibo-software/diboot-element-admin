@@ -117,8 +117,8 @@
     <detail-modal ref="detail" />
     <form-modal
       ref="form"
+      :init-parent-id="formParentId"
       @complete="getList"
-      :initParentId="formParentId"
     />
     <permission-tree-sort ref="sort" @complete="getList" />
   </div>

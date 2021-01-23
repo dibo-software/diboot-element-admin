@@ -26,7 +26,7 @@
         <span>{{ model.cron }}</span>
       </el-form-item>
       <el-form-item label="状态">
-        <span>{{ statusEnum[model.runStatus]}}</span>
+        <span>{{ statusEnum[model.runStatus] }}</span>
       </el-form-item>
       <el-form-item label="开始时间">
         {{ model.startTime }}

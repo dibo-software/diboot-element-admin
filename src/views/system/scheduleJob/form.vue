@@ -19,10 +19,10 @@
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
       <el-form-item label="任务" prop="jobName">
         <el-select
-          @change="handleJobSelectChange"
           v-model="form.jobName"
           placeholder="请选择任务"
           style="width: 100%;"
+          @change="handleJobSelectChange"
         >
           <el-option
             v-for="(item, index) in jobList"
@@ -34,51 +34,51 @@
       </el-form-item>
       <el-form-item prop="cron">
         <template slot="label">
-              <span>定时表达式
-                 <el-tooltip class="item" effect="dark" placement="right-start">
-                  <template slot="content">
-                    格式：<br>
-                    * * 1 * * ?<br>
-                    含义:<br>
-                    秒 分 时 日 月 星期 年
-                  </template>
-                  <i class="el-icon-question" style="cursor: pointer"></i>
-                </el-tooltip>
-                </span>
+          <span>定时表达式
+            <el-tooltip class="item" effect="dark" placement="right-start">
+              <template slot="content">
+                格式：<br>
+                * * 1 * * ?<br>
+                含义:<br>
+                秒 分 时 日 月 星期 年
+              </template>
+              <i class="el-icon-question" style="cursor: pointer" />
+            </el-tooltip>
+          </span>
         </template>
         <el-input
-          placeholder="* * 1 * * ? (秒 分 时 日 月 星期 年)"
           v-model="form.cron"
+          placeholder="* * 1 * * ? (秒 分 时 日 月 星期 年)"
         />
       </el-form-item>
       <el-form-item label="参数" prop="paramJson">
         <el-input
+          v-model="form.paramJson"
           type="textarea"
           :rows="2"
           placeholder="请输入参数"
-          v-model="form.paramJson">
-        </el-input>
+        />
       </el-form-item>
       <el-form-item label="初始化策略" prop="initStrategy">
         <el-select v-model="form.initStrategy" placeholder="请选择初始化策略" style="width:100%">
-          <el-option value="DO_NOTHING" label="周期执行"/>
-          <el-option value="FIRE_AND_PROCEED" label="立即执行一次，并周期执行"/>
-          <el-option value="IGNORE_MISFIRES" label="超期立即执行，并周期执行"/>
+          <el-option value="DO_NOTHING" label="周期执行" />
+          <el-option value="FIRE_AND_PROCEED" label="立即执行一次，并周期执行" />
+          <el-option value="IGNORE_MISFIRES" label="超期立即执行，并周期执行" />
         </el-select>
       </el-form-item>
       <el-form-item label="状态" prop="jobStatus">
-        <el-radio-group v-model="form.jobStatus"  size="mini">
+        <el-radio-group v-model="form.jobStatus" size="mini">
           <el-radio-button label="A">启用</el-radio-button>
           <el-radio-button label="I">停用</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="备注" prop="jobComment">
         <el-input
+          v-model="form.jobComment"
           type="textarea"
           :rows="2"
           placeholder="请输入备注"
-          v-model="form.jobComment">
-        </el-input>
+        />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

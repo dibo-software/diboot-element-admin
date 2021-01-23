@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { dibootApi } from '@/utils/request'
 
 export default {
-  data () {
+  data() {
     return {
       sourceKvList: [],
       targetKvList: [],
@@ -17,7 +17,7 @@ export default {
     }
   },
   methods: {
-    async open (currentNodeId) {
+    async open(currentNodeId) {
       if (currentNodeId !== undefined) {
         this.currentNodeId = `${currentNodeId}`
       }
@@ -26,23 +26,23 @@ export default {
       await this.getTargetKvList()
       await this.afterOpen()
     },
-    async getSourceKvList () {
+    async getSourceKvList() {
       const res = await dibootApi.get(this.apiMap.sourceKvListAPI)
       if (res.code === 0) {
         this.sourceKvList = res.data
       }
     },
-    async getTargetKvList () {
+    async getTargetKvList() {
       const res = await dibootApi.get(this.apiMap.targetKvListAPI)
       if (res.code === 0) {
         this.targetKvList = res.data
       }
     },
-    /***
+    /** *
      * 表单提交事件
      * @returns {Promise<void>}
      */
-    async onSubmit (e) {
+    async onSubmit(e) {
       this.state.confirmLoading = true
       try {
         const values = await this.validate()
@@ -63,18 +63,18 @@ export default {
         this.submitFailed(error)
       }
     },
-    /***
+    /** *
      * 提交前对数据的处理（在验证正确之后的处理）
      * @param values
      */
-    enhance (values) {
+    enhance(values) {
     },
-    /***
+    /** *
      * 新建记录的提交
      * @param values
      * @returns {Promise<string>}
      */
-    async add (values) {
+    async add(values) {
       const res = await dibootApi.post(`/${this.name}/`, values)
       if (res.code === 0) {
         return { data: res.data, msg: '添加记录成功' }
@@ -82,12 +82,12 @@ export default {
         throw new Error(res.msg)
       }
     },
-    /***
+    /** *
      * 更新记录的提交
      * @param values
      * @returns {Promise<string>}
      */
-    async update (values) {
+    async update(values) {
       const res = await dibootApi.put(`/${this.name}/${this.model.id}`, values)
       if (res.code === 0) {
         return { data: res.data, msg: '更新记录成功' }
@@ -95,27 +95,27 @@ export default {
         throw new Error(res.msg)
       }
     },
-    /***
+    /** *
      * 提交成功之后的处理
      * @param msg
      */
-    submitSuccess (result) {
+    submitSuccess(result) {
       this.$notify({
         title: '操作成功',
         message: result.msg,
         type: 'success'
-      });
+      })
       this.$refs.dataForm.resetFields()
       this.$emit('complete')
       this.$emit('changeKey', result.data)
       this.close()
       this.state.confirmLoading = false
     },
-    /***
+    /** *
      * 提交失败之后的处理
      * @param e
      */
-    submitFailed (e) {
+    submitFailed(e) {
       this.state.confirmLoading = false
 
       // 如果是字符串，直接提示
@@ -154,7 +154,7 @@ export default {
         })
       })
     },
-    validateErrorToMsg (error) {
+    validateErrorToMsg(error) {
       if (!error) {
         return error
       }
@@ -166,30 +166,30 @@ export default {
       })
       return msgs.join(', ')
     },
-    handleCancel (e) {
+    handleCancel(e) {
       this.state.visible = false
       this.form.resetFields()
     },
-    filterOption (input, option) {
+    filterOption(input, option) {
       return (
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
     },
-    async afterOpen () {
+    async afterOpen() {
 
     },
-    close () {
+    close() {
       this.state.visible = false
       this.model = {}
       this.form.resetFields()
       this.afterClose()
     },
-    afterClose () {
+    afterClose() {
 
     }
   },
   computed: {
-    currentNode: function () {
+    currentNode: function() {
       if (this.currentNodeId === undefined || this.currentNodeId === 0 || this.currentNodeId === '0') {
         return undefined
       }

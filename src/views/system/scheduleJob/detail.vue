@@ -31,10 +31,10 @@
         <span>{{ model.paramJson }}</span>
       </el-form-item>
       <el-form-item label="初始化策略">
-        <span>{{initStrategyEnum[model.initStrategy] || '周期执行'}}</span>
+        <span>{{ initStrategyEnum[model.initStrategy] || '周期执行' }}</span>
       </el-form-item>
       <el-form-item label="状态">
-        <span>{{ statusEnum[model.jobStatus]}}</span>
+        <span>{{ statusEnum[model.jobStatus] }}</span>
       </el-form-item>
       <el-form-item label="备注">
         <span>{{ model.jobComment }}</span>

@@ -21,8 +21,8 @@
                 />
               </el-select>
               <el-select v-model="queryParam.runStatus" placeholder="请选择执行状态" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch">
-                <el-option value="S" label="成功"/>
-                <el-option value="F" label="失败"/>
+                <el-option value="S" label="成功" />
+                <el-option value="F" label="失败" />
               </el-select>
               <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
                 查询
@@ -55,17 +55,17 @@
         </el-table-column>
         <el-table-column align="center" label="开始时间">
           <template slot-scope="scope">
-            <span>{{scope.row.startTime}}</span>
+            <span>{{ scope.row.startTime }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="结束时间">
           <template slot-scope="scope">
-            <span>{{scope.row.endTime}}</span>
+            <span>{{ scope.row.endTime }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="耗时(s)">
           <template slot-scope="scope">
-            <span>{{scope.row.elapsedSeconds}}</span>
+            <span>{{ scope.row.elapsedSeconds }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="状态">
@@ -80,11 +80,11 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
           <template slot-scope="{row}">
-            <el-button v-permission="['detail']" type="text" @click="$refs.detail.open(row.id)" >
+            <el-button v-permission="['detail']" type="text" @click="$refs.detail.open(row.id)">
               详情
             </el-button>
-            <el-divider direction="vertical"/>
-            <el-button type="text" v-permission="['update']" href="javascript:;" @click="handleExecuteOnce(row.jobId)">运行一次</el-button>
+            <el-divider direction="vertical" />
+            <el-button v-permission="['update']" type="text" href="javascript:;" @click="handleExecuteOnce(row.jobId)">运行一次</el-button>
           </template>
         </el-table-column>
       </el-table>

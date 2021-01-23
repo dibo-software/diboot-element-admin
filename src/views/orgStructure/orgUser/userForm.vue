@@ -118,8 +118,7 @@
         <el-input v-model="form.email" placeholder="xxx@xxx.com" />
       </el-form-item>
       <el-form-item label="生日" prop="birthdate">
-        <el-date-picker v-model="form.birthdate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-        </el-date-picker>
+        <el-date-picker v-model="form.birthdate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
