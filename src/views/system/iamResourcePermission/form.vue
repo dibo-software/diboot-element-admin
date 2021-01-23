@@ -222,7 +222,6 @@ export default {
           }
         })
       }
-
       dibootApi.get(`${this.baseApi}/apiList`).then(res => {
         if (res.code === 0) {
           this.apiTreeList = apiListFormatter(res.data)
@@ -230,6 +229,10 @@ export default {
           this.$message.error(res.msg)
         }
       })
+      // 如果具有初始化initParentId参数，则设置该参数
+      if (this.initParentId) {
+        this.form.parentId = this.initParentId
+      }
     },
     onMenuNameChange(value) {
       if (this.routerList || this.routerList.length > 0) {
@@ -418,6 +421,14 @@ export default {
       this.currentMenu = ''
       this.currentPermissionActiveKey = '0'
       this.more = {}
+    }
+  },
+  props: {
+    initParentId: {
+      type: String,
+      default: () => {
+        return '0'
+      }
     }
   }
 }

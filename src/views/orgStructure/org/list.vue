@@ -27,8 +27,8 @@
       </el-form>
     </div>
     <div class="table-operator">
-      <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
-        新建
+      <el-button v-permission="['create']" style="margin-left: 10px;" type="default" plain icon="el-icon-plus" @click="$refs.form.open(undefined)">
+        新建部门
       </el-button>
     </div>
     <el-table

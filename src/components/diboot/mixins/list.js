@@ -200,6 +200,8 @@ export default {
         this.$refs.form.open(row[this.primaryKey])
       } else if (command === 'delete') {
         this.remove(row[this.primaryKey])
+      } else {
+        this[command](row)
       }
     },
 

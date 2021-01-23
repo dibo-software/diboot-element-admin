@@ -17,7 +17,7 @@
         <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
           排序
         </el-button>
-        <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+        <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="create">
           新建
         </el-button>
       </el-col>
@@ -93,6 +93,13 @@
                 更新
               </el-dropdown-item>
               <el-dropdown-item
+                v-permission="['create']"
+                command="createSubMenu"
+                icon="el-icon-plus"
+              >
+                添加子菜单
+              </el-dropdown-item>
+              <el-dropdown-item
                 v-permission="['delete']"
                 command="delete"
                 icon="el-icon-delete"
@@ -111,6 +118,7 @@
     <form-modal
       ref="form"
       @complete="getList"
+      :initParentId="formParentId"
     />
     <permission-tree-sort ref="sort" @complete="getList" />
   </div>
@@ -144,6 +152,17 @@ export default {
   methods: {
     afterLoadList(list) {
       this.list = listPageTreeFormatter(list)
+    },
+    create() {
+      this.createSubMenu({
+        id: '0'
+      })
+    },
+    createSubMenu(row) {
+      this.formParentId = `${row.id}`
+      setTimeout(() => {
+        this.$refs.form.open(undefined)
+      }, 300)
     }
   }
 }
