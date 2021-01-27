@@ -160,7 +160,7 @@ export default {
         if (res.code === 0) {
           this.$message.success('发送执行任务成功！')
         } else {
-          this.$message.error('发送执行任务失败！')
+          this.$message.error(res.msg)
         }
       } catch (e) {
         console.log(e)
