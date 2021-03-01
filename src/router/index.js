@@ -128,6 +128,18 @@ export const asyncRoutes = [
         meta: { title: '资源权限管理', permission: ['IamResourcePermission'] }
       },
       {
+        path: 'messageTemplate/list',
+        name: 'messageTemplateList',
+        component: () => import('@/views/system/messageTemplate/list'),
+        meta: { title: '消息模版管理', keepAlive: true, permission: ['MessageTemplate'] }
+      },
+      {
+        path: 'message/list',
+        name: 'messageList',
+        component: () => import('@/views/system/message/list'),
+        meta: { title: '消息记录管理', keepAlive: true, permission: ['Message'] }
+      },
+      {
         path: 'scheduleJob/list',
         name: 'ScheduleJobIndex',
         component: () => import('@/views/system/scheduleJob/list'),
