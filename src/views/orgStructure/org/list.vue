@@ -50,9 +50,19 @@
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="编码">
+        <template slot-scope="scope">
+          <span>{{ scope.row.code }}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.typeLabel }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="负责人">
+        <template slot-scope="scope">
+          <span>{{ scope.row.managerName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
