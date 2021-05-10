@@ -83,7 +83,7 @@
             :label="permission.displayName"
             :name="`${index}`"
           >
-            <el-form-item label="按钮/权限编码">
+            <el-form-item label="按钮/权限编码" class="tab-form-item">
               <el-row type="flex" align="middle"  :gutter="16">
                 <el-col :span="19">
                   <el-select
@@ -111,10 +111,10 @@
                 </el-col>
               </el-row>
             </el-form-item>
-            <el-form-item label="按钮/权限名称">
+            <el-form-item label="按钮/权限名称"  class="tab-form-item">
               <el-input v-model="permission.displayName" placeholder="请输入按钮/权限名称" />
             </el-form-item>
-            <el-form-item label="当前页接口列表" prop="apiSetList">
+            <el-form-item label="当前页接口列表" prop="apiSetList"  class="tab-form-item">
               <el-select
                 v-model="permission.apiSetList"
                 multiple
@@ -453,5 +453,8 @@ export default {
 <style>
   .frontend-permission-form .el-tabs__new-tab {
     margin-right: 10px;
+  }
+  .tab-form-item {
+    margin-bottom: 10px !important;
   }
 </style>
