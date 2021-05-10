@@ -10,7 +10,7 @@
       @close="close"
     >
       <div v-if="diffDataIdList.length > 0" :key="refresh">
-        <div class="color-tip">仅检索错误权限，其中<span class="red" />表示权限不存在，需要调整<span class="blue" />表示权限存在，不需要调整</div>
+        <div class="color-tip">仅检索已配置的无效权限接口。<span class="red" />表示权限接口不存在，需要调整；<span class="blue" />表示权限接口存在</div>
         <div class="operate">
           <el-button type="danger" size="mini" @click="handleBatchDelete">全部删除</el-button>
         </div>
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div v-else class="empty">
-        暂无可纠错数据
+        已配置的权限接口均有效，无需调整。
       </div>
     </el-dialog>
 </template>

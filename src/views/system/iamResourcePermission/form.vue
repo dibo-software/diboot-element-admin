@@ -106,7 +106,7 @@
                 </el-col>
                 <el-col :span="5">
 
-                  <el-button type="primary" icon="swap" size="small" @click="handleSwap(permission, index)">{{isSelect ? '切换至输入' : '切换至选择'}}</el-button>
+                  <el-button type="primary" icon="swap" size="small" @click="handleSwap(permission, index)">{{isSelect ? '自定义输入' : '从字典选取'}}</el-button>
 
                 </el-col>
               </el-row>
