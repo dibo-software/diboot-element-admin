@@ -6,7 +6,8 @@
       :fullscreen="fullscreen"
       class="frontend-permission-form"
       :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
-      :show-close="false"
+      :show-close="true"
+      @close="close"
     >
       <div v-if="diffDataIdList.length > 0" :key="refresh">
         <div class="color-tip">仅检索错误权限，其中<span class="red" />表示权限不存在，需要调整<span class="blue" />表示权限存在，不需要调整</div>
@@ -37,6 +38,8 @@ export default {
     return {
       visible: false,
       loading: false,
+      // 当前组件全屏控制
+      fullscreen: false,
       baseUrl: '/iam/resourcePermission',
       diffDataList: [],
       diffDataIdList: [],

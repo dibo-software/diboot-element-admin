@@ -84,22 +84,32 @@
             :name="`${index}`"
           >
             <el-form-item label="按钮/权限编码">
-              <el-select
-                v-if="more.resourcePermissionCodeKvList"
-                v-model="permission.resourceCode"
-                filterable
-                allow-create
-                placeholder="请选取当前按钮/权限编码"
-                style="width: 100%;"
-                @change="value => changePermissionName(permission, value)"
-              >
-                <el-option
-                  v-for="(item, i) in more.resourcePermissionCodeKvList"
-                  :key="`frontend-code_${_uid}_${i}`"
-                  :label="`${item.k}[${item.v}]`"
-                  :value="item.v"
-                />
-              </el-select>
+              <el-row type="flex" align="middle"  :gutter="16">
+                <el-col :span="19">
+                  <el-select
+                    v-if="more.resourcePermissionCodeKvList && isSelect"
+                    v-model="permission.resourceCode"
+                    filterable
+                    allow-create
+                    placeholder="请选取当前按钮/权限编码"
+                    style="width: 100%;"
+                    @change="value => changePermissionName(permission, value)"
+                  >
+                    <el-option
+                      v-for="(item, i) in more.resourcePermissionCodeKvList"
+                      :key="`frontend-code_${_uid}_${i}`"
+                      :label="`${item.k}[${item.v}]`"
+                      :value="item.v"
+                    />
+                  </el-select>
+                  <el-input v-if="!isSelect" v-model="permission.resourceCode" placeholder="请输入按钮/权限编码" />
+                </el-col>
+                <el-col :span="5">
+
+                  <el-button type="primary" icon="swap" size="small" @click="handleSwap(permission, index)">{{isSelect ? '切换至输入' : '切换至选择'}}</el-button>
+
+                </el-col>
+              </el-row>
             </el-form-item>
             <el-form-item label="按钮/权限名称">
               <el-input v-model="permission.displayName" placeholder="请输入按钮/权限名称" />
@@ -179,7 +189,8 @@ export default {
         'parentId': [{ required: true, message: '上级菜单不能为空', trigger: 'blur' }],
         'displayName': [{ required: true, message: '菜单名称不能为空', trigger: 'change' }],
         'resourceCode': [{ required: true, message: '菜单编码不能为空', trigger: 'blur' }, { validator: this.checkCodeDuplicate, trigger: 'blur' }]
-      }
+      },
+      isSelect: true
     }
   },
 
@@ -423,6 +434,12 @@ export default {
       } else {
         callback(res.msg.split(':')[1])
       }
+    },
+    handleSwap (permission, index) {
+      this.isSelect = !this.isSelect
+      permission.resourceCode = ''
+      permission.displayName = ''
+      this.$set(this.permissionList, index, permission)
     },
     afterClose() {
       this.apiTreeList = []
