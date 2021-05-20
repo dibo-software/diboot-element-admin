@@ -57,6 +57,7 @@
             :key="i"
             :label="item.label"
             :value="item.value"
+            :disabled="item.value == null || item.value === ''"
           />
         </el-select>
       </el-form-item>
@@ -128,6 +129,7 @@
                   :key="i"
                   :label="item.label"
                   :value="item.value"
+                  :disabled="item.value == null || item.value === ''"
                 />
               </el-select>
             </el-form-item>
@@ -164,12 +166,7 @@ export default {
   name: 'IamResourcePermissionForm',
   mixins: [form],
   props: {
-    initParentId: {
-      type: String,
-      default: () => {
-        return '0'
-      }
-    }
+    initParentId: String
   },
   data() {
     return {
@@ -193,7 +190,13 @@ export default {
       isSelect: true
     }
   },
-
+  watch:{
+    'state.visible'(v){
+      if (!v) {
+        this.$emit('close')
+      }
+    }
+  },
   computed: {
     ...mapState({
       addRoutes: state => state.permission.addRoutes
