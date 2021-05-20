@@ -166,12 +166,7 @@ export default {
   name: 'IamResourcePermissionForm',
   mixins: [form],
   props: {
-    initParentId: {
-      type: String,
-      default: () => {
-        return '0'
-      }
-    }
+    initParentId: String
   },
   data() {
     return {
@@ -195,7 +190,13 @@ export default {
       isSelect: true
     }
   },
-
+  watch:{
+    'state.visible'(v){
+      if (!v) {
+        this.$emit('close')
+      }
+    }
+  },
   computed: {
     ...mapState({
       addRoutes: state => state.permission.addRoutes

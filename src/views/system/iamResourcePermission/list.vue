@@ -122,6 +122,7 @@
       ref="form"
       :init-parent-id="formParentId"
       @complete="getList"
+      @close="formParentId = null"
     />
     <permission-tree-sort ref="sort" @complete="getList" />
     <correct-permission ref="correct"  @complete="getList"></correct-permission>
@@ -151,7 +152,7 @@ export default {
     return {
       baseApi: '/iam/resourcePermission',
       customQueryParam: { displayType: 'MENU' },
-      formParentId: '0',
+      formParentId: null,
       listFormatter: false,
       canCorrectPermission: process.env.ENV !== 'production'
     }
