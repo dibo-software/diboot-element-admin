@@ -57,6 +57,7 @@
             :key="i"
             :label="item.label"
             :value="item.value"
+            :disabled="item.value == null || item.value === ''"
           />
         </el-select>
       </el-form-item>
@@ -128,6 +129,7 @@
                   :key="i"
                   :label="item.label"
                   :value="item.value"
+                  :disabled="item.value == null || item.value === ''"
                 />
               </el-select>
             </el-form-item>
