@@ -53,8 +53,8 @@
       <el-form-item label="当前页接口列表" prop="apiSetList">
         <el-select v-model="form.apiSetList" multiple filterable placeholder="请选取当前菜单页面接口列表" style="width: 100%;">
           <el-option
-            v-for="item in apiList"
-            :key="item.value"
+            v-for="(item, i) in apiList"
+            :key="i"
             :label="item.label"
             :value="item.value"
           />
@@ -124,8 +124,8 @@
                 @change="value => {permission.apiSetList = value; $forceUpdate();}"
               >
                 <el-option
-                  v-for="item in apiList"
-                  :key="item.value"
+                  v-for="(item, i) in apiList"
+                  :key="i"
                   :label="item.label"
                   :value="item.value"
                 />
@@ -389,7 +389,7 @@ export default {
       }
       // 自动补全接口列表
       permission.apiSetList = []
-      if (this.form.apiSetList.length === 0 || !value) {
+      if (!this.form.apiSetList || this.form.apiSetList.length === 0 || !value) {
         return false
       }
       const matchStrList = this.form.apiSetList[0].match(/\/(\S*)\//)
