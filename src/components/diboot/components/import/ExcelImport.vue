@@ -207,7 +207,7 @@ export default {
           if (res.code === 0) {
             this.importFileNameObj[this.fileNameFields.originFileName] = res.data[this.fileNameFields.originFileName]
             this.importFileNameObj[this.fileNameFields.previewFileName] = res.data[this.fileNameFields.previewFileName]
-            this.$refs.dataPreview.preview(res.data.header, res.data.dataList)
+            this.$refs.dataPreview.preview(res.data.header, res.data.dataList, res.data.totalCount)
             this.errMsg = ''
             this.uploadDisabled = false
           } else {
