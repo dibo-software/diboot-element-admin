@@ -15,7 +15,7 @@
 }
 .custom-height {
   .el-dialog__body {
-    height: 500px;
+    height: calc(70vh - 100px);
     overflow: auto;
   }
 }
