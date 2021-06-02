@@ -8,12 +8,16 @@
       <el-table
         style="width: 100%"
         :data="dataList"
+        border
       >
         <el-table-column
           v-for="(column, index) in columns"
           :key="`data-preview-${_uid}-${index}`"
           :prop="column.dataIndex"
           :label="column.title"
+          show-overflow-tooltip
+          min-width="100"
+          align="center"
         />
       </el-table>
     </div>
