@@ -25,7 +25,6 @@
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
     "qs": "^6.9.4",
-    "quill": "^2.0.0-dev.4",
     "screenfull": "4.2.0",
     "v-viewer": "^1.5.1",
     "vue": "2.6.10",
