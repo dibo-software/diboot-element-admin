@@ -201,30 +201,3 @@ export function resetRouter() {
 }
 
 export default router
-const generateRouterMap = [
-{
-     path: '/g_test',
-     redirect: '/g_test/category/list',
-     component: Layout,
-     alwaysShow: true,
-     name: 'g_test',
-     meta: { title: '生成测试', icon: 'el-icon-video-camera-solid', permission: ['g_test'] },
-     children: [
-      {
-         path: 'category/list',
-         name: 'categoryList',
-         component: () => import('@/views/g_test/category/list'),
-         meta: { title: '分类管理', keepAlive: true, permission: ['Category'] }
-       }
-,
-       {
-         path: 'article/list',
-         name: 'articleList',
-         component: () => import('@/views/g_test/article/list'),
-         meta: { title: '文章管理', keepAlive: true, permission: ['Article'] }
-       }
-      
-      ]
-    }
-]
-asyncRoutes.splice(0, 0, ...generateRouterMap)
