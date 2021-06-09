@@ -3,8 +3,20 @@
     <el-row>
       <el-col :lg="16" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.displayName" placeholder="菜单名称" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
-          <el-input v-model="queryParam.resourceCode" placeholder="菜单编码" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-input
+            v-model="queryParam.displayName"
+            placeholder="菜单名称"
+            style="width: 200px;"
+            class="filter-item"
+            @keyup.enter.native="onSearch"
+          />
+          <el-input
+            v-model="queryParam.resourceCode"
+            placeholder="菜单编码"
+            style="width: 200px;"
+            class="filter-item"
+            @keyup.enter.native="onSearch"
+          />
           <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>

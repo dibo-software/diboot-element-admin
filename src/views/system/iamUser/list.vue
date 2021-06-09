@@ -3,8 +3,20 @@
     <el-row>
       <el-col :lg="20" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
-          <el-select v-model="queryParam.status" placeholder="状态" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch">
+          <el-input
+            v-model="queryParam.realname"
+            placeholder="姓名"
+            style="width: 200px;"
+            class="filter-item"
+            @keyup.enter.native="onSearch"
+          />
+          <el-select
+            v-model="queryParam.status"
+            placeholder="状态"
+            style="width: 200px;"
+            class="filter-item"
+            @change="onSearch"
+          >
             <el-option
               v-for="(item, index) in more.userStatusKvList"
               :key="index"

@@ -5,10 +5,15 @@
         <el-row :gutter="18">
           <el-col :md="8" :sm="24">
             <el-form-item label="信息模版" style="width: 100%;">
-              <el-select v-model="queryParam.templateId" placeholder="请选择信息模版" style="width: 100%;">
+              <el-select
+                v-model="queryParam.templateId"
+                placeholder="请选择信息模版"
+                style="width: 100%;"
+                @change="onSearch"
+              >
                 <el-option
-                  v-if="more.messageTemplateKvList"
                   v-for="(item, index) in more.messageTemplateKvList"
+                  v-if="more.messageTemplateKvList"
                   :key="index"
                   :value="item.v"
                   :label="item.k"
@@ -18,7 +23,12 @@
           </el-col>
           <el-col :md="8" :sm="24">
             <el-form-item label="发送通道" style="width: 100%;">
-              <el-select v-model="queryParam.channel" placeholder="请选择发送通道" style="width: 100%;">
+              <el-select
+                v-model="queryParam.channel"
+                placeholder="请选择发送通道"
+                style="width: 100%;"
+                @change="onSearch"
+              >
                 <el-option
                   v-for="kv in more.messageChannelKvList"
                   v-if="more.messageChannelKvList"
@@ -32,7 +42,12 @@
           <template v-if="advanced">
             <el-col :md="8" :sm="24">
               <el-form-item label="消息状态" style="width: 100%;">
-                <el-select v-model="queryParam.status" placeholder="请选择消息状态" style="width: 100%;">
+                <el-select
+                  v-model="queryParam.status"
+                  placeholder="请选择消息状态"
+                  style="width: 100%;"
+                  @change="onSearch"
+                >
                   <el-option
                     v-for="kv in more.messageStatusKvList"
                     v-if="more.messageStatusKvList"
@@ -50,6 +65,7 @@
                   type="date"
                   style="width: 100%;"
                   value-format="yyyy-MM-dd"
+                  @change="onSearch"
                 />
               </el-form-item>
             </el-col>
@@ -60,6 +76,7 @@
                   type="date"
                   style="width: 100%;"
                   value-format="yyyy-MM-dd"
+                  @change="onSearch"
                 />
               </el-form-item>
             </el-col>

@@ -5,12 +5,22 @@
         <el-row :gutter="18">
           <el-col :md="8" :sm="24">
             <el-form-item label="名称" style="width: 100%;">
-              <el-input v-model="queryParam.name" placeholder="" style="width: 100%;" />
+              <el-input
+                v-model="queryParam.name"
+                placeholder=""
+                style="width: 100%;"
+                @keyup.enter.native="onSearch"
+              />
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="24">
             <el-form-item label="类型" style="width: 100%;">
-              <el-input v-model="queryParam.type" placeholder="" style="width: 100%;" />
+              <el-input
+                v-model="queryParam.type"
+                placeholder=""
+                style="width: 100%;"
+                @keyup.enter.native="onSearch"
+              />
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="24">

@@ -6,18 +6,35 @@
         <el-row :gutter="18">
           <el-col :md="8" :sm="24">
             <el-form-item label="姓名" style="width: 100%;">
-              <el-input v-model="queryParam.realname" placeholder="姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+              <el-input
+                v-model="queryParam.realname"
+                placeholder="姓名"
+                style="width: 200px;"
+                class="filter-item"
+                @keyup.enter.native="onSearch"
+              />
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="24">
             <el-form-item label="工号" style="width: 100%;">
-              <el-input v-model="queryParam.userNum" placeholder="工号" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+              <el-input
+                v-model="queryParam.userNum"
+                placeholder="工号"
+                style="width: 200px;"
+                class="filter-item"
+                @keyup.enter.native="onSearch"
+              />
             </el-form-item>
           </el-col>
           <template v-if="advanced">
             <el-col :md="8" :sm="24">
               <el-form-item label="性别" style="width: 100%;">
-                <el-select v-model="queryParam.gender" placeholder="请选择性别" style="width: 100%;">
+                <el-select
+                  v-model="queryParam.gender"
+                  placeholder="请选择性别"
+                  style="width: 100%;"
+                  @change="onSearch"
+                >
                   <el-option
                     v-for="kv in more.genderKvList"
                     :key="kv.v"
@@ -29,12 +46,24 @@
             </el-col>
             <el-col :md="8" :sm="24">
               <el-form-item label="电话" style="width: 100%;">
-                <el-input v-model="queryParam.mobilePhone" placeholder="电话" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+                <el-input
+                  v-model="queryParam.mobilePhone"
+                  placeholder="电话"
+                  style="width: 200px;"
+                  class="filter-item"
+                  @keyup.enter.native="onSearch"
+                />
               </el-form-item>
             </el-col>
             <el-col :md="8" :sm="24">
               <el-form-item label="邮箱" style="width: 100%;">
-                <el-input v-model="queryParam.email" placeholder="邮箱" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+                <el-input
+                  v-model="queryParam.email"
+                  placeholder="邮箱"
+                  style="width: 200px;"
+                  class="filter-item"
+                  @keyup.enter.native="onSearch"
+                />
               </el-form-item>
             </el-col>
           </template>

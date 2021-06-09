@@ -12,7 +12,13 @@
         <el-form :inline="true" label-width="100px">
           <el-row :gutter="18">
             <el-col :lg="24" :md="24">
-              <el-select v-model="queryParam.jobName" placeholder="请选择任务" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch">
+              <el-select
+                v-model="queryParam.jobName"
+                placeholder="请选择任务"
+                style="width: 200px;"
+                class="filter-item"
+                @change="onSearch"
+              >
                 <el-option
                   v-for="(item, index) in jobList"
                   :key="index"
@@ -20,7 +26,13 @@
                   :label="item.jobName"
                 />
               </el-select>
-              <el-select v-model="queryParam.runStatus" placeholder="请选择执行状态" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch">
+              <el-select
+                v-model="queryParam.runStatus"
+                placeholder="请选择执行状态"
+                style="width: 200px;"
+                class="filter-item"
+                @change="onSearch"
+              >
                 <el-option value="S" label="成功" />
                 <el-option value="F" label="失败" />
               </el-select>

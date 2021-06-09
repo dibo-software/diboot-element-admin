@@ -1,8 +1,20 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="queryParam.authAccount" placeholder="用户名" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
-      <el-input v-model="queryParam.ipAddress" placeholder="IP地址" style="width: 200px;" class="filter-item" @keyup.enter.native="onSearch" />
+      <el-input
+        v-model="queryParam.authAccount"
+        placeholder="用户名"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="onSearch"
+      />
+      <el-input
+        v-model="queryParam.ipAddress"
+        placeholder="IP地址"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="onSearch"
+      />
       <el-select v-model="queryParam.success" placeholder="登录状态" style="width: 200px;" class="filter-item">
         <el-option
           :value="true"
