@@ -107,9 +107,24 @@ export default {
           const deleteApiPrefix = _this.deleteApiPrefix ? _this.deleteApiPrefix : ''
           dibootApi.delete(`${_this.baseApi}${deleteApiPrefix}/${id}`).then(async(res) => {
             if (res.code === 0) {
-              this.$notify.success({
-                title: '删除成功',
-                message: '已删除该数据'
+              const h = this.$createElement
+              this.$message({
+                message: h('p', null, [
+                  h('span', {
+                    style: 'color: #666'
+                  }, '当前数据删除成功 '),
+                  h('el-button', {
+                    props: {
+                      type: 'text'
+                    },
+                    on: {
+                      click: event => {
+                        _this.canceledDelete(id)
+                      }
+                    }
+                  }, '撤回')
+                ]),
+                type: 'success'
               })
               _this.$refs.tree.cancelSelect()
               _this.$refs.tree.loadTree()
@@ -130,6 +145,16 @@ export default {
           })
         })
       })
+    },
+    async canceledDelete(id) {
+      const res = await dibootApi.delete(`${this.baseApi}/canceled/${id}`)
+      if (res.code === 0) {
+        this.$message.success('撤回成功')
+        this.$refs.tree.cancelSelect()
+        this.$refs.tree.loadTree()
+      } else {
+        this.$message.error('撤回失败')
+      }
     }
   }
 

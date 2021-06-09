@@ -213,6 +213,7 @@ export default {
     return {
       baseApi: '/iam/user',
       exportApi: '/excel/export',
+      allowCanceledDelete: false,
       getMore: true
     }
   },

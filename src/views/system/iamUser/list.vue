@@ -154,6 +154,7 @@ export default {
   data() {
     return {
       baseApi: '/iam/user',
+      allowCanceledDelete: false,
       attachMoreList: [
         {
           type: 'D',

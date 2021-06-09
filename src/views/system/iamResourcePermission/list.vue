@@ -14,7 +14,7 @@
         </div>
       </el-col>
       <el-col :lg="8" :md="24" style="text-align: right;">
-        <el-button v-if="canCorrectPermission" class="filter-item" type="default" icon="sync"  style="margin-right: 8px;" @click="$refs.correct.open()">
+        <el-button v-if="canCorrectPermission" class="filter-item" type="default" icon="sync" style="margin-right: 8px;" @click="$refs.correct.open()">
           权限纠错
         </el-button>
         <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
@@ -125,7 +125,7 @@
       @close="formParentId = null"
     />
     <permission-tree-sort ref="sort" @complete="getList" />
-    <correct-permission ref="correct"  @complete="getList"></correct-permission>
+    <correct-permission ref="correct" @complete="getList" />
   </div>
 </template>
 
@@ -152,6 +152,7 @@ export default {
     return {
       baseApi: '/iam/resourcePermission',
       customQueryParam: { displayType: 'MENU' },
+      allowCanceledDelete: false,
       formParentId: null,
       listFormatter: false,
       canCorrectPermission: process.env.ENV !== 'production'

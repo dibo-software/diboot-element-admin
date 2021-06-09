@@ -144,6 +144,7 @@ export default {
     return {
       baseApi: '/dictionary',
       customQueryParam: { parentId: 0 },
+      allowCanceledDelete: false,
       getMore: false,
       listLoading: true
     }

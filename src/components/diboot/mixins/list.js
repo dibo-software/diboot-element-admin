@@ -40,6 +40,8 @@ export default {
       loadingData: false,
       // 标记导出
       exportLoadingData: false,
+      // 是否允许撤回删除
+      allowCanceledDelete: true,
       // 分页数据
       pagination: {
         pageSize: 10,
@@ -269,25 +271,29 @@ export default {
           const deleteApiPrefix = _this.deleteApiPrefix ? _this.deleteApiPrefix : ''
           dibootApi.delete(`${_this.baseApi}${deleteApiPrefix}/${id}`).then(async(res) => {
             if (res.code === 0) {
-              const h = this.$createElement
-              this.$message({
-                message: h('p', null, [
-                  h('span', {
-                    style: 'color: #666'
-                  }, '当前数据删除成功 '),
-                  h('el-button', {
-                    props: {
-                      type: 'text'
-                    },
-                    on: {
-                      click: event => {
-                        _this.cancelRemove(id)
+              if (_this.allowCanceledDelete) {
+                const h = this.$createElement
+                this.$message({
+                  message: h('p', null, [
+                    h('span', {
+                      style: 'color: #666'
+                    }, '当前数据删除成功 '),
+                    h('el-button', {
+                      props: {
+                        type: 'text'
+                      },
+                      on: {
+                        click: event => {
+                          _this.canceledDelete(id)
+                        }
                       }
-                    }
-                  }, '撤回')
-                ]),
-                type: 'success'
-              })
+                    }, '撤回')
+                  ]),
+                  type: 'success'
+                })
+              } else {
+                _this.$message.success('当前数据删除成功')
+              }
               await _this.getList()
               resolve(res.data)
             } else {
@@ -307,8 +313,8 @@ export default {
         })
       })
     },
-    async cancelRemove(id) {
-      const res = await dibootApi.delete(`${this.baseApi}/cancel/${id}`)
+    async canceledDelete(id) {
+      const res = await dibootApi.delete(`${this.baseApi}/canceled/${id}`)
       if (res.code === 0) {
         this.$message.success('撤回成功')
         this.getList()
