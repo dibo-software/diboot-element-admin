@@ -196,7 +196,8 @@ export default {
       dibootApi.upload(this.action, formData).then((res) => {
         if (res.code === 0) {
           if (this.limitCount === 1) {
-            this.fileList = [this.fileFormatter(res.data)]
+            this.fileList.length = 0
+            this.fileList.push(this.fileFormatter(res.data))
           } else {
             this.fileList.push(this.fileFormatter(res.data))
           }
