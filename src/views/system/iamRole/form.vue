@@ -31,7 +31,7 @@
         />
       </el-form-item>
       <el-form-item label="拥有权限" prop="permissionList">
-        <el-tree
+        <flat-tree
           v-if="permissionTreeList && permissionTreeList.length > 0"
           ref="tree"
           class="filter-tree"
@@ -58,12 +58,14 @@
 </template>
 <script>
 import form from '@/components/diboot/mixins/form'
+import FlatTree from '@/components/FlatTree'
 import { dibootApi } from '@/utils/request'
 import { permissionTreeListFormatter, treeList2list, list2childrenMap } from '@/utils/treeDataUtil'
 import _ from 'lodash'
 
 export default {
   name: 'IamRoleForm',
+  components: { FlatTree },
   mixins: [form],
   data() {
     return {
