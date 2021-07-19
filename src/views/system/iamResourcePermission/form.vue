@@ -21,7 +21,7 @@
       <el-form-item label="上级菜单" prop="parentId">
         <el-select v-model="form.parentId" filterable placeholder="请选择上级菜单" style="width: 100%;">
           <el-option
-            v-for="item in menuDataList"
+            v-for="item in menuDataList(form.id)"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -85,7 +85,7 @@
             :name="`${index}`"
           >
             <el-form-item label="按钮/权限编码" class="tab-form-item">
-              <el-row type="flex" align="middle"  :gutter="16">
+              <el-row type="flex" align="middle" :gutter="16">
                 <el-col :span="19">
                   <el-select
                     v-if="more.resourcePermissionCodeKvList && isSelect"
@@ -106,16 +106,16 @@
                   <el-input v-if="!isSelect" v-model="permission.resourceCode" placeholder="请输入按钮/权限编码" />
                 </el-col>
                 <el-col :span="5">
-
-                  <el-button type="primary" icon="swap" size="small" @click="handleSwap(permission, index)">{{isSelect ? '自定义输入' : '从字典选取'}}</el-button>
-
+                  <el-button type="primary" icon="swap" size="small" @click="handleSwap(permission, index)">
+                    {{ isSelect ? '自定义输入' : '从字典选取' }}
+                  </el-button>
                 </el-col>
               </el-row>
             </el-form-item>
-            <el-form-item label="按钮/权限名称"  class="tab-form-item">
+            <el-form-item label="按钮/权限名称" class="tab-form-item">
               <el-input v-model="permission.displayName" placeholder="请输入按钮/权限名称" />
             </el-form-item>
-            <el-form-item label="当前页接口列表" prop="apiSetList"  class="tab-form-item">
+            <el-form-item label="当前页接口列表" prop="apiSetList" class="tab-form-item">
               <el-select
                 v-model="permission.apiSetList"
                 multiple
@@ -166,7 +166,10 @@ export default {
   name: 'IamResourcePermissionForm',
   mixins: [form],
   props: {
-    initParentId: String
+    initParentId: {
+      type: String,
+      default: null
+    }
   },
   data() {
     return {
@@ -185,16 +188,12 @@ export default {
       rules: {
         'parentId': [{ required: true, message: '上级菜单不能为空', trigger: 'blur' }],
         'displayName': [{ required: true, message: '菜单名称不能为空', trigger: 'change' }],
-        'resourceCode': [{ required: true, message: '菜单编码不能为空', trigger: 'blur' }, { validator: this.checkCodeDuplicate, trigger: 'blur' }]
+        'resourceCode': [
+          { required: true, message: '菜单编码不能为空', trigger: 'blur' },
+          { validator: this.checkCodeDuplicate, trigger: 'blur' }
+        ]
       },
       isSelect: true
-    }
-  },
-  watch:{
-    'state.visible'(v){
-      if (!v) {
-        this.$emit('close')
-      }
     }
   },
   computed: {
@@ -218,12 +217,6 @@ export default {
       menuTreeData.splice(0, 0, { key: '0', value: '0', label: '顶级菜单' })
       return menuTreeData
     },
-    menuDataList: function() {
-      if (this.menuTreeData.length === 0) {
-        return []
-      }
-      return treeList2IndentList(_.cloneDeep(this.menuTreeData), 0)
-    },
     existPermissionCodes: function() {
       if (!this.form.permissionList) {
         return []
@@ -231,6 +224,13 @@ export default {
       return this.form.permissionList.map(item => {
         return item.resourceCode
       })
+    }
+  },
+  watch: {
+    'state.visible'(v) {
+      if (!v) {
+        this.$emit('close')
+      }
     }
   },
   methods: {
@@ -255,6 +255,32 @@ export default {
       if (this.initParentId) {
         this.form.parentId = this.initParentId
       }
+    },
+    menuDataList(id) {
+      if (this.menuTreeData.length === 0) {
+        return []
+      }
+      let list = treeList2IndentList(_.cloneDeep(this.menuTreeData), 0)
+      if (id == null) {
+        return list
+      }
+      // 过滤当前菜单及children
+      const findChildrenIds = e => {
+        const arr = [e.key]
+        if (e.children != null && e.children.length > 0) {
+          e.children.filter(e => {
+            arr.push(...findChildrenIds(e))
+          })
+        }
+        return arr
+      }
+      const item = list.find(e => e.key === id)
+      if (item != null) {
+        const ids = [id]
+        ids.push(...findChildrenIds(item))
+        list = list.filter(e => !ids.includes(e.key))
+      }
+      return list
     },
     onMenuNameChange(value) {
       if (this.routerList || this.routerList.length > 0) {
@@ -438,7 +464,7 @@ export default {
         callback(res.msg.split(':')[1])
       }
     },
-    handleSwap (permission, index) {
+    handleSwap(permission, index) {
       this.isSelect = !this.isSelect
       permission.resourceCode = ''
       permission.displayName = ''
