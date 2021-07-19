@@ -17,6 +17,16 @@
       </el-col>
     </el-row>
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
+      <el-form-item label="所属部门" prop="orgId">
+        <el-select v-model="form.orgId" filterable placeholder="请选择所属部门" style="width: 100%;">
+          <el-option
+            v-for="item in orgTreeList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username" placeholder="请输入用户名" />
       </el-form-item>
@@ -107,14 +117,25 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
+import _ from 'lodash'
+import { treeListFormatter, treeList2IndentList } from '@/utils/treeDataUtil'
 
 export default {
   name: 'IamUserForm',
   mixins: [form],
+  props: {
+    currentNodeId: {
+      type: String,
+      default: () => {
+        return '0'
+      }
+    }
+  },
   data() {
     return {
       baseApi: '/iam/user',
       setPassword: false,
+      orgList: [],
       initFormData: {
         username: '',
         userNum: '',
@@ -127,6 +148,7 @@ export default {
         email: ''
       },
       rules: {
+        'orgId': [{ required: true, message: '请选择上级部门' }],
         'username': [{ required: true, message: '用户名不能为空', trigger: 'blur' }, { validator: this.checkUsernameDuplicate, trigger: 'blur' }],
         'userNum': [{ required: true, message: '用户编号不能为空', trigger: 'blur' }, { validator: this.checkUserNumDuplicate, trigger: 'blur' }],
         'realname': [{ required: true, message: '姓名不能为空', trigger: 'change' }],
@@ -153,10 +175,21 @@ export default {
       ]
     }
   },
+  computed: {
+    orgTreeList() {
+      if (this.orgList === undefined || this.orgList.length === 0) {
+        return []
+      }
+      const orgTreeList = treeListFormatter(_.cloneDeep(this.orgList), 'id', 'shortName', true)
+      orgTreeList.unshift({ label: '无', value: '0', key: '0' })
+      return treeList2IndentList(orgTreeList, 0)
+    }
+  },
   methods: {
     async afterOpen(id) {
       if (id === undefined) {
         this.setPassword = true
+        this.$set(this.form, 'orgId', this.currentNodeId)
       } else {
         this.setPassword = false
       }
@@ -166,6 +199,13 @@ export default {
           return role.id
         })
         this.$set(this.form, 'roleIdList', roleIdList)
+      }
+      // 加载部门树数据
+      const res = await dibootApi.get(`/iam/org/tree`)
+      if (res.code === 0) {
+        this.orgList = res.data
+      } else {
+        this.$message.error(res.msg)
       }
       // 获取account的username信息到表单中
       if (id !== undefined) {

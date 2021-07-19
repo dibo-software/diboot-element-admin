@@ -138,6 +138,7 @@
     <detail-modal ref="detail" />
     <form-modal
       ref="form"
+      :current-node-id="currentNodeId"
       @complete="getList"
     />
   </div>
