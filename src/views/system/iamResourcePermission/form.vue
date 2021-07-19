@@ -52,13 +52,18 @@
       </el-form-item>
       <el-form-item label="当前页接口列表" prop="apiSetList">
         <el-select v-model="form.apiSetList" multiple filterable placeholder="请选取当前菜单页面接口列表" style="width: 100%;">
-          <el-option
-            v-for="(item, i) in apiList"
-            :key="i"
-            :label="item.label"
-            :value="item.value"
-            :disabled="item.value == null || item.value === ''"
-          />
+          <el-option-group
+            v-for="group in apiTreeList"
+            :key="group.key"
+            :label="group.label"
+          >
+            <el-option
+              v-for="item in group.children"
+              :key="item.key"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-option-group>
         </el-select>
       </el-form-item>
       <el-form-item label="按钮/权限列表">
@@ -124,13 +129,18 @@
                 style="width: 100%;"
                 @change="value => {permission.apiSetList = value; $forceUpdate();}"
               >
-                <el-option
-                  v-for="(item, i) in apiList"
-                  :key="i"
-                  :label="item.label"
-                  :value="item.value"
-                  :disabled="item.value == null || item.value === ''"
-                />
+                <el-option-group
+                  v-for="group in apiTreeList"
+                  :key="group.key"
+                  :label="group.label"
+                >
+                  <el-option
+                    v-for="item in group.children"
+                    :key="item.key"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-option-group>
               </el-select>
             </el-form-item>
           </el-tab-pane>
@@ -205,9 +215,6 @@ export default {
     },
     routerList: function() {
       return treeList2IndentList(_.cloneDeep(this.routerTreeList), 0)
-    },
-    apiList: function() {
-      return treeList2IndentList(_.cloneDeep(this.apiTreeList), 0)
     },
     menuTreeData: function() {
       let menuTreeData = []
