@@ -189,7 +189,7 @@ export default {
     async afterOpen(id) {
       if (id === undefined) {
         this.setPassword = true
-        this.$set(this.form, 'orgId', this.currentNodeId)
+        this.$set(this.form, 'orgId', this.currentNodeId || '0')
       } else {
         this.setPassword = false
       }
@@ -259,9 +259,6 @@ export default {
         return
       }
       callback()
-    },
-    async enhance(values) {
-      values.orgId = 0
     }
   }
 }
