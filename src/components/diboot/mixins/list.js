@@ -2,6 +2,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import { dibootApi } from '@/utils/request'
 import Pagination from '@/components/Pagination'
+import { downloadFileFromRes } from '@/utils/fileUtil'
 export default {
   components: { Pagination },
   data() {
@@ -382,19 +383,7 @@ export default {
      * @param res 服务端响应，经过axios处理后的数据，详见src/utils/request.js部分的响应值配置
      */
     downloadFile(res) {
-      const blob = new Blob([res.data])
-      if ('download' in document.createElement('a')) { // 非IE下载
-        const elink = document.createElement('a')
-        elink.download = res.filename
-        elink.style.display = 'none'
-        elink.href = URL.createObjectURL(blob)
-        document.body.appendChild(elink)
-        elink.click()
-        URL.revokeObjectURL(elink.href) // 释放URL 对象
-        document.body.removeChild(elink)
-      } else { // IE10+下载
-        navigator.msSaveBlob(blob, res.filename)
-      }
+      downloadFileFromRes(res)
     },
     /**
      * 处理查询参数中的moment数据 默认转化为YYYY-MM-DD
