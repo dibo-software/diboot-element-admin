@@ -6,14 +6,12 @@
           <el-input
             v-model="queryParam.name"
             placeholder="岗位名称"
-            style="width: 200px;"
             class="filter-item"
             @keyup.enter.native="onSearch"
           />
           <el-input
             v-model="queryParam.code"
             placeholder="岗位编码"
-            style="width: 200px;"
             class="filter-item"
             @keyup.enter.native="onSearch"
           />

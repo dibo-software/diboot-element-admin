@@ -4,28 +4,24 @@
       <el-input
         v-model="queryParam.userType"
         placeholder="用户类型"
-        style="width: 200px;"
         class="filter-item"
         @keyup.enter.native="onSearch"
       />
       <el-input
         v-model="queryParam.userId"
         placeholder="用户ID"
-        style="width: 200px;"
         class="filter-item"
         @keyup.enter.native="onSearch"
       />
       <el-input
         v-model="queryParam.businessObj"
         placeholder="业务对象"
-        style="width: 200px;"
         class="filter-item"
         @keyup.enter.native="onSearch"
       />
       <el-select
         v-model="queryParam.requestMethod"
         placeholder="请求方式"
-        style="width: 200px;"
         class="filter-item"
         @change="onSearch"
       >
@@ -37,7 +33,6 @@
       <el-select
         v-model="queryParam.status"
         placeholder="状态"
-        style="width: 200px;"
         class="filter-item"
         @change="onSearch"
       >

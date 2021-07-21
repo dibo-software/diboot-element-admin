@@ -6,14 +6,12 @@
           <el-input
             v-model="queryParam.realname"
             placeholder="姓名"
-            style="width: 200px;"
             class="filter-item"
             @keyup.enter.native="onSearch"
           />
           <el-select
             v-model="queryParam.status"
             placeholder="状态"
-            style="width: 200px;"
             class="filter-item"
             @change="onSearch"
           >
