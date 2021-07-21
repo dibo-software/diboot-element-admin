@@ -11,7 +11,6 @@
               v-if="more.genderKvList"
               v-model="form.gender"
               placeholder="性别"
-              style="width: 100%;"
             >
               <el-option
                 v-for="(item, index) in more.genderKvList"

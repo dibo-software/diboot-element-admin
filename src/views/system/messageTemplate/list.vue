@@ -4,43 +4,39 @@
       <el-form :inline="true" label-width="100px">
         <el-row :gutter="18">
           <el-col :md="8" :sm="24">
-            <el-form-item label="模版编码" style="width: 100%;">
+            <el-form-item label="模版编码">
               <el-input
                 v-model="queryParam.code"
                 placeholder=""
-                style="width: 100%;"
                 @keyup.enter.native="onSearch"
               />
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="24">
-            <el-form-item label="模版标题" style="width: 100%;">
+            <el-form-item label="模版标题">
               <el-input
                 v-model="queryParam.title"
                 placeholder=""
-                style="width: 100%;"
                 @keyup.enter.native="onSearch"
               />
             </el-form-item>
           </el-col>
           <template v-if="advanced">
             <el-col :md="8" :sm="24">
-              <el-form-item label="创建时间" style="width: 100%;">
+              <el-form-item label="创建时间">
                 <el-date-picker
                   v-model="queryParam.createTime"
                   type="date"
-                  style="width: 100%;"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"
                 />
               </el-form-item>
             </el-col>
             <el-col :md="8" :sm="24">
-              <el-form-item label="更新时间" style="width: 100%;">
+              <el-form-item label="更新时间">
                 <el-date-picker
                   v-model="queryParam.updateTime"
                   type="date"
-                  style="width: 100%;"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"
                 />

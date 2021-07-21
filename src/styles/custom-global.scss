@@ -1,10 +1,17 @@
 .table-page-search-wrapper {
-  .el-form--inline .el-form-item {
+  .el-form-item {
     display: inline-flex;
+    width: 100%;
 
     .el-form-item__content {
       width: 100%;
     }
+  }
+}
+
+.el-form-item__content {
+  .el-input-number, .el-select, .el-cascader, .el-date-editor {
+    width: 100%;
   }
 }
 

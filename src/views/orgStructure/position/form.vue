@@ -59,7 +59,6 @@
             <el-select
               v-model="form.dataPermissionType"
               placeholder="请选择数据权限"
-              style="width: 100%;"
             >
               <el-option
                 v-for="kv in more.dataPermissionTypeKvList"
@@ -78,7 +77,6 @@
             <el-select
               v-model="form.gradeValue"
               placeholder="请选择职级"
-              style="width: 100%;"
               @change="onGradeValueChanged"
             >
               <el-option

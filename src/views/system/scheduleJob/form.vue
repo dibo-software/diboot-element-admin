@@ -21,7 +21,6 @@
         <el-select
           v-model="form.jobName"
           placeholder="请选择任务"
-          style="width: 100%;"
           @change="handleJobSelectChange"
         >
           <el-option
@@ -60,7 +59,7 @@
         />
       </el-form-item>
       <el-form-item label="初始化策略" prop="initStrategy">
-        <el-select v-model="form.initStrategy" placeholder="请选择初始化策略" style="width:100%">
+        <el-select v-model="form.initStrategy" placeholder="请选择初始化策略">
           <el-option value="DO_NOTHING" label="周期执行" />
           <el-option value="FIRE_AND_PROCEED" label="立即执行一次，并周期执行" />
           <el-option value="IGNORE_MISFIRES" label="超期立即执行，并周期执行" />

@@ -18,7 +18,7 @@
     </el-row>
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
       <el-form-item label="所属部门" prop="orgId">
-        <el-select v-model="form.orgId" filterable placeholder="请选择所属部门" style="width: 100%;">
+        <el-select v-model="form.orgId" filterable placeholder="请选择所属部门">
           <el-option
             v-for="item in orgTreeList"
             :key="item.value"
@@ -42,7 +42,6 @@
           v-model="form.roleIdList"
           multiple
           placeholder="请选择角色"
-          style="width: 100%;"
         >
           <el-option
             v-for="(item, index) in more.iamRoleKvList"
@@ -57,7 +56,6 @@
           v-if="more.genderKvList"
           v-model="form.gender"
           placeholder="请选择性别"
-          style="width: 100%;"
         >
           <el-option
             v-for="(item, index) in more.genderKvList"
@@ -72,7 +70,6 @@
           v-if="more.userStatusKvList"
           v-model="form.status"
           placeholder="请选择状态"
-          style="width: 100%;"
         >
           <el-option
             v-for="(item, index) in more.userStatusKvList"

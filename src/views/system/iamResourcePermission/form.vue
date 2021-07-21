@@ -19,7 +19,7 @@
     </el-row>
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
       <el-form-item label="上级菜单" prop="parentId">
-        <el-select v-model="form.parentId" filterable placeholder="请选择上级菜单" style="width: 100%;">
+        <el-select v-model="form.parentId" filterable placeholder="请选择上级菜单">
           <el-option
             v-for="item in menuDataList(form.id)"
             :key="item.value"
@@ -33,7 +33,6 @@
           v-model="currentMenu"
           filterable
           placeholder="请选取当前菜单"
-          style="width: 100%;"
           @change="onMenuNameChange"
         >
           <el-option
@@ -51,7 +50,7 @@
         <el-input v-model="form.resourceCode" placeholder="请输入菜单编码" />
       </el-form-item>
       <el-form-item label="当前页接口列表" prop="apiSetList">
-        <el-select v-model="form.apiSetList" multiple filterable placeholder="请选取当前菜单页面接口列表" style="width: 100%;">
+        <el-select v-model="form.apiSetList" multiple filterable placeholder="请选取当前菜单页面接口列表">
           <el-option-group
             v-for="group in apiTreeList"
             :key="group.key"
@@ -98,7 +97,6 @@
                     filterable
                     allow-create
                     placeholder="请选取当前按钮/权限编码"
-                    style="width: 100%;"
                     @change="value => changePermissionName(permission, value)"
                   >
                     <el-option
@@ -126,7 +124,6 @@
                 multiple
                 filterable
                 placeholder="请选取当前菜单页面接口列表"
-                style="width: 100%;"
                 @change="value => {permission.apiSetList = value; $forceUpdate();}"
               >
                 <el-option-group

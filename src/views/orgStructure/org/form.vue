@@ -30,7 +30,6 @@
               <el-select
                 v-model="form.parentId"
                 placeholder="选择上级部门"
-                style="width: 100%;"
                 filterable
                 @change="$forceUpdate()"
               >
@@ -106,7 +105,6 @@
               v-model="form.type"
               filterable
               placeholder="请选择类型"
-              style="width: 100%;"
             >
               <template v-if="more.orgTypeKvList">
                 <el-option
@@ -125,7 +123,6 @@
             filterable
             prop="managerId"
           >
-            <el-input v-model="form.managerId" type="hidden" style="width: 0;" />
             <span v-if="form.managerName">
               {{ form.managerName }}
             </span>

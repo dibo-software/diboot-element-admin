@@ -4,11 +4,10 @@
       <el-form :inline="true" label-width="100px">
         <el-row :gutter="18">
           <el-col :md="8" :sm="24">
-            <el-form-item label="信息模版" style="width: 100%;">
+            <el-form-item label="信息模版">
               <el-select
                 v-model="queryParam.templateId"
                 placeholder="请选择信息模版"
-                style="width: 100%;"
                 @change="onSearch"
               >
                 <el-option
@@ -22,11 +21,10 @@
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="24">
-            <el-form-item label="发送通道" style="width: 100%;">
+            <el-form-item label="发送通道">
               <el-select
                 v-model="queryParam.channel"
                 placeholder="请选择发送通道"
-                style="width: 100%;"
                 @change="onSearch"
               >
                 <el-option
@@ -41,11 +39,10 @@
           </el-col>
           <template v-if="advanced">
             <el-col :md="8" :sm="24">
-              <el-form-item label="消息状态" style="width: 100%;">
+              <el-form-item label="消息状态">
                 <el-select
                   v-model="queryParam.status"
                   placeholder="请选择消息状态"
-                  style="width: 100%;"
                   @change="onSearch"
                 >
                   <el-option
@@ -59,22 +56,20 @@
               </el-form-item>
             </el-col>
             <el-col :md="8" :sm="24">
-              <el-form-item label="创建时间" style="width: 100%;">
+              <el-form-item label="创建时间">
                 <el-date-picker
                   v-model="queryParam.createTime"
                   type="date"
-                  style="width: 100%;"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"
                 />
               </el-form-item>
             </el-col>
             <el-col :md="8" :sm="24">
-              <el-form-item label="更新时间" style="width: 100%;">
+              <el-form-item label="更新时间">
                 <el-date-picker
                   v-model="queryParam.updateTime"
                   type="date"
-                  style="width: 100%;"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"
                 />
