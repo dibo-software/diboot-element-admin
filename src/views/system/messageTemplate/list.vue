@@ -52,10 +52,10 @@
               <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
                 查询
               </el-button>
-              <el-button style="margin-left: 8px" type="info" icon="el-icon-refresh" @click="reset">
+              <el-button type="info" icon="el-icon-refresh" @click="reset">
                 重置
               </el-button>
-              <el-link type="primary" :underline="false" style="margin-left: 8px" @click="toggleAdvanced">
+              <el-link type="primary" :underline="false" @click="toggleAdvanced">
                 {{ advanced ? '收起' : '展开' }}
                 <i :class="advanced ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" />
               </el-link>
@@ -66,7 +66,7 @@
     </div>
 
     <div class="table-operator">
-      <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+      <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
         新建
       </el-button>
     </div>

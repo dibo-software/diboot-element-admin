@@ -39,7 +39,7 @@
               <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
                 查询
               </el-button>
-              <el-button style="margin-left: 8px" type="info" icon="el-icon-refresh" @click="reset">
+              <el-button type="info" icon="el-icon-refresh" @click="reset">
                 重置
               </el-button>
             </el-col>

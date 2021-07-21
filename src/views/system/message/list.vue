@@ -89,10 +89,10 @@
               <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
                 查询
               </el-button>
-              <el-button style="margin-left: 8px" type="info" icon="el-icon-refresh" @click="reset">
+              <el-button type="info" icon="el-icon-refresh" @click="reset">
                 重置
               </el-button>
-              <el-link type="primary" :underline="false" style="margin-left: 8px" @click="toggleAdvanced">
+              <el-link type="primary" :underline="false" @click="toggleAdvanced">
                 {{ advanced ? '收起' : '展开' }}
                 <i :class="advanced ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" />
               </el-link>

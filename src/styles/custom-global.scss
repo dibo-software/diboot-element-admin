@@ -1,38 +1,46 @@
 .table-page-search-wrapper {
   .el-form--inline .el-form-item {
     display: inline-flex;
+
     .el-form-item__content {
       width: 100%;
     }
   }
 }
+
 .table-operator {
   margin-bottom: 18px;
-
-  button {
-    margin-right: 8px;
-  }
 }
+
 .custom-height {
   .el-dialog__body {
     height: calc(70vh - 100px);
     overflow: auto;
   }
 }
+
 .custom-fullscreen {
   display: flex;
   flex-direction: column;
+
   .el-dialog__body {
     flex: 1;
     overflow-x: auto;
   }
 }
+
 .excel-import {
   .el-dialog__body {
     padding: unset;
   }
 }
+
 // 让tinymce系列菜单显示到最上层
 .tox-tinymce-aux {
   z-index: 3999 !important;
+}
+
+// 按钮与(link)链接相邻的间隔
+.el-button + .el-link {
+  margin-left: 8px;
 }

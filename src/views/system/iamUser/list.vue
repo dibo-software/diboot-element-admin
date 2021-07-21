@@ -33,7 +33,7 @@
         </div>
       </el-col>
       <el-col :lg="4" :md="24" style="text-align: right;">
-        <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+        <el-button v-permission="['create']" class="filter-item" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
       </el-col>

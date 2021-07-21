@@ -31,15 +31,15 @@
             <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
               查询
             </el-button>
-            <el-button style="margin-left: 8px" type="info" icon="el-icon-refresh" @click="reset">
+            <el-button type="info" icon="el-icon-refresh" @click="reset">
               重置
             </el-button>
           </el-col>
           <el-col :lg="8" :md="24" style="text-align: right;">
-            <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+            <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
               新建
             </el-button>
-            <el-button v-permission="['logList']" style="margin-left: 10px;" type="default" icon="el-icon-tickets" @click="$refs.logList.open()">
+            <el-button v-permission="['logList']" type="default" icon="el-icon-tickets" @click="$refs.logList.open()">
               日志记录
             </el-button>
           </el-col>

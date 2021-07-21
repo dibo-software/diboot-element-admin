@@ -72,10 +72,10 @@
               <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
                 查询
               </el-button>
-              <el-button style="margin-left: 8px" type="info" icon="el-icon-refresh" @click="reset">
+              <el-button type="info" icon="el-icon-refresh" @click="reset">
                 重置
               </el-button>
-              <el-link type="primary" :underline="false" style="margin-left: 8px" @click="toggleAdvanced">
+              <el-link type="primary" :underline="false" @click="toggleAdvanced">
                 {{ advanced ? '收起' : '展开' }}
                 <i :class="advanced ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" />
               </el-link>
@@ -85,13 +85,13 @@
       </el-form>
     </div>
     <div class="table-operator">
-      <el-button v-permission="['create']" class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+      <el-button v-permission="['create']" class="filter-item" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
         新建
       </el-button>
-      <el-button v-permission="['import']" class="filter-item" style="margin-left: 10px;" type="default" icon="el-icon-upload2" @click="$refs.userImport.open()">
+      <el-button v-permission="['import']" class="filter-item" type="default" icon="el-icon-upload2" @click="$refs.userImport.open()">
         批量导入
       </el-button>
-      <el-button v-permission="['export']" class="filter-item" style="margin-left: 10px;" type="default" :icon="exportLoadingData ? 'el-icon-loading' : 'el-icon-download'" @click="exportData">
+      <el-button v-permission="['export']" class="filter-item" type="default" :icon="exportLoadingData ? 'el-icon-loading' : 'el-icon-download'" @click="exportData">
         导出
       </el-button>
     </div>

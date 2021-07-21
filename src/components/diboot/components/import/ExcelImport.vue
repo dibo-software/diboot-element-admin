@@ -28,7 +28,6 @@
           <el-button
             type="primary"
             :disabled="previewDisabled"
-            style="margin-right: 8px;"
             icon="el-icon-view"
             @click="handlePreview"
           >

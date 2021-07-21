@@ -17,10 +17,10 @@
       </el-col>
     </el-row>
     <div class="table-operator">
-      <el-button v-permission="['addPosition']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="addUserPosition">
+      <el-button v-permission="['addPosition']" type="primary" icon="el-icon-plus" @click="addUserPosition">
         添加人员岗位设置
       </el-button>
-      <el-button style="margin-left: 10px;" icon="el-icon-plus" @click="$refs.positionForm.open()">
+      <el-button icon="el-icon-plus" @click="$refs.positionForm.open()">
         添加岗位
       </el-button>
     </div>

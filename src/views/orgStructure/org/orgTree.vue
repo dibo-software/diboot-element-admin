@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <div v-if="canChange" v-permission="['create', 'sort']" class="table-operator">
-      <el-button v-permission="['create']" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="$refs.orgForm.open()">
+      <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.orgForm.open()">
         新建
       </el-button>
-      <el-button v-permission="['sort']" style="margin-left: 10px;" type="default" icon="el-icon-rank" @click="$refs.orgTreeSort.open()">
+      <el-button v-permission="['sort']" type="default" icon="el-icon-rank" @click="$refs.orgTreeSort.open()">
         排序
       </el-button>
     </div>
