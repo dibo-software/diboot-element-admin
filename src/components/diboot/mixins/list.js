@@ -341,7 +341,7 @@ export default {
         // 开始删除选中的行
         dibootApi.post(`${_this.baseApi}/batchDelete`, _this.selectedRowKeys).then(res => {
           if (res.code === 0) {
-            _this.$message.success(res.msg)
+            _this.$message.success(res.msg || '删除成功')
             _this.getList()
           } else {
             _this.$message.error(res.msg)

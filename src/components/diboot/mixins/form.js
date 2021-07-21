@@ -174,7 +174,6 @@ export default {
     submitSuccess(result) {
       this.$message.success(result.msg)
       this.close()
-      this.clearForm()
       this.$emit('complete')
       this.$emit('changeKey', result.data)
     },
