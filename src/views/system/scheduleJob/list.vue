@@ -1,50 +1,44 @@
 <template>
   <div class="app-container">
     <div class="table-page-search-wrapper">
-      <el-form :inline="true" label-width="100px">
-        <el-row>
-          <el-col :lg="16" :md="24">
-            <el-select
-              v-model="queryParam.jobName"
-              placeholder="请选择任务"
-              style="width: 200px;"
-              class="filter-item"
-              @change="onSearch"
-            >
-              <el-option
-                v-for="(item, index) in jobList"
-                :key="index"
-                :value="item.jobName"
-                :label="item.jobName"
-              />
-            </el-select>
-            <el-select
-              v-model="queryParam.jobStatus"
-              placeholder="请选择状态"
-              style="width: 200px;"
-              class="filter-item"
-              @change="onSearch"
-            >
-              <el-option value="A" label="启用" />
-              <el-option value="I" label="停用" />
-            </el-select>
-            <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
-              查询
-            </el-button>
-            <el-button type="info" icon="el-icon-refresh" @click="reset">
-              重置
-            </el-button>
-          </el-col>
-          <el-col :lg="8" :md="24" style="text-align: right;">
-            <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
-              新建
-            </el-button>
-            <el-button v-permission="['logList']" type="default" icon="el-icon-tickets" @click="$refs.logList.open()">
-              日志记录
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+      <el-row>
+        <el-col :lg="16" :md="24" class="filter-container">
+          <el-select
+            v-model="queryParam.jobName"
+            placeholder="请选择任务"
+            @change="onSearch"
+          >
+            <el-option
+              v-for="(item, index) in jobList"
+              :key="index"
+              :value="item.jobName"
+              :label="item.jobName"
+            />
+          </el-select>
+          <el-select
+            v-model="queryParam.jobStatus"
+            placeholder="请选择状态"
+            @change="onSearch"
+          >
+            <el-option value="A" label="启用" />
+            <el-option value="I" label="停用" />
+          </el-select>
+          <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
+            查询
+          </el-button>
+          <el-button type="info" icon="el-icon-refresh" @click="reset">
+            重置
+          </el-button>
+        </el-col>
+        <el-col :lg="8" :md="24" style="text-align: right;">
+          <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+            新建
+          </el-button>
+          <el-button v-permission="['logList']" type="default" icon="el-icon-tickets" @click="$refs.logList.open()">
+            日志记录
+          </el-button>
+        </el-col>
+      </el-row>
     </div>
 
     <el-table

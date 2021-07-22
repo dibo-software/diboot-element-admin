@@ -9,7 +9,6 @@
               <el-input
                 v-model="queryParam.realname"
                 placeholder="姓名"
-                class="filter-item"
                 @keyup.enter.native="onSearch"
               />
             </el-form-item>
@@ -19,7 +18,6 @@
               <el-input
                 v-model="queryParam.userNum"
                 placeholder="工号"
-                class="filter-item"
                 @keyup.enter.native="onSearch"
               />
             </el-form-item>
@@ -46,7 +44,6 @@
                 <el-input
                   v-model="queryParam.mobilePhone"
                   placeholder="电话"
-                  class="filter-item"
                   @keyup.enter.native="onSearch"
                 />
               </el-form-item>
@@ -56,7 +53,6 @@
                 <el-input
                   v-model="queryParam.email"
                   placeholder="邮箱"
-                  class="filter-item"
                   @keyup.enter.native="onSearch"
                 />
               </el-form-item>
@@ -80,13 +76,13 @@
       </el-form>
     </div>
     <div class="table-operator">
-      <el-button v-permission="['create']" class="filter-item" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
+      <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
         新建
       </el-button>
-      <el-button v-permission="['import']" class="filter-item" type="default" icon="el-icon-upload2" @click="$refs.userImport.open()">
+      <el-button v-permission="['import']" type="default" icon="el-icon-upload2" @click="$refs.userImport.open()">
         批量导入
       </el-button>
-      <el-button v-permission="['export']" class="filter-item" type="default" :icon="exportLoadingData ? 'el-icon-loading' : 'el-icon-download'" @click="exportData">
+      <el-button v-permission="['export']" type="default" :icon="exportLoadingData ? 'el-icon-loading' : 'el-icon-download'" @click="exportData">
         导出
       </el-button>
     </div>

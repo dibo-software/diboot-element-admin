@@ -4,25 +4,21 @@
       <el-input
         v-model="queryParam.userType"
         placeholder="用户类型"
-        class="filter-item"
         @keyup.enter.native="onSearch"
       />
       <el-input
         v-model="queryParam.userId"
         placeholder="用户ID"
-        class="filter-item"
         @keyup.enter.native="onSearch"
       />
       <el-input
         v-model="queryParam.businessObj"
         placeholder="业务对象"
-        class="filter-item"
         @keyup.enter.native="onSearch"
       />
       <el-select
         v-model="queryParam.requestMethod"
         placeholder="请求方式"
-        class="filter-item"
         @change="onSearch"
       >
         <el-option value="GET" label="GET" />
@@ -33,16 +29,15 @@
       <el-select
         v-model="queryParam.status"
         placeholder="状态"
-        class="filter-item"
         @change="onSearch"
       >
         <el-option value="0" label="成功" />
         <el-option value="1" label="失败" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
+      <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
         查询
       </el-button>
-      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
+      <el-button type="info" icon="el-icon-refresh" @click="reset">
         重置
       </el-button>
     </div>

@@ -3,11 +3,10 @@
     <el-row>
       <el-col :lg="20" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.realname" placeholder="姓名" class="filter-item" @keyup.enter.native="onSearch" />
+          <el-input v-model="queryParam.realname" placeholder="姓名" @keyup.enter.native="onSearch" />
           <el-select
             v-model="queryParam.status"
             placeholder="状态"
-            class="filter-item"
             @change="onSearch"
           >
             <el-option
@@ -17,10 +16,10 @@
               :label="item.k"
             />
           </el-select>
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
+          <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>
-          <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
+          <el-button type="info" icon="el-icon-refresh" @click="reset">
             重置
           </el-button>
         </div>

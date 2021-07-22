@@ -6,31 +6,29 @@
           <el-input
             v-model="queryParam.displayName"
             placeholder="菜单名称"
-            class="filter-item"
             @keyup.enter.native="onSearch"
           />
           <el-input
             v-model="queryParam.resourceCode"
             placeholder="菜单编码"
-            class="filter-item"
             @keyup.enter.native="onSearch"
           />
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="onSearch">
+          <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
             查询
           </el-button>
-          <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="reset">
+          <el-button type="info" icon="el-icon-refresh" @click="reset">
             重置
           </el-button>
         </div>
       </el-col>
       <el-col :lg="8" :md="24" style="text-align: right;">
-        <el-button v-if="canCorrectPermission" class="filter-item" type="default" icon="sync" @click="$refs.correct.open()">
+        <el-button v-if="canCorrectPermission" type="default" icon="sync" @click="$refs.correct.open()">
           权限纠错
         </el-button>
-        <el-button v-permission="['sort']" class="filter-item" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
+        <el-button v-permission="['sort']" type="default" icon="el-icon-rank" @click="$refs.sort.open()">
           排序
         </el-button>
-        <el-button v-permission="['create']" class="filter-item" type="primary" icon="el-icon-plus" @click="create">
+        <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="create">
           新建
         </el-button>
       </el-col>

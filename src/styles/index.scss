@@ -67,17 +67,15 @@ div:focus {
 
 // 搜索框容器
 .filter-container {
-  padding-bottom: 10px;
 
   // 输入框、选择器
-  > div {
+  .el-input, .el-select {
     width: 200px;
-  }
+    margin: 10px;
 
-  .filter-item {
-    display: inline-block;
-    vertical-align: middle;
-    margin-bottom: 10px;
+    + .el-button {
+      margin-left: 12px;
+    }
   }
 }
 
