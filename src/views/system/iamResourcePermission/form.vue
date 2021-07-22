@@ -213,6 +213,9 @@ export default {
     routerList: function() {
       return treeList2IndentList(_.cloneDeep(this.routerTreeList), 0)
     },
+    apiList: function() {
+      return treeList2IndentList(_.cloneDeep(this.apiTreeList), 0)
+    },
     menuTreeData: function() {
       let menuTreeData = []
       if (this.more && this.more.menuList) {
@@ -472,7 +475,7 @@ export default {
       this.isSelect = !this.isSelect
       permission.resourceCode = ''
       permission.displayName = ''
-      this.$set(this.permissionList, index, permission)
+      this.$set(this.form.permissionList, index, permission)
     },
     afterClose() {
       this.apiTreeList = []
