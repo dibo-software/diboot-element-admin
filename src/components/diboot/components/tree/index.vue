@@ -21,7 +21,7 @@
         </el-alert>
         <el-row style="margin: 10px 0;">
           <el-col :span="24">
-            <el-input v-model="filterText" size="small" placeholder="请输入搜索内容" class="input-with-select" />
+            <el-input v-model="filterText" size="small" clearable placeholder="请输入搜索内容" class="input-with-select" />
           </el-col>
         </el-row>
         <el-tree

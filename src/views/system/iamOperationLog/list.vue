@@ -3,21 +3,26 @@
     <div class="filter-container">
       <el-input
         v-model="queryParam.userType"
+        clearable
         placeholder="用户类型"
         @keyup.enter.native="onSearch"
       />
       <el-input
         v-model="queryParam.userId"
+        clearable
+        type="Number"
         placeholder="用户ID"
         @keyup.enter.native="onSearch"
       />
       <el-input
         v-model="queryParam.businessObj"
+        clearable
         placeholder="业务对象"
         @keyup.enter.native="onSearch"
       />
       <el-select
         v-model="queryParam.requestMethod"
+        clearable
         placeholder="请求方式"
         @change="onSearch"
       >
@@ -28,6 +33,7 @@
       </el-select>
       <el-select
         v-model="queryParam.status"
+        clearable
         placeholder="状态"
         @change="onSearch"
       >

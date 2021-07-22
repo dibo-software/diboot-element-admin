@@ -3,9 +3,10 @@
     <el-row>
       <el-col :lg="20" :md="24">
         <div class="filter-container">
-          <el-input v-model="queryParam.realname" placeholder="姓名" @keyup.enter.native="onSearch" />
+          <el-input v-model="queryParam.realname" clearable placeholder="姓名" @keyup.enter.native="onSearch" />
           <el-select
             v-model="queryParam.status"
+            clearable
             placeholder="状态"
             @change="onSearch"
           >

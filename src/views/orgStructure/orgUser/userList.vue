@@ -8,6 +8,7 @@
             <el-form-item label="姓名">
               <el-input
                 v-model="queryParam.realname"
+                clearable
                 placeholder="姓名"
                 @keyup.enter.native="onSearch"
               />
@@ -17,6 +18,7 @@
             <el-form-item label="工号">
               <el-input
                 v-model="queryParam.userNum"
+                clearable
                 placeholder="工号"
                 @keyup.enter.native="onSearch"
               />
@@ -27,6 +29,7 @@
               <el-form-item label="性别">
                 <el-select
                   v-model="queryParam.gender"
+                  clearable
                   placeholder="请选择性别"
                   @change="onSearch"
                 >
@@ -43,6 +46,7 @@
               <el-form-item label="电话">
                 <el-input
                   v-model="queryParam.mobilePhone"
+                  clearable
                   placeholder="电话"
                   @keyup.enter.native="onSearch"
                 />
@@ -52,6 +56,7 @@
               <el-form-item label="邮箱">
                 <el-input
                   v-model="queryParam.email"
+                  clearable
                   placeholder="邮箱"
                   @keyup.enter.native="onSearch"
                 />

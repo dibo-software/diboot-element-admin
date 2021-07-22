@@ -5,11 +5,13 @@
         <div class="filter-container">
           <el-input
             v-model="queryParam.name"
+            clearable
             placeholder="角色名称"
             @keyup.enter.native="onSearch"
           />
           <el-input
             v-model="queryParam.code"
+            clearable
             placeholder="编码"
             @keyup.enter.native="onSearch"
           />

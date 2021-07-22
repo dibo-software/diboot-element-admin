@@ -3,15 +3,17 @@
     <div class="filter-container">
       <el-input
         v-model="queryParam.authAccount"
+        clearable
         placeholder="用户名"
         @keyup.enter.native="onSearch"
       />
       <el-input
         v-model="queryParam.ipAddress"
+        clearable
         placeholder="IP地址"
         @keyup.enter.native="onSearch"
       />
-      <el-select v-model="queryParam.success" placeholder="登录状态">
+      <el-select v-model="queryParam.success" clearable placeholder="登录状态">
         <el-option
           :value="true"
           label="成功"

@@ -7,6 +7,7 @@
             <el-form-item label="名称">
               <el-input
                 v-model="queryParam.name"
+                clearable
                 placeholder=""
                 @keyup.enter.native="onSearch"
               />
@@ -16,6 +17,7 @@
             <el-form-item label="类型">
               <el-input
                 v-model="queryParam.type"
+                clearable
                 placeholder=""
                 @keyup.enter.native="onSearch"
               />

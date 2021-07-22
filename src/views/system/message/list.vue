@@ -7,12 +7,12 @@
             <el-form-item label="信息模版">
               <el-select
                 v-model="queryParam.templateId"
+                clearable
                 placeholder="请选择信息模版"
                 @change="onSearch"
               >
                 <el-option
-                  v-for="(item, index) in more.messageTemplateKvList"
-                  v-if="more.messageTemplateKvList"
+                  v-for="(item, index) in more.messageTemplateKvList || []"
                   :key="index"
                   :value="item.v"
                   :label="item.k"
@@ -24,12 +24,12 @@
             <el-form-item label="发送通道">
               <el-select
                 v-model="queryParam.channel"
+                clearable
                 placeholder="请选择发送通道"
                 @change="onSearch"
               >
                 <el-option
-                  v-for="kv in more.messageChannelKvList"
-                  v-if="more.messageChannelKvList"
+                  v-for="kv in more.messageChannelKvList || []"
                   :key="kv.v"
                   :value="kv.v"
                   :label="kv.k"
@@ -42,12 +42,12 @@
               <el-form-item label="消息状态">
                 <el-select
                   v-model="queryParam.status"
+                  clearable
                   placeholder="请选择消息状态"
                   @change="onSearch"
                 >
                   <el-option
-                    v-for="kv in more.messageStatusKvList"
-                    v-if="more.messageStatusKvList"
+                    v-for="kv in more.messageStatusKvList || []"
                     :key="kv.v"
                     :value="kv.v"
                     :label="kv.k"
@@ -59,6 +59,7 @@
               <el-form-item label="创建时间">
                 <el-date-picker
                   v-model="queryParam.createTime"
+                  clearable
                   type="date"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"
@@ -69,6 +70,7 @@
               <el-form-item label="更新时间">
                 <el-date-picker
                   v-model="queryParam.updateTime"
+                  clearable
                   type="date"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"

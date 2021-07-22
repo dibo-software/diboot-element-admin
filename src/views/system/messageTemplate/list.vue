@@ -7,6 +7,7 @@
             <el-form-item label="模版编码">
               <el-input
                 v-model="queryParam.code"
+                clearable
                 placeholder=""
                 @keyup.enter.native="onSearch"
               />
@@ -16,6 +17,7 @@
             <el-form-item label="模版标题">
               <el-input
                 v-model="queryParam.title"
+                clearable
                 placeholder=""
                 @keyup.enter.native="onSearch"
               />
@@ -26,6 +28,7 @@
               <el-form-item label="创建时间">
                 <el-date-picker
                   v-model="queryParam.createTime"
+                  clearable
                   type="date"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"
@@ -36,6 +39,7 @@
               <el-form-item label="更新时间">
                 <el-date-picker
                   v-model="queryParam.updateTime"
+                  clearable
                   type="date"
                   value-format="yyyy-MM-dd"
                   @change="onSearch"

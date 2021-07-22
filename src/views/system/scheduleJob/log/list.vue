@@ -13,6 +13,7 @@
           <el-col :lg="24" :md="24" class="filter-container">
             <el-select
               v-model="queryParam.jobName"
+              clearable
               placeholder="请选择任务"
               @change="onSearch"
             >
@@ -25,6 +26,7 @@
             </el-select>
             <el-select
               v-model="queryParam.runStatus"
+              clearable
               placeholder="请选择执行状态"
               @change="onSearch"
             >
