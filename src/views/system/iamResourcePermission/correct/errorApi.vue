@@ -7,12 +7,18 @@
       <span v-if="isOperate" class="edit" @click="handleCancel">取消</span>
     </div>
     <el-select v-if="isOperate" v-model="replaceApi" filterable placeholder="请选取新的接口替换" style="width: 100%;">
-      <el-option
-        v-for="item in apiTreeList"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
+      <el-option-group
+        v-for="group in apiTreeList"
+        :key="group.key"
+        :label="group.label"
+      >
+        <el-option
+          v-for="item in group.children"
+          :key="item.key"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-option-group>
     </el-select>
   </div>
 </template>
