@@ -27,7 +27,7 @@
       <el-form-item label="角色描述">
         <span>{{ model.description || '-' }}</span>
       </el-form-item>
-      <el-form-item label="已授权权限" style="width: 90%">
+      <el-form-item label="已授权权限" style="width: 93%">
         <el-row>
           <el-col :span="24">
             <el-input v-model="filterText" size="small" placeholder="请输入节点内容开始搜索" class="input-with-select" />

@@ -18,31 +18,41 @@
       </el-col>
     </el-row>
     <el-form label-position="left" inline class="detail-item-container">
-      <el-form-item label="类型名称">
-        <span>{{ model.itemName }}</span>
-      </el-form-item>
-      <el-form-item label="类型编码">
-        <span>{{ model.type }}</span>
-      </el-form-item>
-      <el-form-item label="包含子项">
-        <template v-if="children && children.length > 0">
-          <el-tag
-            v-for="(item,i) in children"
-            :key="i"
-            type="success"
-            size="small"
-            :style="{marginRight: '15px'}"
-          >
-            {{ item.itemName }}({{ item.itemValue }})
-          </el-tag>
-        </template>
-        <el-tag v-if="!children || children.length === 0" type="info" size="small">无</el-tag>
-      </el-form-item>
-      <el-form-item label="备注">
-        <span>
-          {{ model.description || '-' }}
-        </span>
-      </el-form-item>
+      <el-row :gutter="18">
+        <el-col :span="12">
+          <el-form-item label="类型名称">
+            <span>{{ model.itemName }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="类型编码">
+            <span>{{ model.type }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="包含子项">
+            <template v-if="children && children.length > 0">
+              <el-tag
+                v-for="(item,i) in children"
+                :key="i"
+                type="success"
+                size="small"
+                :style="{marginRight: '15px'}"
+              >
+                {{ item.itemName }}({{ item.itemValue }})
+              </el-tag>
+            </template>
+            <el-tag v-if="!children || children.length === 0" type="info" size="small">无</el-tag>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="备注">
+            <span>
+              {{ model.description || '-' }}
+            </span>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
 
     <span slot="footer" class="dialog-footer">

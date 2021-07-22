@@ -18,34 +18,46 @@
       </el-col>
     </el-row>
     <el-form label-position="left" label-width="100px" inline class="detail-item-container">
-      <el-form-item label="上级菜单">
-        <span>{{ model.parentDisplayName ? model.parentDisplayName : '无' }}</span>
-      </el-form-item>
-      <el-form-item label="菜单名称">
-        <span>{{ model.displayName }}</span>
-      </el-form-item>
-      <el-form-item label="菜单编码">
-        <span>{{ model.resourceCode }}</span>
-      </el-form-item>
-      <el-form-item label="页面接口列表">
-        <div v-if="model.apiSetList && model.apiSetList.length > 0" class="tag-group">
-          <el-tag
-            v-for="(api,i) in model.apiSetList"
-            :key="i"
-            type="primary"
-          >
-            {{ api }}
-          </el-tag>
-        </div>
-        <template v-else>
-          无
-        </template>
-      </el-form-item>
-      <el-form-item label="页面资源权限">
-        <template v-if="!model.permissionList || model.permissionList.length === 0">
-          无
-        </template>
-      </el-form-item>
+      <el-row :gutter="18">
+        <el-col :span="12">
+          <el-form-item label="上级菜单">
+            <span>{{ model.parentDisplayName ? model.parentDisplayName : '无' }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="菜单名称">
+            <span>{{ model.displayName }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="菜单编码">
+            <span>{{ model.resourceCode }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="页面接口列表">
+            <div v-if="model.apiSetList && model.apiSetList.length > 0" class="tag-group">
+              <el-tag
+                v-for="(api,i) in model.apiSetList"
+                :key="i"
+                type="primary"
+              >
+                {{ api }}
+              </el-tag>
+            </div>
+            <template v-else>
+              无
+            </template>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="页面资源权限">
+            <template v-if="!model.permissionList || model.permissionList.length === 0">
+              无
+            </template>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <el-tabs v-if="model.permissionList && model.permissionList.length > 0" type="border-card">
       <el-tab-pane

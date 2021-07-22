@@ -19,33 +19,53 @@
       </el-col>
     </el-row>
     <el-form label-position="left" inline class="detail-item-container">
-      <el-form-item label="任务名称">
-        <span>{{ model.jobName }}</span>
-      </el-form-item>
-      <el-form-item label="定时表达式">
-        <span>{{ model.cron }}</span>
-      </el-form-item>
-      <el-form-item label="状态">
-        <span>{{ statusEnum[model.runStatus] }}</span>
-      </el-form-item>
-      <el-form-item label="开始时间">
-        {{ model.startTime }}
-      </el-form-item>
-      <el-form-item label="结束时间">
-        {{ model.endTime }}
-      </el-form-item>
-      <el-form-item label="耗时(s)">
-        {{ model.elapsedSeconds }}
-      </el-form-item>
-      <el-form-item label="结果信息">
-        {{ model.executeMsg }}
-      </el-form-item>
-      <el-form-item label="创建时间">
-        {{ model.createTime }}
-      </el-form-item>
-      <el-form-item label="更新时间">
-        {{ model.createTime }}
-      </el-form-item>
+      <el-row :gutter="18">
+        <el-col :span="12">
+          <el-form-item label="任务名称">
+            <span>{{ model.jobName }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="定时表达式">
+            <span>{{ model.cron }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="状态">
+            <span>{{ statusEnum[model.runStatus] }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开始时间">
+            {{ model.startTime }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="结束时间">
+            {{ model.endTime }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="耗时(s)">
+            {{ model.elapsedSeconds }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="结果信息">
+            {{ model.executeMsg }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="创建时间">
+            {{ model.createTime }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="更新时间">
+            {{ model.createTime }}
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
 
     <span slot="footer" class="dialog-footer">
