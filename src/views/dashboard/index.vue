@@ -7,8 +7,8 @@
         <div class="title">
           <a :href="item.titleUrl" target="_blank" style="color: #1585ff">{{ index + 1 + '.' + item.title }}</a>
         </div>
-        <div class="description" v-if="item.description">
-          <p>{{item.description}}</p>
+        <div v-if="item.description" class="description">
+          <p>{{ item.description }}</p>
         </div>
       </li>
     </ul>

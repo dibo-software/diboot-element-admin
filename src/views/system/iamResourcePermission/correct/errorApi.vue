@@ -2,7 +2,7 @@
   <div class="errorApi">
     <div class="error-container">
       <span class="error-api">{{ api }}</span>
-      <i v-if="!isOperate" class="el-icon-edit edit" title="选取替换" @click="() => isOperate = !isOperate"></i>
+      <i v-if="!isOperate" class="el-icon-edit edit" title="选取替换" @click="() => isOperate = !isOperate" />
       <span v-if="isOperate" class="edit finished" @click="handleUpdate">完成</span>
       <span v-if="isOperate" class="edit" @click="handleCancel">取消</span>
     </div>

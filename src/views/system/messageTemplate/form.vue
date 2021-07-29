@@ -1,86 +1,86 @@
 <template>
-    <el-dialog
-      :visible.sync="state.visible"
-      :fullscreen="fullscreen"
-      :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
-      :show-close="false"
-    >
-        <el-row slot="title" type="flex">
-            <el-col :span="20">{{ title }}</el-col>
-            <el-col :span="4" style="text-align: right">
-                <svg-icon
-                  :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
-                  style="cursor: pointer; margin-right: 10px"
-                  @click="() => {fullscreen = !fullscreen}"
-                />
-                <i class="el-icon-close" style="cursor: pointer" @click="close" />
-            </el-col>
-        </el-row>
+  <el-dialog
+    :visible.sync="state.visible"
+    :fullscreen="fullscreen"
+    :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
+    :show-close="false"
+  >
+    <el-row slot="title" type="flex">
+      <el-col :span="20">{{ title }}</el-col>
+      <el-col :span="4" style="text-align: right">
+        <svg-icon
+          :icon-class="!fullscreen ? 'fullscreen': 'exit-fullscreen'"
+          style="cursor: pointer; margin-right: 10px"
+          @click="() => {fullscreen = !fullscreen}"
+        />
+        <i class="el-icon-close" style="cursor: pointer" @click="close" />
+      </el-col>
+    </el-row>
 
-        <el-form ref="dataForm" :model="form" label-position="top" label-width="100px" :rules="rules">
-          <el-row :gutter="18">
-              <el-col :span="24">
-                <el-form-item
-                  label="模版编码"
-                  prop="code"
-                >
-                  <el-input
-                    placeholder="请输入模版编码"
-                    v-model="form.code"
-                  />
-                </el-form-item>
-              </el-col>
-            <el-col :span="24">
-              <el-form-item
-                label="模版标题"
-                prop="title"
-              >
-                <el-input
-                  placeholder="请输入模版标题"
-                  v-model="form.title"
-                />
-              </el-form-item>
-            </el-col>
-              <el-col :span="24">
-                <el-form-item
-                  label="模版内容"
-                  prop="content"
-                >
-                  <template slot="label">
-                      <span>模版内容
-                        <el-tooltip class="item" effect="dark" placement="right-start">
-                        <template slot="content">
-                            变量语法：${变量名称}<br>
-                            例：<br>
-                            你好：${用户名}，<br>
-                            你的手机号是：${手机号}，<br>
-                            你的邮箱是：${邮箱}！<br>
-                            注：<br>
-                            变量表示该值会根据场景动态变化！
-                          </template>
-                          <i class="el-icon-question" style="cursor: pointer"></i>
-                        </el-tooltip>
-                      </span>
-                    <div class="variable-container">
-                      <el-tag @click="handleInsertIntoContent(item)" class="variable-tag" v-for="(item, index) in more.templateTemplateVariableList" :key="index">
-                        {{item}}
-                      </el-tag>
-                    </div>
+    <el-form ref="dataForm" :model="form" label-position="top" label-width="100px" :rules="rules">
+      <el-row :gutter="18">
+        <el-col :span="24">
+          <el-form-item
+            label="模版编码"
+            prop="code"
+          >
+            <el-input
+              v-model="form.code"
+              placeholder="请输入模版编码"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item
+            label="模版标题"
+            prop="title"
+          >
+            <el-input
+              v-model="form.title"
+              placeholder="请输入模版标题"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item
+            label="模版内容"
+            prop="content"
+          >
+            <template slot="label">
+              <span>模版内容
+                <el-tooltip class="item" effect="dark" placement="right-start">
+                  <template slot="content">
+                    变量语法：${变量名称}<br>
+                    例：<br>
+                    你好：${用户名}，<br>
+                    你的手机号是：${手机号}，<br>
+                    你的邮箱是：${邮箱}！<br>
+                    注：<br>
+                    变量表示该值会根据场景动态变化！
                   </template>
-                  <el-input type="textarea" placeholder="请输入模版内容" v-model="form.content" id="content"></el-input>
-                </el-form-item>
-              </el-col>
-          </el-row>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="close">
-                取消
-            </el-button>
-            <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit">
-                确定
-            </el-button>
-        </div>
-    </el-dialog>
+                  <i class="el-icon-question" style="cursor: pointer" />
+                </el-tooltip>
+              </span>
+              <div class="variable-container">
+                <el-tag v-for="(item, index) in more.templateTemplateVariableList" :key="index" class="variable-tag" @click="handleInsertIntoContent(item)">
+                  {{ item }}
+                </el-tag>
+              </div>
+            </template>
+            <el-input id="content" v-model="form.content" type="textarea" placeholder="请输入模版内容" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="close">
+        取消
+      </el-button>
+      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit">
+        确定
+      </el-button>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
@@ -103,7 +103,7 @@ export default {
         ],
         title: [
           {
-            required: true, message: '模版标题不能为空', trigger: 'blur', whitespace: true,
+            required: true, message: '模版标题不能为空', trigger: 'blur', whitespace: true
           }
         ],
         code: [

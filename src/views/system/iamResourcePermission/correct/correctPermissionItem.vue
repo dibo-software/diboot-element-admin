@@ -2,7 +2,7 @@
   <div class="correct-permission">
     <span> {{ permissionItem.displayName }}</span>
     <ul class="ul-wrapper">
-      <li  v-for="(api, index) in permissionItem.apiSetList" :key="`${_uid}_${index}`">
+      <li v-for="(api, index) in permissionItem.apiSetList" :key="`${_uid}_${index}`">
         <template v-if="permissionItem.invalidApiSetList.includes(api)">
           <error-api
             :api="api"

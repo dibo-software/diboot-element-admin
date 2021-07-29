@@ -242,6 +242,7 @@ export default {
         // setData is required for draggable to work in FireFox
         // the content has to be '' so dragging a node out of the tree won't open a new tab in FireFox
         event.dataTransfer.setData('text/plain', '')
+        // eslint-disable-next-line no-empty
       } catch (e) { }
       dragState.draggingNode = treeNode
       this.$emit('node-drag-start', treeNode.node, event)

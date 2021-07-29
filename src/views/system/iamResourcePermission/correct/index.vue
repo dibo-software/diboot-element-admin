@@ -1,28 +1,28 @@
 <template>
-    <el-dialog
-      title="权限纠错"
-      :visible.sync="visible"
-      v-loading="loading"
-      :fullscreen="fullscreen"
-      class="frontend-permission-form"
-      :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
-      :show-close="true"
-      @close="close"
-    >
-      <div v-if="diffDataIdList.length > 0" :key="refresh">
-        <div class="color-tip">仅检索已配置的无效权限接口。<span class="red" />表示权限接口不存在，需要调整；<span class="blue" />表示权限接口存在</div>
-        <div class="operate">
-          <el-button type="danger" size="mini" @click="handleBatchDelete">全部删除</el-button>
-        </div>
-        <div v-for="(item, index) in diffDataList" :key="`${_uid}_${index}`">
-          <h4>{{ item.parentDisplayName }}</h4>
-          <correct-permission-item :permission-item="item" :api-tree-list="apiTreeList" @refresh="handleRefresh" />
-        </div>
+  <el-dialog
+    v-loading="loading"
+    title="权限纠错"
+    :visible.sync="visible"
+    :fullscreen="fullscreen"
+    class="frontend-permission-form"
+    :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
+    :show-close="true"
+    @close="close"
+  >
+    <div v-if="diffDataIdList.length > 0" :key="refresh">
+      <div class="color-tip">仅检索已配置的无效权限接口。<span class="red" />表示权限接口不存在，需要调整；<span class="blue" />表示权限接口存在</div>
+      <div class="operate">
+        <el-button type="danger" size="mini" @click="handleBatchDelete">全部删除</el-button>
       </div>
-      <div v-else class="empty">
-        已配置的权限接口均有效，无需调整。
+      <div v-for="(item, index) in diffDataList" :key="`${_uid}_${index}`">
+        <h4>{{ item.parentDisplayName }}</h4>
+        <correct-permission-item :permission-item="item" :api-tree-list="apiTreeList" @refresh="handleRefresh" />
       </div>
-    </el-dialog>
+    </div>
+    <div v-else class="empty">
+      已配置的权限接口均有效，无需调整。
+    </div>
+  </el-dialog>
 </template>
 
 <script>
