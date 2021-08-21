@@ -1,77 +1,88 @@
 <template>
-  <a-form-item
+  <el-form-item
+    ref="formItem"
+    :prop="prop"
     :label="label"
     :label-width="labelWidth"
-    :prop="prop"
-    :required="(edit || !id) && required"
-    :rules="edit || !id ? rules : {}"
     :error="error"
-    :validate-status="validateStatus"
-    :inline-message="inlineMessage"
     :show-message="showMessage"
-    :size="size"
+    :inline-message="inlineMessage"
+    :rules="(edit || !id ) && !(disabled || readonly) ? rules : {}"
+    :required="(edit || !id) && !(disabled || readonly) && required"
   >
-    <a-input
+    <slot slot="label" name="label" />
+    <el-input
+      ref="input"
       v-model="editValue"
       :placeholder="placeholder"
-      :disabled="!edit && !!id || disabled"
-      :prefix="prefix"
-      :suffix="suffix"
-      :allowClear="allowClear"
+      :type="type"
+      :size="size"
+      :rows="rows"
+      :resize="resize"
+      :autosize="autosize"
+      :clearable="clearable"
+      :autofocus="autofocus"
+      :prefix-icon="prefixIcon"
+      :suffix-icon="suffixIcon"
+      :maxlength="maxlength"
+      :minlength="minlength"
+      :show-word-limit="showWordLimit"
+      :validate-event="validateEvent"
+      :readonly="!edit && !!id || readonly"
+      :disabled="!edit && !!id && !readonly || disabled"
+      @blur="event => $emit('blur', event)"
+      @focus="event => $emit('focus', event)"
+      @clear="$emit('clear')"
       @change="inputChange"
-      @pressEnter="pressEnter"
     >
       <slot slot="prefix" name="prefix" />
       <slot slot="suffix" name="suffix" />
       <slot slot="prepend" name="prepend" />
-      <a-button v-if="!disabled && id" slot="append" @click="edit = !edit">{{ edit ? '取消' : '编辑' }}</a-button>
+      <el-button v-if="!disabled && !readonly && id" slot="append" @click="edit = !edit">{{ edit ? '取消' : '编辑' }}</el-button>
       <slot v-else slot="append" name="append" />
-    </a-input>
-  </a-form-item>
+    </el-input>
+    <template v-if="$slots.error" slot="error" slot-scope="{ error }">
+      <slot name="error" :error="error" />
+    </template>
+  </el-form-item>
 </template>
 
 <script>
 const stringNull = { type: String, default: undefined }
-const booleanFalse = { type: Boolean, default: false }
-const functionUndefined = { type: Function, default: () => {} }
 
 export default {
   name: 'ProtectField',
   props: {
-    value: stringNull,
-    id: {
-      type: [String, Number],
-      required: true,
-      default: 0
-    },
-    disabled: booleanFalse,
-    placeholder: stringNull,
-    prefix: stringNull,
-    suffix: stringNull,
-    allowClear: booleanFalse,
-    change: functionUndefined,
-    pressEnter: functionUndefined,
+    id: { type: [String, Number], required: true, default: 0 },
+
+    prop: stringNull,
     label: stringNull,
     labelWidth: stringNull,
-    prop: stringNull,
-    required: booleanFalse,
-    rules: {
-      type: [Object, Array],
-      default: null
-    },
+    required: Boolean,
+    rules: { type: [Object, Array], default: null },
     error: stringNull,
-    validateStatus: stringNull,
-    inlineMessage: {
-      type: [String, Boolean],
-      default: undefined
-    },
-    showMessage: {
-      type: Boolean,
-      default: true
-    },
-    size: stringNull
+    showMessage: { type: Boolean, default: true },
+    inlineMessage: { type: [String, Boolean], default: undefined },
+
+    value: stringNull,
+    placeholder: stringNull,
+    type: stringNull,
+    size: stringNull,
+    rows: { type: Number, default: 2 },
+    resize: stringNull,
+    autosize: { type: [Boolean, Object], default: false },
+    validateEvent: { type: Boolean, default: true },
+    maxlength: { type: Number, default: undefined },
+    minlength: { type: Number, default: undefined },
+    showWordLimit: Boolean,
+    clearable: Boolean,
+    disabled: Boolean,
+    readonly: Boolean,
+    autofocus: Boolean,
+    prefixIcon: stringNull,
+    suffixIcon: stringNull
   },
-  data () {
+  data() {
     return {
       edit: false,
       protectValue: null,
@@ -79,28 +90,42 @@ export default {
     }
   },
   watch: {
-    id () {
+    id() {
       this.edit = false
       this.reset()
     },
-    edit (v) {
+    edit(v) {
       this.editValue = v ? null : this.protectValue
       this.inputChange()
     }
   },
-  created () {
+  created() {
     this.reset()
   },
   methods: {
-    inputChange (value) {
-      if (this.protectValue !== value) {
-        this.change(value)
-        this.$emit('input', value)
-      }
+    resetField() {
+      (this.edit || !this.id) && this.inputChange(this.editValue = null)
+      this.clearValidate()
     },
-    reset () {
+    clearValidate() {
+      this.$refs.formItem.clearValidate()
+    },
+
+    inputChange(value) {
+      this.protectValue !== value && this.$emit('input', value)
+    },
+    reset() {
       this.editValue = this.protectValue = this.value
       this.inputChange()
+    },
+    select() {
+      this.$refs.input.select()
+    },
+    focus() {
+      this.$refs.input.focus()
+    },
+    blur() {
+      this.$refs.input.blur()
     }
   }
 }
