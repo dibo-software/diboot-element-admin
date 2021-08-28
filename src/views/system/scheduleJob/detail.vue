@@ -60,8 +60,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item label="创建者">
+            {{ model.createByName }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item label="更新时间">
-            {{ model.createTime }}
+            {{ model.updateTime }}
           </el-form-item>
         </el-col>
       </el-row>

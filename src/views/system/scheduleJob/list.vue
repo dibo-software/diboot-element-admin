@@ -32,7 +32,7 @@
             重置
           </el-button>
         </el-col>
-        <el-col :lg="8" :md="24" style="text-align: right;">
+        <el-col :lg="8" :md="24" style="text-align: right; position: relative; top: 20px;">
           <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
             新建
           </el-button>
@@ -108,6 +108,7 @@
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="创建者" prop="createByName" />
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
