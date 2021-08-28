@@ -22,17 +22,17 @@
       <el-row :gutter="18">
         <el-col :span="12">
           <el-form-item label="任务名称">
-            <span>{{ model.jobName }}</span>
+            {{ model.jobName }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="定时表达式">
-            <span>{{ model.cron }}</span>
+            {{ model.cron }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="状态">
-            <span>{{ statusEnum[model.runStatus] }}</span>
+            {{ model.runStatusLabel }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -60,11 +60,6 @@
             {{ model.createTime }}
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="更新时间">
-            {{ model.createTime }}
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
 
@@ -85,14 +80,8 @@ export default {
   mixins: [detail],
   data() {
     return {
-      baseApi: '/scheduleJob/log',
-      statusEnum: {
-        S: '成功',
-        F: '失败'
-      }
+      baseApi: '/scheduleJob/log'
     }
-  },
-  methods: {
   }
 }
 </script>
