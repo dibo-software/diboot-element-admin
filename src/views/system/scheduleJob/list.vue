@@ -98,9 +98,10 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="备注">
+      <el-table-column align="center" label="记录日志">
         <template slot-scope="scope">
-          <span>{{ scope.row.jobComment }}</span>
+          <el-tag v-if="scope.row.saveLog" type="success">开启</el-tag>
+          <el-tag v-else type="info">关闭</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间">

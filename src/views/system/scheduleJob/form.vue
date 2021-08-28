@@ -69,12 +69,24 @@
           <el-option value="IGNORE_MISFIRES" label="超期立即执行，并周期执行" />
         </el-select>
       </el-form-item>
-      <el-form-item label="状态" prop="jobStatus">
-        <el-radio-group v-model="form.jobStatus" size="mini">
-          <el-radio-button label="A">启用</el-radio-button>
-          <el-radio-button label="I">停用</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="状态" prop="jobStatus">
+            <el-radio-group v-model="form.jobStatus" size="mini">
+              <el-radio-button label="A">启用</el-radio-button>
+              <el-radio-button label="I">停用</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="记录日志" prop="saveLog">
+            <el-radio-group v-model="form.saveLog" size="mini">
+              <el-radio-button :label="true">开启</el-radio-button>
+              <el-radio-button :label="false">关闭</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="备注" prop="jobComment">
         <el-input
           v-model="form.jobComment"
@@ -107,12 +119,11 @@ export default {
       jobList: [],
       jobExample: {},
       jobCron: {},
+      initFormData: { initStrategy: 'DO_NOTHING', jobStatus: 'A', saveLog: true },
       rules: {
         'jobName': [{ required: true, message: '任务名称不能为空', trigger: 'change' }],
         'cron': [{ required: true, message: '表达式不能为空', trigger: 'blur' }],
-        'paramJson': [{ validator: this.checkJson, trigger: 'blur' }],
-        'initStrategy': [{ required: true, message: '初始化策略不能为空', trigger: 'change' }],
-        'jobStatus': [{ required: true, message: '状态不能为空', trigger: 'change' }]
+        'paramJson': [{ validator: this.checkJson, trigger: 'blur' }]
       }
     }
   },
