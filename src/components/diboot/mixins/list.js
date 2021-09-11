@@ -44,6 +44,10 @@ export default {
       exportLoadingData: false,
       // 是否允许撤回删除
       allowCanceledDelete: true,
+      // 是否重新加载
+      reload: false,
+      // 是否编辑
+      editable: false,
       // 分页数据
       pagination: {
         pageSize: 10,
@@ -376,6 +380,28 @@ export default {
         console.log(err)
         this.exportLoadingData = false
       })
+    },
+    /**
+     * 编辑表格结束后触发
+     * @param value
+     * @param oldValue
+     */
+    async handleEditTableRow(model) {
+      if (this.editable) {
+        try {
+          const res = await dibootApi.put(`${this.baseApi}/${model[this.primaryKey]}`, model)
+          if (res.code === 0) {
+            await this.getList()
+          } else {
+            this.$message.warning(res.msg)
+          }
+        } catch (e) {
+          this.$message.warning('网络异常')
+        } finally {
+          this.reload = !this.reload
+        }
+      }
+      this.editable = !this.editable
     },
     /**
      * 下载文件
