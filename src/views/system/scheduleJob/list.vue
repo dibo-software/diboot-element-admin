@@ -3,19 +3,7 @@
     <div class="table-page-search-wrapper">
       <el-row>
         <el-col :lg="16" :md="24" class="filter-container">
-          <el-select
-            v-model="queryParam.jobName"
-            clearable
-            placeholder="请选择任务"
-            @change="onSearch"
-          >
-            <el-option
-              v-for="(item, index) in jobList"
-              :key="index"
-              :value="item.jobName"
-              :label="item.jobName"
-            />
-          </el-select>
+          <el-input v-model="queryParam.jobName" placeholder="任务名称" clearable @keyup.enter.native="onSearch" />
           <el-select
             v-model="queryParam.jobStatus"
             clearable
@@ -202,27 +190,10 @@ export default {
         DO_NOTHING: '周期执行',
         FIRE_AND_PROCEED: '立即执行一次，并周期执行',
         IGNORE_MISFIRES: '超期立即执行，并周期执行'
-      },
-      jobList: []
+      }
     }
   },
-  created() {
-    this.loadJobs()
-  },
   methods: {
-
-    /**
-     * 加载job
-     * @returns {Promise<void>}
-     */
-    async loadJobs() {
-      const res = await dibootApi.get('/scheduleJob/allJobs')
-      if (res.code === 0) {
-        this.jobList = res.data || []
-      } else {
-        this.$message.error('无可执行定时任务！')
-      }
-    },
     /**
      * 改变状态
      * @param value
@@ -262,8 +233,5 @@ export default {
       this.getList()
     }
   }
-
 }
 </script>
-<style lang="less" scoped>
-</style>
