@@ -247,7 +247,7 @@ export default {
       if (reqList.length > 0) {
         const resList = await Promise.all(reqList)
         resList.forEach(res => res.code === 0 && Object.keys(res.data).forEach(key => { this.more[key] = res.data[key] }))
-        return this.more
+        this.$forceUpdate()
       }
     },
     /**
