@@ -214,15 +214,15 @@ export default {
 
     },
     async attachMore() {
-      let res = {}
-      if (this.getMore === true) {
-        res = await dibootApi.get(`${this.baseApi}/attachMore`)
-      } else if (this.attachMoreList.length > 0) {
-        res = await dibootApi.post('/common/attachMore', this.attachMoreList)
-      }
-      if (res.code === 0) {
-        this.more = res.data
-        return res.data
+      const reqList = []
+      // 个性化接口
+      this.getMore === true && reqList.push(dibootApi.get(`${this.baseApi}/attachMore`))
+      // 通用获取当前对象关联的数据的接口
+      this.attachMoreList.length > 0 && reqList.push(dibootApi.post('/common/attachMore', this.attachMoreList))
+      if (reqList.length > 0) {
+        const resList = await Promise.all(reqList)
+        resList.forEach(res => res.code === 0 && Object.keys(res.data).forEach(key => { this.more[key] = res.data[key] }))
+        this.$forceUpdate()
       }
     },
     /** *
