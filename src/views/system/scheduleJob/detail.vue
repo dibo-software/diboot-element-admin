@@ -46,7 +46,12 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="状态">
-            <span>{{ statusEnum[model.jobStatus] }}</span>
+            <span>{{ model.jobStatusLabel }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="记录日志">
+            <span>{{ model.saveLog ? '开启' : '关闭' }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -60,8 +65,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item label="创建者">
+            {{ model.createByName }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item label="更新时间">
-            {{ model.createTime }}
+            {{ model.updateTime }}
           </el-form-item>
         </el-col>
       </el-row>
@@ -89,10 +99,6 @@ export default {
         DO_NOTHING: '周期执行',
         FIRE_AND_PROCEED: '立即执行一次，并周期执行',
         IGNORE_MISFIRES: '超期立即执行，并周期执行'
-      },
-      statusEnum: {
-        A: '启用',
-        I: '停用'
       }
     }
   }

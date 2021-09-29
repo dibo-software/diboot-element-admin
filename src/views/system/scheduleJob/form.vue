@@ -17,19 +17,22 @@
       </el-col>
     </el-row>
     <el-form ref="dataForm" :rules="rules" :model="form" label-position="right" label-width="120px">
-      <el-form-item label="任务" prop="jobName">
+      <el-form-item label="定时任务" prop="jobKey">
         <el-select
-          v-model="form.jobName"
+          v-model="form.jobKey"
           placeholder="请选择任务"
           @change="handleJobSelectChange"
         >
           <el-option
             v-for="(item, index) in jobList"
             :key="index"
-            :value="item.jobName"
-            :label="item.jobName"
+            :value="item.jobKey"
+            :label="item.jobKey + (item.jobName.length > 0 ? `（${item.jobName}）` : '')"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item label="任务名称" prop="jobName">
+        <el-input v-model="form.jobName" placeholder="请输入任务名称" />
       </el-form-item>
       <el-form-item prop="cron">
         <template slot="label">
@@ -48,7 +51,11 @@
         <el-input
           v-model="form.cron"
           placeholder="* * 1 * * ? (秒 分 时 日 月 星期 年)"
-        />
+        >
+          <a slot="append" href="https://www.bejson.com/othertools/cron/" target="_blank">
+            在线编辑器
+          </a>
+        </el-input>
       </el-form-item>
       <el-form-item label="参数" prop="paramJson">
         <el-input
@@ -65,12 +72,24 @@
           <el-option value="IGNORE_MISFIRES" label="超期立即执行，并周期执行" />
         </el-select>
       </el-form-item>
-      <el-form-item label="状态" prop="jobStatus">
-        <el-radio-group v-model="form.jobStatus" size="mini">
-          <el-radio-button label="A">启用</el-radio-button>
-          <el-radio-button label="I">停用</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="状态" prop="jobStatus">
+            <el-radio-group v-model="form.jobStatus" size="mini">
+              <el-radio-button label="A">启用</el-radio-button>
+              <el-radio-button label="I">停用</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="记录日志" prop="saveLog">
+            <el-radio-group v-model="form.saveLog" size="mini">
+              <el-radio-button :label="true">开启</el-radio-button>
+              <el-radio-button :label="false">关闭</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="备注" prop="jobComment">
         <el-input
           v-model="form.jobComment"
@@ -94,6 +113,7 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
+
 export default {
   name: 'ScheduleJobForm',
   mixins: [form],
@@ -101,14 +121,15 @@ export default {
     return {
       baseApi: '/scheduleJob',
       jobList: [],
-      jobExample: {},
+      jobName: {},
       jobCron: {},
+      jobExample: {},
+      initFormData: { initStrategy: 'DO_NOTHING', jobStatus: 'A', saveLog: true },
       rules: {
+        'jobKey': [{ required: true, message: '任务不能为空', trigger: 'change' }],
         'jobName': [{ required: true, message: '任务名称不能为空', trigger: 'change' }],
         'cron': [{ required: true, message: '表达式不能为空', trigger: 'blur' }],
-        'paramJson': [{ validator: this.checkJson, trigger: 'blur' }],
-        'initStrategy': [{ required: true, message: '初始化策略不能为空', trigger: 'change' }],
-        'jobStatus': [{ required: true, message: '状态不能为空', trigger: 'change' }]
+        'paramJson': [{ validator: this.checkJson, trigger: 'blur' }]
       }
     }
   },
@@ -141,16 +162,18 @@ export default {
       if (res.code === 0) {
         this.jobList = res.data || []
         this.jobList.forEach(value => {
-          this.jobExample[value.jobName] = value.paramJsonExample
-          this.jobCron[value.jobName] = value.jobCron
+          this.jobName[value.jobKey] = value.jobName
+          this.jobCron[value.jobKey] = value.jobCron
+          this.jobExample[value.jobKey] = value.paramJsonExample
         })
       } else {
         this.$message.error('无可执行定时任务！')
       }
     },
     handleJobSelectChange(value) {
-      this.$set(this.form, 'paramJson', this.jobExample[value])
+      this.$set(this.form, 'jobName', this.jobName[value])
       this.$set(this.form, 'cron', this.jobCron[value])
+      this.$set(this.form, 'paramJson', this.jobExample[value])
     }
   }
 }

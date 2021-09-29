@@ -3,19 +3,7 @@
     <div class="table-page-search-wrapper">
       <el-row>
         <el-col :lg="16" :md="24" class="filter-container">
-          <el-select
-            v-model="queryParam.jobName"
-            clearable
-            placeholder="请选择任务"
-            @change="onSearch"
-          >
-            <el-option
-              v-for="(item, index) in jobList"
-              :key="index"
-              :value="item.jobName"
-              :label="item.jobName"
-            />
-          </el-select>
+          <el-input v-model="queryParam.jobName" placeholder="任务名称" clearable @keyup.enter.native="onSearch" />
           <el-select
             v-model="queryParam.jobStatus"
             clearable
@@ -32,7 +20,7 @@
             重置
           </el-button>
         </el-col>
-        <el-col :lg="8" :md="24" style="text-align: right;">
+        <el-col :lg="8" :md="24" style="text-align: right; position: relative; top: 20px;">
           <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
             新建
           </el-button>
@@ -98,9 +86,10 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="备注">
+      <el-table-column align="center" label="记录日志">
         <template slot-scope="scope">
-          <span>{{ scope.row.jobComment }}</span>
+          <el-tag v-if="scope.row.saveLog" type="success">开启</el-tag>
+          <el-tag v-else type="info">关闭</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间">
@@ -108,6 +97,7 @@
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="创建者" prop="createByName" />
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
@@ -200,27 +190,10 @@ export default {
         DO_NOTHING: '周期执行',
         FIRE_AND_PROCEED: '立即执行一次，并周期执行',
         IGNORE_MISFIRES: '超期立即执行，并周期执行'
-      },
-      jobList: []
+      }
     }
   },
-  created() {
-    this.loadJobs()
-  },
   methods: {
-
-    /**
-     * 加载job
-     * @returns {Promise<void>}
-     */
-    async loadJobs() {
-      const res = await dibootApi.get('/scheduleJob/allJobs')
-      if (res.code === 0) {
-        this.jobList = res.data || []
-      } else {
-        this.$message.error('无可执行定时任务！')
-      }
-    },
     /**
      * 改变状态
      * @param value
@@ -260,8 +233,5 @@ export default {
       this.getList()
     }
   }
-
 }
 </script>
-<style lang="less" scoped>
-</style>

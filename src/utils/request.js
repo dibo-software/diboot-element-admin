@@ -74,8 +74,8 @@ service.interceptors.response.use(
       return {
         data: response.data,
         filename: decodeURI(response.headers.filename),
-        code: parseInt(response.headers['err-code'] || '0'),
-        msg: decodeURI(response.headers['err-msg'] || '')
+        code: parseInt(response.headers['code'] || '0'),
+        msg: decodeURI(response.headers['msg'] || '')
       }
     }
 

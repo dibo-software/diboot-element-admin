@@ -3,6 +3,7 @@ import moment from 'moment'
 import { dibootApi } from '@/utils/request'
 import Pagination from '@/components/Pagination'
 import { downloadFileFromRes } from '@/utils/fileUtil'
+
 export default {
   components: { Pagination },
   data() {
@@ -43,6 +44,10 @@ export default {
       exportLoadingData: false,
       // 是否允许撤回删除
       allowCanceledDelete: true,
+      // 是否重新加载
+      reload: false,
+      // 是否编辑
+      editable: false,
       // 分页数据
       pagination: {
         pageSize: 10,
@@ -234,17 +239,15 @@ export default {
      * @returns {Promise<*>}
      */
     async attachMore() {
-      let res = {}
+      const reqList = []
       // 个性化接口
-      if (this.getMore === true) {
-        res = await dibootApi.get(`${this.baseApi}/attachMore`)
-      } else if (this.attachMoreList.length > 0) {
-        // 通用获取当前对象关联的数据的接口
-        res = await dibootApi.post('/common/attachMore', this.attachMoreList)
-      }
-      if (res.code === 0) {
-        this.more = res.data
-        return res.data
+      this.getMore === true && reqList.push(dibootApi.get(`${this.baseApi}/attachMore`))
+      // 通用获取当前对象关联的数据的接口
+      this.attachMoreList.length > 0 && reqList.push(dibootApi.post('/common/attachMore', this.attachMoreList))
+      if (reqList.length > 0) {
+        const resList = await Promise.all(reqList)
+        resList.forEach(res => res.code === 0 && Object.keys(res.data).forEach(key => { this.more[key] = res.data[key] }))
+        this.$forceUpdate()
       }
     },
     /**
@@ -377,6 +380,28 @@ export default {
         console.log(err)
         this.exportLoadingData = false
       })
+    },
+    /**
+     * 编辑表格结束后触发
+     * @param value
+     * @param oldValue
+     */
+    async handleEditTableRow(model) {
+      if (this.editable) {
+        try {
+          const res = await dibootApi.put(`${this.baseApi}/${model[this.primaryKey]}`, model)
+          if (res.code === 0) {
+            await this.getList()
+          } else {
+            this.$message.warning(res.msg)
+          }
+        } catch (e) {
+          this.$message.warning('网络异常')
+        } finally {
+          this.reload = !this.reload
+        }
+      }
+      this.editable = !this.editable
     },
     /**
      * 下载文件
