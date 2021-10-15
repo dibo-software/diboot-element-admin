@@ -173,9 +173,7 @@ export default {
   mixins: [list],
   data() {
     return {
-      baseApi: '/messageTemplate',
-      getListFromMixin: true
-
+      baseApi: '/messageTemplate'
     }
   }
 }

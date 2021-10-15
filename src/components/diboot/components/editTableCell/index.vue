@@ -25,10 +25,10 @@
           v-model="tempValue"
         >
           <el-option
-            v-for="(item, index) in dataKvList || []"
+            v-for="(item, index) in options || []"
             :key="index"
-            :value="item.v"
-            :label="item.k"
+            :value="item.value"
+            :label="item.label"
           >
           </el-option>
         </el-select>
@@ -94,7 +94,7 @@ export default {
       default: false
     },
     // 选择类型的数据集
-    dataKvList: {
+    options: {
       type: Array,
       default: () => []
     },
@@ -120,9 +120,6 @@ export default {
 <style scoped>
 .editable-cell {
   position: relative;
-}
-editable-cell-text-wrapper {
-  padding-right: 24px;
 }
 .editable-cell-input-wrapper {
  display: flex;

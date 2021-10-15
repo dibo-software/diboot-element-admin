@@ -8,15 +8,14 @@
           </el-form-item>
           <el-form-item label="性别" prop="gender">
             <el-select
-              v-if="more.genderKvList"
               v-model="form.gender"
               placeholder="性别"
             >
               <el-option
-                v-for="(item, index) in more.genderKvList"
+                v-for="(item, index) in more.genderOptions"
                 :key="index"
-                :value="item.v"
-                :label="item.k"
+                :value="item.value"
+                :label="item.label"
               />
             </el-select>
           </el-form-item>
@@ -45,7 +44,12 @@ export default {
   data() {
     return {
       baseApi: '/iam/user',
-      more: {},
+      attachMoreList: [
+        {
+          type: 'D',
+          target: 'GENDER'
+        }
+      ],
       initFormData: {
         realname: '',
         gender: '',
@@ -60,7 +64,6 @@ export default {
   },
   async mounted() {
     await this.getCurrentUserInfo()
-    await this.loadMore()
   },
   methods: {
     async getCurrentUserInfo() {
@@ -94,14 +97,6 @@ export default {
         message: result.msg
       })
       this.$store.commit('SET_NAME', this.form.realname)
-    },
-    async loadMore() {
-      const res = await dibootApi.get('/iam/user/attachMore')
-      if (res.code === 0) {
-        this.more = res.data
-      } else {
-        this.$message.error('获取关联列表数据失败')
-      }
     }
   }
 }

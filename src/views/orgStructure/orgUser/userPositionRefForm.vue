@@ -35,14 +35,12 @@
               filterable
               @change="$forceUpdate()"
             >
-              <template v-if="positionKvList && positionKvList.length > 0">
-                <el-option
-                  v-for="kv in positionKvList"
-                  :key="kv.k"
-                  :value="`${kv.k}`"
-                  :label="kv.v"
-                />
-              </template>
+              <el-option
+                v-for="item in more.iamPositionOptions"
+                :key="item.value"
+                :value="`${item.value}`"
+                :label="item.label"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="组织" :prop="`userPositionList.${i}.orgId`">
@@ -85,8 +83,7 @@
     </div>
     <position-form
       ref="positionForm"
-      @complete="loadPositionKvList"
-      @changeKey="changeTargetId"
+      @complete="attachMore"
     />
   </el-dialog>
 </template>
@@ -97,6 +94,7 @@ import { dibootApi } from '@/utils/request'
 import { treeList2IndentList, treeListFormatter } from '@/utils/treeDataUtil'
 import positionForm from '../position/form'
 import _ from 'lodash'
+
 const USER_POSITION_ITEM = {
   userType: 'IamUser',
   userId: '0',
@@ -114,8 +112,14 @@ export default {
   data() {
     return {
       baseApi: 'iam/userPosition',
+      attachMoreList: [
+        {
+          type: 'T',
+          target: 'IamPosition',
+          label: 'name'
+        }
+      ],
       user: {},
-      positionKvList: [],
       orgList: [],
       form: {
         userPositionList: []
@@ -153,7 +157,7 @@ export default {
     async open(user) {
       this.user = user
       this.state.visible = true
-      this.loadPositionKvList()
+      this.attachMore()
       this.loadUserPositionList(user.id)
       this.loadOrgList()
     },
@@ -169,14 +173,6 @@ export default {
     removeUserPosition(index) {
       this.form.userPositionList.splice(index, 1)
       this.$forceUpdate()
-    },
-    loadPositionKvList() {
-      dibootApi.get('/iam/position/kvList').then(res => {
-        if (res.code === 0) {
-          this.positionKvList = res.data
-          this.$forceUpdate()
-        }
-      })
     },
     loadOrgList() {
       dibootApi.get('/iam/org/tree').then(res => {
@@ -241,7 +237,7 @@ export default {
         this.state.confirmSubmit = false
       }
     },
-    /** *
+    /**
      * 提交前的验证流程
      * @returns {Promise<any>}
      */
@@ -259,21 +255,11 @@ export default {
         })
       })
     },
-    changeTargetId(obj) {
-      if (obj && obj.id) {
-        // 刷新岗位列表
-        this.loadPositionKvList()
-      }
-    },
-    close() {
-      this.state.visible = false
-      this.model = {}
+    afterClose() {
       this.user = {}
-      this.positionKvList = []
+      this.more.iamPositionOptions = []
       this.orgList = []
       this.form.userPositionList = []
-      this.__defaultFileWrapperKeys__()
-      this.afterClose()
     }
   }
 }

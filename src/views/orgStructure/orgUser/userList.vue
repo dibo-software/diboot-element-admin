@@ -34,10 +34,10 @@
                   @change="onSearch"
                 >
                   <el-option
-                    v-for="kv in more.genderKvList"
-                    :key="kv.v"
-                    :value="kv.v"
-                    :label="kv.k"
+                    v-for="item in more.genderOptions"
+                    :key="item.value"
+                    :value="item.value"
+                    :label="item.label"
                   />
                 </el-select>
               </el-form-item>
@@ -239,7 +239,12 @@ export default {
       baseApi: '/iam/user',
       exportApi: '/excel/export',
       allowCanceledDelete: false,
-      getMore: true
+      attachMoreList: [
+        {
+          type: 'D',
+          target: 'GENDER'
+        }
+      ]
     }
   },
   watch: {
