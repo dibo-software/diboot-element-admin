@@ -184,7 +184,7 @@ export default {
       attachMoreList: [
         {
           type: 'T',
-          target: 'message_template',
+          target: 'messageTemplate',
           label: 'title',
           value: 'id'
         },
