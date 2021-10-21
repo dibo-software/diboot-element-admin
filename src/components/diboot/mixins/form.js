@@ -1,8 +1,10 @@
 import { dibootApi } from '@/utils/request'
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
+import more from './more'
 
 export default {
+  mixins: [more],
   data() {
     return {
       // 主键字段名
@@ -19,12 +21,6 @@ export default {
       initFormData: {},
       // 存储当前对象form数据
       form: {},
-      // 是否使mixin在当前业务的attachMore接口中自动获取关联数据
-      getMore: false,
-      // 获取关联数据列表的配置列表
-      attachMoreList: [],
-      // 关联相关的更多数据
-      more: {},
       // 当前组件全屏控制
       fullscreen: false,
       // 当前组件状态对象
@@ -213,18 +209,6 @@ export default {
     afterClose() {
 
     },
-    async attachMore() {
-      let res = {}
-      if (this.getMore === true) {
-        res = await dibootApi.get(`${this.baseApi}/attachMore`)
-      } else if (this.attachMoreList.length > 0) {
-        res = await dibootApi.post('/common/attachMore', this.attachMoreList)
-      }
-      if (res.code === 0) {
-        this.more = res.data
-        return res.data
-      }
-    },
     /** *
      * select选择框启用search功能后的过滤器
      * @param input
@@ -278,8 +262,5 @@ export default {
       }
       this.fileUuidList = []
     }
-  },
-  async mounted() {
-    await this.attachMore()
   }
 }

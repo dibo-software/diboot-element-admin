@@ -62,7 +62,7 @@
                 </el-tooltip>
               </span>
               <div class="variable-container">
-                <el-tag v-for="(item, index) in more.templateTemplateVariableList" :key="index" class="variable-tag" @click="handleInsertIntoContent(item)">
+                <el-tag v-for="(item, index) in more.templateVariableList" :key="index" class="variable-tag" @click="handleInsertIntoContent(item)">
                   {{ item }}
                 </el-tag>
               </div>

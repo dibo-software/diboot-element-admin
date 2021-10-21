@@ -47,16 +47,15 @@
       </el-form-item>
       <el-form-item v-if="systemUser" label="角色" prop="roleIdList">
         <el-select
-          v-if="more.roleKvList"
           v-model="form.roleIdList"
           multiple
           placeholder="请选择角色"
         >
           <el-option
-            v-for="(item, index) in more.roleKvList"
+            v-for="(item, index) in more.iamRoleOptions"
             :key="index"
-            :value="item.v"
-            :label="item.k"
+            :value="item.value"
+            :label="item.label"
           />
         </el-select>
       </el-form-item>
@@ -81,29 +80,27 @@
       </el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-select
-          v-if="more.genderKvList"
           v-model="form.gender"
           placeholder="请选择性别"
         >
           <el-option
-            v-for="(item, index) in more.genderKvList"
+            v-for="(item, index) in more.genderOptions"
             :key="index"
-            :value="item.v"
-            :label="item.k"
+            :value="item.value"
+            :label="item.label"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select
-          v-if="more.userStatusKvList"
           v-model="form.status"
           placeholder="请选择状态"
         >
           <el-option
-            v-for="(item, index) in more.userStatusKvList"
+            v-for="(item, index) in more.userStatusOptions"
             :key="index"
-            :value="item.v"
-            :label="item.k"
+            :value="item.value"
+            :label="item.label"
           />
         </el-select>
       </el-form-item>
@@ -174,7 +171,22 @@ export default {
       orgList: [],
       systemUser: false,
       setPassword: false,
-      getMore: true
+      attachMoreList: [
+        {
+          type: 'D',
+          target: 'USER_STATUS'
+        },
+        {
+          type: 'D',
+          target: 'GENDER'
+        },
+        {
+          type: 'T',
+          target: 'IamRole',
+          label: 'name',
+          value: 'id'
+        }
+      ]
     }
   },
   computed: {

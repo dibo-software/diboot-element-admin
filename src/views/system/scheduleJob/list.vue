@@ -185,7 +185,6 @@ export default {
   data() {
     return {
       baseApi: '/scheduleJob',
-      getListFromMixin: true,
       initStrategyEnum: {
         DO_NOTHING: '周期执行',
         FIRE_AND_PROCEED: '立即执行一次，并周期执行',
