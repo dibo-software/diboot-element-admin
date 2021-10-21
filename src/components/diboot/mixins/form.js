@@ -147,9 +147,9 @@ export default {
      */
     async onSubmit() {
       this.state.confirmSubmit = true
-      const values = await this.validate()
-      await this.enhance(values)
       try {
+        const values = await this.validate()
+        await this.enhance(values)
         let result = {}
         if (this.form[this.primaryKey] === undefined) {
           // 新增该记录
