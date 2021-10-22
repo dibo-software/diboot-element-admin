@@ -2,60 +2,68 @@
   <div class="editable-cell">
     <div v-if="editable" class="editable-cell-input-wrapper">
       <template v-if="formType === 'INPUT'">
-        <el-input v-model="tempValue" @input="changeValue"/>
+        <el-input
+          v-model="tempValue"
+          :placeholder="placeholder"
+          @input="changeValue"
+        />
       </template>
       <template v-if="formType === 'INPUT_NUMBER'">
         <el-input-number
           v-model="tempValue"
+          :placeholder="placeholder"
           controls-position="right"
           @change="changeValue"
         />
       </template>
       <template v-else-if="formType === 'TEXTAREA'">
         <el-input
-          @input="changeValue"
-          type="textarea"
           v-model="tempValue"
+          :placeholder="placeholder"
+          type="textarea"
+          @input="changeValue"
         />
       </template>
       <template v-else-if="formType === 'S_SELECT'">
         <el-select
+          v-model="tempValue"
+          :placeholder="placeholder"
           filterable
           @change="changeValue"
-          v-model="tempValue"
         >
           <el-option
             v-for="(item, index) in options || []"
             :key="index"
             :value="item.value"
             :label="item.label"
-          >
-          </el-option>
+          />
         </el-select>
       </template>
       <template v-else-if="formType === 'SWITCH'">
-        <el-switch  @change="changeValue" v-model="tempValue"/>
+        <el-switch v-model="tempValue" @change="changeValue" />
       </template>
       <template v-else-if="formType === 'DATEPICKER'">
         <el-date-picker
           v-model="tempValue"
-          @change="changeValue"
+          :placeholder="placeholder"
           value-format="yyyy-MM-dd"
           type="date"
+          @change="changeValue"
         />
       </template>
       <template v-else-if="formType === 'DATETIMEPICKER'">
         <el-date-picker
           v-model="tempValue"
-          @change="changeValue"
+          :placeholder="placeholder"
           value-format="yyyy-MM-dd HH:mm:ss"
           type="datetime"
+          @change="changeValue"
         />
       </template>
     </div>
     <div v-else :class="{'text-ellipsis': ellipsis, 'editable-cell-text-wrapper': true}">
       <template v-if="label">
-        {{label}}
+        {{ label }}
       </template>
       <template v-else>
         {{ (isBoolean ? (tempValue ? '是' : '否') : tempValue) || '-' }}
@@ -102,6 +110,10 @@ export default {
     ellipsis: {
       type: Boolean,
       default: false
+    },
+    placeholder: {
+      type: String,
+      default: ''
     }
   },
   data() {
