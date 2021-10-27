@@ -366,9 +366,11 @@ export default {
             }
 
             // 获取当前菜单的可用接口列表
-            this.form.apiSetList = this.form.apiSetList.filter(api => {
-              return api !== undefined && api !== ''
-            })
+            if (this.form.apiSetList && this.form.apiSetList.length > 0) {
+              this.form.apiSetList = this.form.apiSetList.filter(api => {
+                return api !== undefined && api !== ''
+              })
+            }
 
             // 整理当前的按钮/权限列表以及对应的接口列表
             const permissionList = _.cloneDeep(this.form.permissionList)
