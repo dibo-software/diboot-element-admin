@@ -336,6 +336,7 @@ export default {
      * 导出数据至excel
      */
     exportData() {
+      if (this.exportLoadingData) return
       this.exportLoadingData = true
       let tempQueryParam = {}
       // 转化包含moment的时间类型
