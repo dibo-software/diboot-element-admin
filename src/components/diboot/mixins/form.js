@@ -227,6 +227,14 @@ export default {
       this.$refs['dataForm'].resetFields()
     },
     /**
+     * 字符串分割
+     * @param str
+     * @param separator
+     */
+    strSplit(str, separator = ',') {
+      return str ? str.split(',') : []
+    },
+    /**
      * 设置文件uuid
      * @private
      */
