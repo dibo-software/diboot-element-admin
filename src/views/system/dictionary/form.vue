@@ -184,6 +184,15 @@ export default {
         this.$message.error('请输入数据字典子项编码')
         return false
       }
+      for (let i = 0; i < this.children.length; i++) {
+        if (this.childrenBtnConfig.currentIndex !== i && this.children[i].itemValue === this.childItem.itemValue) {
+          this.$message.error('数据字典子项编码值重复')
+          return false
+        }
+      }
+      if (this.childItem.itemValue.indexOf(',') >= 0) {
+        this.$message.warning('数据字典子项编码不建议包含英文逗号')
+      }
 
       if (this.childrenBtnConfig.currentIndex === undefined ||
           this.childrenBtnConfig.currentIndex >= this.children.length) {
