@@ -227,6 +227,14 @@ export default {
       this.$refs['dataForm'].resetFields()
     },
     /**
+     * 将属性值转化为数组
+     * @param fieldName
+     * @param separator
+     */
+    transformStr2Arr(fieldName, separator = ',') {
+      this.$set(this.form, fieldName, this.strSplit(this.form[fieldName], separator))
+    },
+    /**
      * 字符串分割
      * @param str
      * @param separator
