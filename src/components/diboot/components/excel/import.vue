@@ -90,7 +90,7 @@
           </el-collapse-item>
         </el-collapse>
         <el-table v-if="data.dataList" style="width: 100%" :data="data.dataList" border>
-          <table-column :columns="data.tableHead" />
+          <table-column v-for="(column, index) in data.tableHead" :key="index" :column="column" show-overflow-tooltip />
         </el-table>
       </div>
     </div>

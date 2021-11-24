@@ -2,12 +2,18 @@
   <el-table-column
     :prop="column.key"
     :label="column.title"
-    show-overflow-tooltip
+    :show-overflow-tooltip="showOverflowTooltip"
     min-width="100"
     align="center"
     :formatter="formatter"
   >
-    <table-column v-if="column.children" :columns="column.children" :formatter="formatter" />
+    <table-column
+      v-for="(item, index) in column.children"
+      :key="index"
+      :column="item"
+      :show-overflow-tooltip="showOverflowTooltip"
+      :formatter="formatter"
+    />
   </el-table-column>
 </template>
 
@@ -18,6 +24,10 @@ export default {
     column: {
       type: Object,
       required: true
+    },
+    showOverflowTooltip: {
+      type: Boolean,
+      default: false
     },
     formatter: {
       type: Function,
