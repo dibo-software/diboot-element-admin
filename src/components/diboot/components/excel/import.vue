@@ -78,6 +78,7 @@
                 icon="el-icon-download"
                 :class="data.errorUrl ? '' :'shake'"
                 :disabled="data.errorUrl == null"
+                @click.stop="__download(data.errorUrl);__resetData()"
               >
                 导出错误数据
               </el-button>
