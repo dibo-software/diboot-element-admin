@@ -23,7 +23,7 @@
       </span>
       <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
         <el-table border :data="dataList" style="width: 100%">
-          <table-column :columns="tableHead" :formatter="formatter" />
+          <table-column v-for="(column, index) in tableHead" :key="`data-preview-${column.key}-${index}`" :column="column" :formatter="formatter" />
         </el-table>
       </el-checkbox-group>
       <span slot="footer" class="dialog-footer">
