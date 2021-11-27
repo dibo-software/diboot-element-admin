@@ -146,6 +146,12 @@ export const asyncRoutes = [
         meta: { title: '定时任务管理', permission: ['ScheduleJob'] }
       },
       {
+        path: 'uploadFile/list',
+        name: 'uploadFileList',
+        component: () => import('@/views/system/uploadFile/list'),
+        meta: { title: '上传文件管理', keepAlive: true, permission: ['UploadFile'] }
+      },
+      {
         path: 'iamOperationLog/list',
         name: 'IamOperationLogList',
         component: () => import('@/views/system/iamOperationLog/list'),
