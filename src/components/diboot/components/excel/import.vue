@@ -60,40 +60,38 @@
         </el-col>
       </el-row>
     </div>
-    <div v-if="data && data.totalCount > 0">
+    <div v-if="data">
       <el-divider />
-      <div v-if="data.totalCount>0">
-        <div class="alert alert-info">
-          Excel文件解析成功，共有 <strong>{{ data.totalCount }}</strong> 条数据
-          <span v-if="data.errorCount > 0">；<strong>{{ data.totalCount - data.errorCount }}</strong> 条数据</span>
-          可上传。
-        </div>
-        <el-collapse v-if="data.errorCount > 0" value="1">
-          <el-collapse-item style="background-color: antiquewhite;" name="1">
-            <template slot="title">
-              <span style="color: red;zoom: 1.2">{{ `共有 ${data.errorCount} 条数据异常` }}</span>
-              （上传数据后可
-              <el-button
-                type="text"
-                icon="el-icon-download"
-                :class="data.errorUrl ? '' :'shake'"
-                :disabled="data.errorUrl == null"
-                @click.stop="__download(data.errorUrl);__resetData()"
-              >
-                导出错误数据
-              </el-button>
-              ）
-            </template>
-            <div v-for="error in data.errorMsgs" :key="error">
-              {{ error }}
-            </div>
-            <span v-if="data.errorCount > 20">...</span>
-          </el-collapse-item>
-        </el-collapse>
-        <el-table v-if="data.dataList" style="width: 100%" :data="data.dataList" border>
-          <table-column v-for="(column, index) in data.tableHead" :key="index" :column="column" show-overflow-tooltip />
-        </el-table>
+      <div class="alert alert-info">
+        Excel文件解析成功，共有 <strong>{{ data.totalCount }}</strong> 条数据
+        <span v-if="data.errorCount > 0">；<strong>{{ data.totalCount - data.errorCount }}</strong> 条数据</span>
+        可上传。
       </div>
+      <el-collapse v-if="data.errorCount > 0" value="1">
+        <el-collapse-item style="background-color: antiquewhite;" name="1">
+          <template slot="title">
+            <span style="color: red;zoom: 1.2">{{ `共有 ${data.errorCount} 条数据异常` }}</span>
+            （上传数据后可
+            <el-button
+              type="text"
+              icon="el-icon-download"
+              :class="data.errorUrl ? '' :'shake'"
+              :disabled="data.errorUrl == null"
+              @click.stop="__download(data.errorUrl);__resetData()"
+            >
+              导出错误数据
+            </el-button>
+            ）
+          </template>
+          <div v-for="error in data.errorMsgs" :key="error">
+            {{ error }}
+          </div>
+          <span v-if="data.errorCount > 20">...</span>
+        </el-collapse-item>
+      </el-collapse>
+      <el-table v-if="data.dataList" style="width: 100%" :data="data.dataList" border>
+        <table-column v-for="(column, index) in data.tableHead" :key="index" :column="column" show-overflow-tooltip />
+      </el-table>
     </div>
   </el-card>
 </template>
@@ -215,9 +213,8 @@ export default {
       this.fileList = newFileList
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
-      this.importFileNameObj = {}
       this.errMsg = ''
-      this.data = {}
+      this.data = null
     },
     /**
      * 上传之前操作
@@ -228,7 +225,7 @@ export default {
       this.uploadDisabled = this.fileList.length === 0
       this.errMsg = ''
       console.log('this.refs==>', this.$refs)
-      this.data = {}
+      this.data = null
       return false
     },
     /**
@@ -324,7 +321,7 @@ export default {
       this.comment = null
       this.previewDisabled = true
       this.uploadDisabled = true
-      this.data = {}
+      this.data = null
     }
   }
 }
