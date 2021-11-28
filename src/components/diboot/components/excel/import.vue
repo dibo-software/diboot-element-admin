@@ -16,9 +16,10 @@
         <el-col :md="6">
           <el-upload
             action=""
+            :auto-upload="false"
             :file-list="fileList"
-            :remove="handleRemove"
-            :before-upload="beforeUpload"
+            :on-remove="handleRemove"
+            :on-change="handleChange"
             class="upload-list-inline"
           >
             <el-button icon="el-icon-upload">
@@ -194,8 +195,8 @@ export default {
             navigator.msSaveBlob(blob, res.filename)
           }
         }).catch(err => {
-          console.log(err)
-        })
+        console.log(err)
+      })
     },
     /**
      * 下载样例文件
@@ -210,23 +211,24 @@ export default {
       const index = this.fileList.indexOf(file)
       const newFileList = this.fileList.slice()
       newFileList.splice(index, 1)
-      this.fileList = newFileList
+      this.fileList.length = 0
+      this.fileList.push(...newFileList)
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
       this.errMsg = ''
       this.data = null
     },
     /**
-     * 上传之前操作
+     * 文件改变的操作
      */
-    beforeUpload(file) {
-      this.fileList = [...this.fileList, file].splice(-1)
+    handleChange(file) {
+      this.fileList = [file]
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
       this.errMsg = ''
       console.log('this.refs==>', this.$refs)
       this.data = null
-      return false
+      return true
     },
     /**
      * 预览
@@ -306,9 +308,10 @@ export default {
      */
     __buildFileForm() {
       const { fileList } = this
+      console.log(fileList)
       const formData = new FormData()
       formData.append('comment', this.comment)
-      formData.append('file', fileList[0])
+      formData.append('file', fileList[0].raw)
       return formData
     },
     /**
