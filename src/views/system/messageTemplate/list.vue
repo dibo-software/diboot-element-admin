@@ -25,30 +25,32 @@
           </el-col>
           <template v-if="advanced">
             <el-col :md="8" :sm="24">
-              <el-form-item label="创建时间">
-                <el-date-picker
-                  v-model="queryParam.createTime"
+              <el-form-item label="创建人">
+                <el-select
+                  v-model="queryParam.createBy"
+                  placeholder=""
+                  filterable
                   clearable
-                  type="date"
-                  value-format="yyyy-MM-dd"
+                  remote
+                  :loading="attachMoreLoading"
+                  :remote-method="value => attachMoreFilter(value, 'iamUser')"
                   @change="onSearch"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :md="8" :sm="24">
-              <el-form-item label="更新时间">
-                <el-date-picker
-                  v-model="queryParam.updateTime"
-                  clearable
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  @change="onSearch"
-                />
+                >
+                  <el-option
+                    v-for="(item, index) in more.iamUserOptions || []"
+                    :key="index"
+                    :value="item.value"
+                    :label="item.label"
+                  />
+                </el-select>
               </el-form-item>
             </el-col>
           </template>
           <el-col :md="!advanced && 8 || 24" :sm="24">
-            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+            <span
+              class="table-page-search-submitButtons"
+              :style="advanced && { float: 'right', overflow: 'hidden' } || {} "
+            >
               <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
                 查询
               </el-button>
@@ -88,6 +90,11 @@
       <el-table-column align="center" label="模版标题">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="创建人">
+        <template slot-scope="scope">
+          <span>{{ scope.row.createByName }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间">
@@ -173,7 +180,14 @@ export default {
   mixins: [list],
   data() {
     return {
-      baseApi: '/messageTemplate'
+      baseApi: '/messageTemplate',
+      attachMoreLoader: {
+        iamUser: {
+          target: 'IamUser',
+          label: 'realname',
+          value: 'id'
+        }
+      }
     }
   }
 }

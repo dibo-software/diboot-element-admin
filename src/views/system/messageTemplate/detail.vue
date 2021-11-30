@@ -34,6 +34,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
+          <el-form-item label="创建人">
+            <span>{{ model.createByName }}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
           <el-form-item label="创建时间">
             <span>{{ model.createTime }}</span>
           </el-form-item>
