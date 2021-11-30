@@ -28,7 +28,7 @@
           </el-upload>
         </el-col>
         <el-col :md="8">
-          <el-input v-model="comment" placeholder="备注信息" />
+          <el-input v-model="description" placeholder="备注信息" />
         </el-col>
         <el-col :md="10">
           <el-button
@@ -152,7 +152,7 @@ export default {
       /**
        * 文件备注
        */
-      comment: null,
+      description: '',
       /**
        * 是否禁用预览
        */
@@ -195,8 +195,8 @@ export default {
             navigator.msSaveBlob(blob, res.filename)
           }
         }).catch(err => {
-        console.log(err)
-      })
+          console.log(err)
+        })
     },
     /**
      * 下载样例文件
@@ -236,6 +236,11 @@ export default {
     handlePreview() {
       const { previewUrl } = this
       const fileForm = this.__buildFileForm()
+      if (Object.keys(this.fieldsRequired).length > 0) {
+        for (const key in this.fieldsRequired) {
+          fileForm.append(key, this.fieldsRequired[key])
+        }
+      }
       // 上传文件请求
       dibootApi.upload(previewUrl, fileForm)
         .then(res => {
@@ -256,10 +261,10 @@ export default {
       const { uploadUrl, previewSaveUrl } = this
       this.previewDisabled = true
       this.uploadDisabled = true
-      if (this.data.uuid) {
+      if (this.data && this.data.uuid) {
         const formData = new FormData()
         formData.append('uuid', this.data.uuid)
-        formData.append('comment', this.comment)
+        formData.append('description', this.description)
         this.__sendUploadRequest(previewSaveUrl, formData)
       } else {
         const fileForm = this.__buildFileForm()
@@ -310,7 +315,7 @@ export default {
       const { fileList } = this
       console.log(fileList)
       const formData = new FormData()
-      formData.append('comment', this.comment)
+      formData.append('description', this.description)
       formData.append('file', fileList[0].raw)
       return formData
     },
@@ -321,7 +326,7 @@ export default {
     __resetData() {
       this.$emit('finishedUpload')
       this.fileList = []
-      this.comment = null
+      this.description = ''
       this.previewDisabled = true
       this.uploadDisabled = true
       this.data = null
