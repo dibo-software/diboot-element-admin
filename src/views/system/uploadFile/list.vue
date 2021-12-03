@@ -74,11 +74,6 @@
       row-key="uuid"
       @sort-change="appendSorterParam"
     >
-      <el-table-column align="center" label="应用模块">
-        <template slot-scope="scope">
-          <span>{{ scope.row.appModule }}</span>
-        </template>
-      </el-table-column>
       <el-table-column align="center" label="关联对象类">
         <template slot-scope="scope">
           <span>{{ scope.row.relObjType }}</span>
@@ -125,36 +120,19 @@
           </el-button>
           <span
             v-permission="['detail']"
-            v-permission-again="['update', 'delete']"
+            v-permission-again="['update']"
           >
             <el-divider
               direction="vertical"
             />
           </span>
-          <el-dropdown
-            v-permission="['update', 'delete']"
-            @command="command => menuCommand(command, row)"
+          <el-button
+            v-permission="['detail']"
+            type="text"
+            @click="$refs.form.open(row.uuid)"
           >
-            <el-button type="text">
-              更多<i class="el-icon-arrow-down el-icon--right" />
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-permission="['update']"
-                command="update"
-                icon="el-icon-edit"
-              >
-                编辑
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-permission="['delete']"
-                command="delete"
-                icon="el-icon-delete"
-              >
-                删除
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+            编辑
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

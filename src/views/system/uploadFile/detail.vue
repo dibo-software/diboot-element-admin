@@ -21,11 +21,6 @@
     <el-form label-position="left" inline class="detail-item-container" label-width="130px">
       <el-row :gutter="18">
         <el-col :span="24">
-          <el-form-item label="应用模块">
-            <span>{{ model.appModule }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
           <el-form-item label="关联对象类">
             <span>{{ model.relObjType }}</span>
           </el-form-item>
