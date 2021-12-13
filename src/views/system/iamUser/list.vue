@@ -30,7 +30,7 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :lg="4" :md="24" style="text-align: right;">
+      <el-col :lg="4" :md="24" style="text-align: right; padding: 20px">
         <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
