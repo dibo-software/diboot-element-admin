@@ -36,7 +36,6 @@
       </el-col>
     </el-row>
     <el-table
-      v-if="list && list.length > 0"
       v-loading="loadingData"
       :data="list"
       element-loading-text="Loading"

@@ -16,10 +16,10 @@
             @change="onSearch"
           >
             <el-option
-              v-for="(item, index) in more.userStatusKvList || []"
+              v-for="(item, index) in more.userStatusOptions || []"
               :key="index"
-              :value="item.v"
-              :label="item.k"
+              :value="item.value"
+              :label="item.label"
             />
           </el-select>
           <el-button v-waves type="primary" icon="el-icon-search" @click="onSearch">
@@ -30,7 +30,7 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :lg="4" :md="24" style="text-align: right;">
+      <el-col :lg="4" :md="24" style="text-align: right; padding: 20px">
         <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.form.open(undefined)">
           新建
         </el-button>
@@ -169,17 +169,7 @@ export default {
       attachMoreList: [
         {
           type: 'D',
-          target: 'GENDER'
-        },
-        {
-          type: 'D',
           target: 'USER_STATUS'
-        },
-        {
-          type: 'T',
-          target: 'iamRole',
-          key: 'name',
-          value: 'id'
         }
       ]
     }

@@ -44,47 +44,52 @@
       <el-table-column label="创建时间" width="150" align="center" prop="createTime" sortable />
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button
-            v-permission="['detail']"
-            type="text"
-            @click="$refs.detail.open(row.id)"
-          >
-            详情
-          </el-button>
-          <span
-            v-permission="['detail']"
-            v-permission-again="['update', 'delete']"
-          >
-            <el-divider
-              direction="vertical"
-            />
-          </span>
-          <el-dropdown
-            v-permission="['update', 'delete']"
-            @command="command => menuCommand(command, row)"
-          >
-            <el-button type="text">
-              更多<i class="el-icon-arrow-down el-icon--right" />
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-permission="['update']"
-                command="update"
-                icon="el-icon-edit"
-              >
-                更新
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-permission="['delete']"
-                command="delete"
-                icon="el-icon-delete"
-              >
-                删除
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span v-permission-missing="['detail', 'update', 'delete']">
+          <span v-if="row.superAdmin === true">
             -
+          </span>
+          <span v-else>
+            <el-button
+              v-permission="['detail']"
+              type="text"
+              @click="$refs.detail.open(row.id)"
+            >
+              详情
+            </el-button>
+            <span
+              v-permission="['detail']"
+              v-permission-again="['update', 'delete']"
+            >
+              <el-divider
+                direction="vertical"
+              />
+            </span>
+            <el-dropdown
+              v-permission="['update', 'delete']"
+              @command="command => menuCommand(command, row)"
+            >
+              <el-button type="text">
+                更多<i class="el-icon-arrow-down el-icon--right"/>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-permission="['update']"
+                  command="update"
+                  icon="el-icon-edit"
+                >
+                  更新
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-permission="['delete']"
+                  command="delete"
+                  icon="el-icon-delete"
+                >
+                  删除
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <span v-permission-missing="['detail', 'update', 'delete']">
+              -
+            </span>
           </span>
         </template>
       </el-table-column>

@@ -61,10 +61,10 @@
               placeholder="请选择数据权限"
             >
               <el-option
-                v-for="kv in more.dataPermissionTypeKvList"
-                :key="kv.v"
-                :label="kv.k"
-                :value="kv.v"
+                v-for="item in more.dataPermissionTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               />
             </el-select>
           </el-form-item>
@@ -80,10 +80,10 @@
               @change="onGradeValueChanged"
             >
               <el-option
-                v-for="kv in more.positionGradeKvList"
-                :key="kv.v"
-                :label="kv.v"
-                :value="kv.v"
+                v-for="item in more.positionGradeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               />
             </el-select>
           </el-form-item>
@@ -155,14 +155,14 @@ export default {
     }
   },
   computed: {
-    positionGradeKvMap: function() {
-      const positionGradeKvMap = {}
-      if (this.more && this.more.positionGradeKvList) {
-        this.more.positionGradeKvList.forEach(item => {
-          positionGradeKvMap[item.v] = item
+    positionGradeMap: function() {
+      const positionGradeMap = {}
+      if (this.more && this.more.positionGradeOptions) {
+        this.more.positionGradeOptions.forEach(item => {
+          positionGradeMap[item.value] = item
         })
       }
-      return positionGradeKvMap
+      return positionGradeMap
     }
   },
   methods: {
@@ -176,8 +176,8 @@ export default {
       this.$set(this.form, 'roleIds', roleIds)
     },
     onGradeValueChanged(value) {
-      if (value && this.positionGradeKvMap && this.positionGradeKvMap[value]) {
-        this.form.gradeName = this.positionGradeKvMap[value]['k']
+      if (value && this.positionGradeMap && this.positionGradeMap[value]) {
+        this.form.gradeName = this.positionGradeMap[value]['label']
       }
     }
   }

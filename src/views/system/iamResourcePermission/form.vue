@@ -92,7 +92,7 @@
               <el-row type="flex" align="middle" :gutter="16">
                 <el-col :span="19">
                   <el-select
-                    v-if="more.resourcePermissionCodeKvList && isSelect"
+                    v-if="isSelect"
                     v-model="permission.resourceCode"
                     filterable
                     allow-create
@@ -100,13 +100,13 @@
                     @change="value => changePermissionName(permission, value)"
                   >
                     <el-option
-                      v-for="(item, i) in more.resourcePermissionCodeKvList"
+                      v-for="(item, i) in more.resourcePermissionCodeOptions"
                       :key="`frontend-code_${_uid}_${i}`"
-                      :label="`${item.k}[${item.v}]`"
-                      :value="item.v"
+                      :label="`${item.label}[${item.value}]`"
+                      :value="item.value"
                     />
                   </el-select>
-                  <el-input v-if="!isSelect" v-model="permission.resourceCode" placeholder="请输入按钮/权限编码" />
+                  <el-input v-else v-model="permission.resourceCode" placeholder="请输入按钮/权限编码" />
                 </el-col>
                 <el-col :span="5">
                   <el-button type="primary" icon="swap" size="small" @click="handleSwap(permission, index)">
@@ -182,6 +182,12 @@ export default {
     return {
       baseApi: '/iam/resourcePermission',
       getMore: true,
+      attachMoreList: [
+        {
+          type: 'D',
+          target: 'RESOURCE_PERMISSION_CODE'
+        }
+      ],
       apiTreeList: [],
       currentMenu: '',
       currentPermissionActiveKey: '0',
@@ -218,8 +224,8 @@ export default {
     },
     menuTreeData: function() {
       let menuTreeData = []
-      if (this.more && this.more.menuList) {
-        menuTreeData = treeListFormatter(this.more.menuList, 'id', 'displayName', true)
+      if (this.more && this.more.menuTree) {
+        menuTreeData = treeListFormatter(this.more.menuTree, 'id', 'displayName', true)
       }
       menuTreeData.splice(0, 0, { key: '0', value: '0', label: '顶级菜单' })
       return menuTreeData
@@ -360,9 +366,11 @@ export default {
             }
 
             // 获取当前菜单的可用接口列表
-            this.form.apiSetList = this.form.apiSetList.filter(api => {
-              return api !== undefined && api !== ''
-            })
+            if (this.form.apiSetList && this.form.apiSetList.length > 0) {
+              this.form.apiSetList = this.form.apiSetList.filter(api => {
+                return api !== undefined && api !== ''
+              })
+            }
 
             // 整理当前的按钮/权限列表以及对应的接口列表
             const permissionList = _.cloneDeep(this.form.permissionList)
@@ -401,12 +409,12 @@ export default {
       this.form.permissionList.push(newPermission)
       this.currentPermissionActiveKey = `${this.form.permissionList.length - 1}`
       // 自动补全编码选项
-      if (this.more && this.more.resourcePermissionCodeKvList) {
-        const validKv = this.more.resourcePermissionCodeKvList.find(kv => {
-          return !this.existPermissionCodes.includes(kv.v)
+      if (this.more && this.more.resourcePermissionCodeOptions) {
+        const validOption = this.more.resourcePermissionCodeOptions.find(item => {
+          return !this.existPermissionCodes.includes(item.value)
         })
-        newPermission.resourceCode = validKv.v
-        this.changePermissionName(newPermission, validKv.v)
+        newPermission.resourceCode = validOption.value
+        this.changePermissionName(newPermission, validOption.value)
       }
     },
     removePermission(index) {
@@ -416,12 +424,12 @@ export default {
       this.currentPermissionActiveKey = currentKey > 0 ? `${currentKey - 1}` : '0'
     },
     changePermissionName(permission, value) {
-      const validKv = this.more.resourcePermissionCodeKvList.find(item => {
-        return item.v === value
+      const validOption = this.more.resourcePermissionCodeOptions.find(item => {
+        return item.value === value
       })
       // 自动补全按钮/权限名称
-      if (validKv !== undefined) {
-        permission.displayName = validKv['k']
+      if (validOption !== undefined) {
+        permission.displayName = validOption['label']
       }
       // 自动补全接口列表
       permission.apiSetList = []

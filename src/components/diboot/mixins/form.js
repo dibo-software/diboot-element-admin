@@ -1,8 +1,10 @@
 import { dibootApi } from '@/utils/request'
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
+import more from './more'
 
 export default {
+  mixins: [more],
   data() {
     return {
       // 主键字段名
@@ -19,12 +21,6 @@ export default {
       initFormData: {},
       // 存储当前对象form数据
       form: {},
-      // 是否使mixin在当前业务的attachMore接口中自动获取关联数据
-      getMore: false,
-      // 获取关联数据列表的配置列表
-      attachMoreList: [],
-      // 关联相关的更多数据
-      more: {},
       // 当前组件全屏控制
       fullscreen: false,
       // 当前组件状态对象
@@ -147,9 +143,9 @@ export default {
      */
     async onSubmit() {
       this.state.confirmSubmit = true
-      const values = await this.validate()
-      await this.enhance(values)
       try {
+        const values = await this.validate()
+        await this.enhance(values)
         let result = {}
         if (this.form[this.primaryKey] === undefined) {
           // 新增该记录
@@ -158,7 +154,6 @@ export default {
           // 更新该记录
           result = await this.update(values)
         }
-
         // 执行提交失败后的一系列后续操作
         this.submitSuccess(result)
       } catch (e) {
@@ -213,18 +208,6 @@ export default {
     afterClose() {
 
     },
-    async attachMore() {
-      let res = {}
-      if (this.getMore === true) {
-        res = await dibootApi.get(`${this.baseApi}/attachMore`)
-      } else if (this.attachMoreList.length > 0) {
-        res = await dibootApi.post('/common/attachMore', this.attachMoreList)
-      }
-      if (res.code === 0) {
-        this.more = res.data
-        return res.data
-      }
-    },
     /** *
      * select选择框启用search功能后的过滤器
      * @param input
@@ -242,6 +225,32 @@ export default {
     clearForm() {
       this.form = _.cloneDeep(this.initFormData)
       this.$refs['dataForm'].resetFields()
+    },
+    /**
+     * 点击级联类型后，加载select数据
+     */
+    handleCascaderSelectNext(data, clearParams = []) {
+      // 将级联已经选中的统一清理
+      clearParams.forEach(param => delete this.queryParam[param])
+      // 选中的数据初始化
+      Object.assign(this.more, data)
+      this.$forceUpdate()
+    },
+    /**
+     * 将属性值转化为数组
+     * @param fieldName
+     * @param separator
+     */
+    transformStr2Arr(fieldName, separator = ',') {
+      this.$set(this.form, fieldName, this.strSplit(this.form[fieldName], separator))
+    },
+    /**
+     * 字符串分割
+     * @param str
+     * @param separator
+     */
+    strSplit(str, separator = ',') {
+      return str ? str.split(',') : []
     },
     /**
      * 设置文件uuid
@@ -278,8 +287,5 @@ export default {
       }
       this.fileUuidList = []
     }
-  },
-  async mounted() {
-    await this.attachMore()
   }
 }

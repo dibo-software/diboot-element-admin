@@ -2,7 +2,12 @@
   <el-card class="diboot-import content">
     <div slot="header" class="clearfix">
       <span>数据上传</span>
-      <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-download" @click="handleDownloadExample">
+      <el-button
+        style="float: right; padding: 3px 0"
+        type="text"
+        icon="el-icon-download"
+        @click="handleDownloadExample"
+      >
         下载示例文件
       </el-button>
     </div>
@@ -11,9 +16,10 @@
         <el-col :md="6">
           <el-upload
             action=""
+            :auto-upload="false"
             :file-list="fileList"
-            :remove="handleRemove"
-            :before-upload="beforeUpload"
+            :on-remove="handleRemove"
+            :on-change="handleChange"
             class="upload-list-inline"
           >
             <el-button icon="el-icon-upload">
@@ -22,7 +28,7 @@
           </el-upload>
         </el-col>
         <el-col :md="8">
-          <el-input v-model="comment" placeholder="备注信息" />
+          <el-input v-model="description" placeholder="备注信息" />
         </el-col>
         <el-col :md="10">
           <el-button
@@ -55,18 +61,50 @@
         </el-col>
       </el-row>
     </div>
-    <data-preview ref="dataPreview" />
+    <div v-if="data">
+      <el-divider />
+      <div class="alert alert-info">
+        Excel文件解析成功，共有 <strong>{{ data.totalCount }}</strong> 条数据
+        <span v-if="data.errorCount > 0">；<strong>{{ data.totalCount - data.errorCount }}</strong> 条数据</span>
+        可上传。
+      </div>
+      <el-collapse v-if="data.errorCount > 0" value="1">
+        <el-collapse-item style="background-color: antiquewhite;" name="1">
+          <template slot="title">
+            <span style="color: red;zoom: 1.2">{{ `共有 ${data.errorCount} 条数据异常` }}</span>
+            （上传数据后可
+            <el-button
+              type="text"
+              icon="el-icon-download"
+              :class="data.errorUrl ? '' :'shake'"
+              :disabled="data.errorUrl == null"
+              @click.stop="__download(data.errorUrl);__resetData()"
+            >
+              导出错误数据
+            </el-button>
+            ）
+          </template>
+          <div v-for="error in data.errorMsgs" :key="error">
+            {{ error }}
+          </div>
+          <span v-if="data.errorCount > 20">...</span>
+        </el-collapse-item>
+      </el-collapse>
+      <el-table v-if="data.dataList" style="width: 100%" :data="data.dataList" border>
+        <table-column v-for="(column, index) in data.tableHead" :key="index" :column="column" show-overflow-tooltip />
+      </el-table>
+    </div>
   </el-card>
 </template>
 
 <script>
-import dataPreview from '@/components/diboot/components/import/dataPreview'
+import TableColumn from '@/components/diboot/components/excel/tableColumn'
 import { dibootApi } from '@/utils/request'
 
 export default {
   name: 'ExcelImport',
   components: {
-    dataPreview
+    TableColumn
   },
   props: {
     /**
@@ -114,7 +152,7 @@ export default {
       /**
        * 文件备注
        */
-      comment: '',
+      description: '',
       /**
        * 是否禁用预览
        */
@@ -124,25 +162,18 @@ export default {
        */
       uploadDisabled: true,
       /**
-       * 预览时候使用
-       */
-      importFileNameObj: {},
-      fileNameFields: {
-        originFileName: 'originFileName',
-        previewFileName: 'previewFileName'
-      },
-      /**
        * 错误信息提示
        */
-      errMsg: ''
+      errMsg: '',
+      /**
+       * 请求返回数据
+       */
+      data: null
     }
   },
   methods: {
-    /**
-       * 下载样例文件
-       */
-    handleDownloadExample() {
-      dibootApi.download(this.exampleUrl)
+    __download(url) {
+      dibootApi.download(url)
         .then(res => {
           if (res.code && res.code === 4006) {
             this.$message.error(res.msg)
@@ -167,7 +198,12 @@ export default {
           console.log(err)
         })
     },
-
+    /**
+     * 下载样例文件
+     */
+    handleDownloadExample() {
+      this.__download(this.exampleUrl)
+    },
     /**
      * 删除操作
      */
@@ -175,24 +211,24 @@ export default {
       const index = this.fileList.indexOf(file)
       const newFileList = this.fileList.slice()
       newFileList.splice(index, 1)
-      this.fileList = newFileList
+      this.fileList.length = 0
+      this.fileList.push(...newFileList)
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
-      this.importFileNameObj = {}
       this.errMsg = ''
-      this.$refs.dataPreview.close()
+      this.data = null
     },
     /**
-     * 上传之前操作
+     * 文件改变的操作
      */
-    beforeUpload(file) {
-      this.fileList = [...this.fileList, file].splice(-1)
+    handleChange(file) {
+      this.fileList = [file]
       this.previewDisabled = this.fileList.length === 0
       this.uploadDisabled = this.fileList.length === 0
       this.errMsg = ''
       console.log('this.refs==>', this.$refs)
-      this.$refs.dataPreview.close()
-      return false
+      this.data = null
+      return true
     },
     /**
      * 预览
@@ -200,13 +236,16 @@ export default {
     handlePreview() {
       const { previewUrl } = this
       const fileForm = this.__buildFileForm()
+      if (Object.keys(this.fieldsRequired).length > 0) {
+        for (const key in this.fieldsRequired) {
+          fileForm.append(key, this.fieldsRequired[key])
+        }
+      }
       // 上传文件请求
       dibootApi.upload(previewUrl, fileForm)
         .then(res => {
           if (res.code === 0) {
-            this.importFileNameObj[this.fileNameFields.originFileName] = res.data[this.fileNameFields.originFileName]
-            this.importFileNameObj[this.fileNameFields.previewFileName] = res.data[this.fileNameFields.previewFileName]
-            this.$refs.dataPreview.preview(res.data.header, res.data.dataList, res.data.totalCount)
+            this.data = res.data
             this.errMsg = ''
             this.uploadDisabled = false
           } else {
@@ -215,28 +254,26 @@ export default {
           }
         })
     },
-
     /**
-       * 上传
-       */
+     * 上传
+     */
     handleUpload() {
       const { uploadUrl, previewSaveUrl } = this
       this.previewDisabled = true
       this.uploadDisabled = true
-      if (this.importFileNameObj[this.fileNameFields.previewFileName] && this.importFileNameObj[this.fileNameFields.originFileName]) {
+      if (this.data && this.data.uuid) {
         const formData = new FormData()
-        formData.append(this.fileNameFields.previewFileName, this.importFileNameObj[this.fileNameFields.previewFileName])
-        formData.append(this.fileNameFields.originFileName, this.importFileNameObj[this.fileNameFields.originFileName])
+        formData.append('uuid', this.data.uuid)
+        formData.append('description', this.description)
         this.__sendUploadRequest(previewSaveUrl, formData)
       } else {
         const fileForm = this.__buildFileForm()
         this.__sendUploadRequest(uploadUrl, fileForm)
       }
     },
-
     /**
-       * 发送上传请求
-       */
+     * 发送上传请求
+     */
     __sendUploadRequest(url, formData) {
       if (Object.keys(this.fieldsRequired).length > 0) {
         for (const key in this.fieldsRequired) {
@@ -251,9 +288,11 @@ export default {
               description: res.msg
             })
             this.errMsg = ''
-            this.$emit('finishedUpload')
-            this.__resetData()
-            this.$refs.dataPreview.close()
+            if (Object.keys(res.data || {}).length === 0) {
+              this.__resetData()
+            } else {
+              this.data = res.data
+            }
           } else {
             this.errMsg = res.msg
           }
@@ -267,41 +306,76 @@ export default {
           console.log('upload err: ', err)
         })
     },
-
     /**
-       * 构建form表单数据
-       * @returns {FormData}
-       * @private
-       */
+     * 构建form表单数据
+     * @returns {FormData}
+     * @private
+     */
     __buildFileForm() {
       const { fileList } = this
+      console.log(fileList)
       const formData = new FormData()
-      formData.append('comment', this.comment)
-      formData.append('file', fileList[0])
+      formData.append('description', this.description)
+      formData.append('file', fileList[0].raw)
       return formData
     },
-
     /**
-       * 重置数据
-       * @private
-       */
+     * 重置数据
+     * @private
+     */
     __resetData() {
+      this.$emit('finishedUpload')
       this.fileList = []
-      this.comment = ''
+      this.description = ''
       this.previewDisabled = true
       this.uploadDisabled = true
-      this.importFileNameObj = {}
+      this.data = null
     }
   }
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .diboot-import {
   webkit-box-shadow: unset !important;
   box-shadow: unset !important;
 }
-.diboot-import>.el-card__header{
+
+.diboot-import > .el-card__header {
   border: unset;
+}
+
+.alert {
+  border-radius: 3px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  color: #fff;
+}
+
+.alert-info {
+  background-color: #00c0ef;
+}
+
+.shake:hover {
+  animation: shake 800ms ease-in-out;
+}
+
+@keyframes shake { /* 水平抖动，核心代码 */
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%, 80% {
+    transform: translate3d(+2px, 0, 0);
+  }
+  30%, 70% {
+    transform: translate3d(-3px, 0, 0);
+  }
+  40%, 60% {
+    transform: translate3d(+3px, 0, 0);
+  }
+  50% {
+    transform: translate3d(-3px, 0, 0);
+  }
 }
 </style>

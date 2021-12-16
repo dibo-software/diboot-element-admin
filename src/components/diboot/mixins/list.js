@@ -3,8 +3,10 @@ import moment from 'moment'
 import { dibootApi } from '@/utils/request'
 import Pagination from '@/components/Pagination'
 import { downloadFileFromRes } from '@/utils/fileUtil'
+import more from './more'
 
 export default {
+  mixins: [more],
   components: { Pagination },
   data() {
     return {
@@ -28,12 +30,6 @@ export default {
       advanced: false,
       // 列表数据
       list: [],
-      // 是否从mixin中自动获取关联数据
-      getMore: false,
-      // 关联相关的更多数据
-      // 获取关联数据列表的配置列表
-      attachMoreList: [],
-      more: {},
       // 是否将children转化为_children
       listFormatter: true,
       // 是否从mixin中自动获取初始的列表数据
@@ -101,23 +97,12 @@ export default {
      * @returns {Promise<any>}
      */
     postList() {
-      this.dateRange2queryParam()
       return new Promise((resolve, reject) => {
         this.loadingData = true
-        // 转化包含moment的时间类型
-        this.contentTransform(this.queryParam)
-        // 过滤掉不存在值的属性
-        let tempQueryParam = {}
-        // 合并自定义查询参数
-        _.merge(tempQueryParam, this.customQueryParam)
-        // 合并搜索参数
-        _.merge(tempQueryParam, this.queryParam)
-        // 改造查询条件（用于列表页扩展）
-        tempQueryParam = this.rebuildQuery(tempQueryParam)
         // 使用post方式请求列表数据（多用于复杂参数通过json对象进行传输到后端进行筛选）
         dibootApi.post(
           this.listApi ? this.listApi : `${this.baseApi}/list`,
-          tempQueryParam
+          this.buildQueryParam()
         )
           .then(res => {
             this.loadingData = false
@@ -153,22 +138,11 @@ export default {
      * @returns {Promise<any>}
      */
     getList() {
-      this.dateRange2queryParam()
       return new Promise((resolve, reject) => {
         this.loadingData = true
-        // 转化包含moment的时间类型
-        this.contentTransform(this.queryParam)
-        // 过滤掉不存在值的属性
-        let tempQueryParam = {}
-        // 合并自定义查询参数
-        _.merge(tempQueryParam, this.customQueryParam)
-        // 合并搜索参数
-        _.merge(tempQueryParam, this.queryParam)
-        // 改造查询条件（用于列表页扩展）
-        tempQueryParam = this.rebuildQuery(tempQueryParam)
         dibootApi.get(
           this.listApi ? this.listApi : `${this.baseApi}/list`,
-          tempQueryParam
+          this.buildQueryParam()
         ).then(res => {
           this.loadingData = false
           if (res.code === 0) {
@@ -233,22 +207,6 @@ export default {
         })
       }
       return list
-    },
-    /**
-     * 加载当前页面关联的对象或者字典
-     * @returns {Promise<*>}
-     */
-    async attachMore() {
-      const reqList = []
-      // 个性化接口
-      this.getMore === true && reqList.push(dibootApi.get(`${this.baseApi}/attachMore`))
-      // 通用获取当前对象关联的数据的接口
-      this.attachMoreList.length > 0 && reqList.push(dibootApi.post('/common/attachMore', this.attachMoreList))
-      if (reqList.length > 0) {
-        const resList = await Promise.all(reqList)
-        resList.forEach(res => res.code === 0 && Object.keys(res.data).forEach(key => { this.more[key] = res.data[key] }))
-        this.$forceUpdate()
-      }
     },
     /**
      * 重置查询
@@ -356,18 +314,10 @@ export default {
      * 导出数据至excel
      */
     exportData() {
+      if (this.exportLoadingData) return
       this.exportLoadingData = true
-      let tempQueryParam = {}
-      // 转化包含moment的时间类型
-      this.contentTransform(this.queryParam)
-      // 合并自定义查询参数
-      _.merge(tempQueryParam, this.customQueryParam)
-      // 合并搜索参数
-      _.merge(tempQueryParam, this.queryParam)
-      // 改造查询条件（用于列表页扩展）
-      tempQueryParam = this.rebuildQuery(tempQueryParam)
       const exportApi = this.exportApi ? this.exportApi : '/excel/export'
-      dibootApi.download(`${this.baseApi}${exportApi}`, tempQueryParam).then(res => {
+      dibootApi.download(`${this.baseApi}${exportApi}`, this.buildQueryParam()).then(res => {
         if (res.filename) {
           this.downloadFile(res)
         } else {
@@ -380,6 +330,23 @@ export default {
         console.log(err)
         this.exportLoadingData = false
       })
+    },
+    /**
+     * 构建查询参数
+     */
+    buildQueryParam() {
+      this.dateRange2queryParam()
+      // 转化包含moment的时间类型
+      this.contentTransform(this.queryParam)
+      // 过滤掉不存在值的属性
+      let tempQueryParam = {}
+      // 合并自定义查询参数
+      _.merge(tempQueryParam, this.customQueryParam)
+      // 合并搜索参数
+      _.merge(tempQueryParam, this.queryParam)
+      // 改造查询条件（用于列表页扩展）
+      tempQueryParam = this.rebuildQuery(tempQueryParam)
+      return tempQueryParam
     },
     /**
      * 编辑表格结束后触发
@@ -450,6 +417,17 @@ export default {
       })
     },
     /**
+     * 点击级联类型后，加载select数据
+     */
+    handleCascaderSelectNext(data, clearParams = []) {
+      // 将级联已经选中的统一清理
+      clearParams.forEach(param => delete this.queryParam[param])
+      // 选中的数据初始化
+      Object.assign(this.more, data)
+      this.$forceUpdate()
+      this.onSearch()
+    },
+    /**
      * 加载数据之后操作
      * @param list
      */
@@ -469,6 +447,5 @@ export default {
     if (this.getListFromMixin === true) {
       await this.getList()
     }
-    await this.attachMore()
   }
 }

@@ -12,10 +12,10 @@
                 @change="onSearch"
               >
                 <el-option
-                  v-for="(item, index) in more.messageTemplateKvList || []"
+                  v-for="(item, index) in more.messageTemplateOptions || []"
                   :key="index"
-                  :value="item.v"
-                  :label="item.k"
+                  :value="item.value"
+                  :label="item.label"
                 />
               </el-select>
             </el-form-item>
@@ -29,10 +29,10 @@
                 @change="onSearch"
               >
                 <el-option
-                  v-for="kv in more.messageChannelKvList || []"
-                  :key="kv.v"
-                  :value="kv.v"
-                  :label="kv.k"
+                  v-for="item in more.messageChannelOptions || []"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
                 />
               </el-select>
             </el-form-item>
@@ -47,10 +47,10 @@
                   @change="onSearch"
                 >
                   <el-option
-                    v-for="kv in more.messageStatusKvList || []"
-                    :key="kv.v"
-                    :value="kv.v"
-                    :label="kv.k"
+                    v-for="item in more.messageStatusOptions || []"
+                    :key="item.value"
+                    :value="item.value"
+                    :label="item.label"
                   />
                 </el-select>
               </el-form-item>
@@ -181,12 +181,11 @@ export default {
   data() {
     return {
       baseApi: '/message',
-      getListFromMixin: true,
       attachMoreList: [
         {
           type: 'T',
-          target: 'message_template',
-          key: 'title',
+          target: 'messageTemplate',
+          label: 'title',
           value: 'id'
         },
         {

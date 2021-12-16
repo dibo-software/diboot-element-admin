@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import ExcelImport from '@/components/diboot/components/import/ExcelImport'
+import ExcelImport from '@/components/diboot/components/excel/import'
 
 export default {
   name: 'IamUserImport',

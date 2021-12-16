@@ -106,14 +106,12 @@
               filterable
               placeholder="请选择类型"
             >
-              <template v-if="more.orgTypeKvList">
-                <el-option
-                  v-for="kv in more.orgTypeKvList"
-                  :key="kv.v"
-                  :label="kv.k"
-                  :value="kv.v"
-                />
-              </template>
+              <el-option
+                v-for="item in more.orgTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -175,7 +173,12 @@ export default {
   data() {
     return {
       baseApi: '/iam/org',
-      getMore: true,
+      attachMoreList: [
+        {
+          type: 'D',
+          target: 'ORG_TYPE'
+        }
+      ],
       orgList: []
     }
   },

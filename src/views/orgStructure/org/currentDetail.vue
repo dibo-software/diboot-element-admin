@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="currentNodeId !== '0' && model"
-  >
+  <div v-if="currentNodeId !== '0' && model">
     <el-form ref="form" label-width="80px">
       <el-row>
         <el-col :span="8">
