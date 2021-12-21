@@ -39,7 +39,7 @@ export default {
       // 标记导出
       exportLoadingData: false,
       // 是否允许撤回删除
-      allowCanceledDelete: true,
+      allowCanceledDelete: false,
       // 是否重新加载
       reload: false,
       // 是否编辑
