@@ -354,7 +354,7 @@ export default {
      * @param oldValue
      */
     async handleEditTableRow(model) {
-      if (this.currentPrimaryValue === model[this.primaryKey]) {
+      if (this.currentPrimaryValue) {
         try {
           const res = await dibootApi.put(`${this.baseApi}/${model[this.primaryKey]}`, model)
           if (res.code === 0) {
@@ -366,9 +366,11 @@ export default {
           this.$message.warning('网络异常')
         } finally {
           this.reload = !this.reload
+          this.currentPrimaryValue = ''
         }
+      } else {
+        this.currentPrimaryValue = model[this.primaryKey]
       }
-      this.currentPrimaryValue = model[this.primaryKey]
     },
     /**
      * 下载文件
