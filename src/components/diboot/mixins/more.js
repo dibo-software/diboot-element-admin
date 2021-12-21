@@ -27,9 +27,12 @@ export default {
       this.attachMoreList.length > 0 && reqList.push(dibootApi.post('/common/attachMore', this.attachMoreList))
       if (reqList.length > 0) {
         const resList = await Promise.all(reqList)
-        resList.forEach(res => res.code === 0 && Object.keys(res.data).forEach(key => {
-          this.$set(this.more, key, res.data[key])
-        }))
+        resList.forEach(res => res.ok
+          ? Object.keys(res.data).forEach(key => this.$set(this.more, key, res.data[key]))
+          : this.$notify.error({
+            title: '获取选项数据失败',
+            message: res.msg
+          }))
       }
     },
     /**
@@ -47,10 +50,21 @@ export default {
       const moreLoader = this.attachMoreLoader[loader]
       moreLoader.keyword = value
       dibootApi.post('/common/attachMoreFilter', moreLoader).then(res => {
-        this.$set(this.more, `${loader}Options`, res.data)
+        if (res.ok) {
+          this.$set(this.more, `${loader}Options`, res.data)
+        } else {
+          this.$notify.error({
+            title: '获取选项数据失败',
+            message: res.msg
+          })
+        }
         this.attachMoreLoading = false
-      }).catch(() => {
+      }).catch((err) => {
         this.attachMoreLoading = false
+        this.$notify.error({
+          title: '获取选项数据失败',
+          message: err.msg
+        })
       })
     }
   },
