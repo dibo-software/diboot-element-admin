@@ -42,8 +42,8 @@ export default {
       allowCanceledDelete: false,
       // 是否重新加载
       reload: false,
-      // 是否编辑
-      editable: false,
+      // 当前激活value
+      currentPrimaryValue: '',
       // 分页数据
       pagination: {
         pageSize: 10,
@@ -354,7 +354,7 @@ export default {
      * @param oldValue
      */
     async handleEditTableRow(model) {
-      if (this.editable) {
+      if (this.currentPrimaryValue === model[this.primaryKey]) {
         try {
           const res = await dibootApi.put(`${this.baseApi}/${model[this.primaryKey]}`, model)
           if (res.code === 0) {
@@ -368,7 +368,7 @@ export default {
           this.reload = !this.reload
         }
       }
-      this.editable = !this.editable
+      this.currentPrimaryValue = model[this.primaryKey]
     },
     /**
      * 下载文件
