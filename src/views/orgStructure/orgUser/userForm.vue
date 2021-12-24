@@ -173,15 +173,12 @@ export default {
       setPassword: false,
       attachMoreList: [
         {
-          type: 'D',
           target: 'USER_STATUS'
         },
         {
-          type: 'D',
           target: 'GENDER'
         },
         {
-          type: 'T',
           target: 'IamRole',
           label: 'name',
           value: 'id'

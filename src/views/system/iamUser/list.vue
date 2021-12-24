@@ -168,7 +168,6 @@ export default {
       allowCanceledDelete: false,
       attachMoreList: [
         {
-          type: 'D',
           target: 'USER_STATUS'
         }
       ]
