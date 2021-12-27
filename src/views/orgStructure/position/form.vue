@@ -144,11 +144,9 @@ export default {
       baseApi: '/iam/position',
       attachMoreList: [
         {
-          type: 'D',
           target: 'POSITION_GRADE'
         },
         {
-          type: 'D',
           target: 'DATA_PERMISSION_TYPE'
         }
       ]

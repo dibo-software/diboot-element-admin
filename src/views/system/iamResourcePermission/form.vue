@@ -184,7 +184,6 @@ export default {
       getMore: true,
       attachMoreList: [
         {
-          type: 'D',
           target: 'RESOURCE_PERMISSION_CODE'
         }
       ],

@@ -175,7 +175,6 @@ export default {
       baseApi: '/iam/org',
       attachMoreList: [
         {
-          type: 'D',
           target: 'ORG_TYPE'
         }
       ],
