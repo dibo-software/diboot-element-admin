@@ -239,10 +239,11 @@ export default {
     /**
      * 将属性值转化为数组
      * @param fieldName
+     * @param suffix 数组后缀
      * @param separator
      */
-    transformStr2Arr(fieldName, separator = ',') {
-      this.$set(this.form, fieldName, this.strSplit(this.form[fieldName], separator))
+    transformStr2Arr(fieldName, suffix = 'Arr', separator = ',') {
+      this.$set(this.form, `${fieldName}${suffix}`, this.strSplit(this.form[fieldName], separator))
     },
     /**
      * 字符串分割
