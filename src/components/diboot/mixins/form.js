@@ -244,6 +244,8 @@ export default {
      */
     transformStr2Arr(fieldName, suffix = 'Arr', separator = ',') {
       this.$set(this.form, `${fieldName}${suffix}`, this.strSplit(this.form[fieldName], separator))
+      // 防止关闭modal，element checkbox-group控制台异常
+      this.initFormData[`${fieldName}${suffix}`] = []
     },
     /**
      * 字符串分割
