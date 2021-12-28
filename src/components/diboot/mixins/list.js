@@ -4,6 +4,7 @@ import { dibootApi } from '@/utils/request'
 import Pagination from '@/components/Pagination'
 import { downloadFileFromRes } from '@/utils/fileUtil'
 import more from './more'
+import { list2tree, treeList2IndentList } from '@/utils/treeDataUtil'
 
 export default {
   mixins: [more],
@@ -55,6 +56,9 @@ export default {
     }
   },
   methods: {
+    list2tree(list = []) {
+      return treeList2IndentList(list2tree(list))
+    },
     /**
      * 分页
      */
