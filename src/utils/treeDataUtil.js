@@ -99,7 +99,7 @@ const treeList2IndentList = function(treeList, level) {
     allList.push(item)
     if (item.children != null && item.children.length > 0) {
       allList.push(...treeList2IndentList(item.children, (level + 1)))
-      delete item.childre
+      delete item.children
     }
   })
   return allList
