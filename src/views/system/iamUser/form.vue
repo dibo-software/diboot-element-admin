@@ -153,15 +153,12 @@ export default {
       },
       attachMoreList: [
         {
-          type: 'D',
           target: 'GENDER'
         },
         {
-          type: 'D',
           target: 'USER_STATUS'
         },
         {
-          type: 'T',
           target: 'iamRole',
           label: 'name',
           value: 'id'

@@ -114,7 +114,6 @@ export default {
       baseApi: 'iam/userPosition',
       attachMoreList: [
         {
-          type: 'T',
           target: 'IamPosition',
           label: 'name'
         }

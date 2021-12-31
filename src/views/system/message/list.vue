@@ -183,17 +183,14 @@ export default {
       baseApi: '/message',
       attachMoreList: [
         {
-          type: 'T',
           target: 'messageTemplate',
           label: 'title',
           value: 'id'
         },
         {
-          type: 'D',
           target: 'MESSAGE_CHANNEL'
         },
         {
-          type: 'D',
           target: 'MESSAGE_STATUS'
         }
       ]

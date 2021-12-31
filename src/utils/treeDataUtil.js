@@ -97,9 +97,9 @@ const treeList2IndentList = function(treeList, level) {
   treeList.forEach(item => {
     item.label = prefix + item.label
     allList.push(item)
-    if (item.children !== undefined && item.children.length > 0) {
+    if (item.children != null && item.children.length > 0) {
       allList.push(...treeList2IndentList(item.children, (level + 1)))
-      delete item.childre
+      delete item.children
     }
   })
   return allList
@@ -250,6 +250,32 @@ const sortTreeListFormatter = function(treeList, valueField, titleField) {
   return formatterList
 }
 
+/**
+ * 构造树型结构数据
+ * @param {Array} data 数据源
+ * @param {string | number} rootId 根Id 默认 0
+ * @param {string} value 值字段 默认 'value'
+ * @param {string} label 标签（要显示字段）默认 'label'
+ * @param {string} parentId 父节点字段 默认 'ext'
+ * @param {string} children 孩子节点字段 默认 'children'
+ */
+const list2tree = (data = [], rootId = '0', value = 'value', label = 'label', parentId = 'ext', children = 'children') => {
+  // 对源数据深度克隆
+  const cloneData = JSON.parse(JSON.stringify(data))
+  // 循环所有项
+  const treeData = cloneData.filter(father => {
+    const branchArr = cloneData.filter(child => {
+      // 返回每一项的子级数组
+      return father[value] === child[parentId]
+    })
+    father[children] = branchArr.length > 0 ? branchArr : undefined
+    father.label = father[label]
+    // 返回第一层
+    return father[parentId] === rootId
+  })
+  return treeData.length === 0 ? data : treeData
+}
+
 export {
   treeListFormatter,
   listPageTreeFormatter,
@@ -260,5 +286,6 @@ export {
   routersFormatter,
   apiListFormatter,
   permissionTreeListFormatter,
-  sortTreeListFormatter
+  sortTreeListFormatter,
+  list2tree
 }

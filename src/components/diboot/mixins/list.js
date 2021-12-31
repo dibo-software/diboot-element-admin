@@ -4,6 +4,7 @@ import { dibootApi } from '@/utils/request'
 import Pagination from '@/components/Pagination'
 import { downloadFileFromRes } from '@/utils/fileUtil'
 import more from './more'
+import { list2tree, treeList2IndentList } from '@/utils/treeDataUtil'
 
 export default {
   mixins: [more],
@@ -39,11 +40,11 @@ export default {
       // 标记导出
       exportLoadingData: false,
       // 是否允许撤回删除
-      allowCanceledDelete: true,
+      allowCanceledDelete: false,
       // 是否重新加载
       reload: false,
-      // 是否编辑
-      editable: false,
+      // 当前激活value
+      currentPrimaryValue: '',
       // 分页数据
       pagination: {
         pageSize: 10,
@@ -55,6 +56,9 @@ export default {
     }
   },
   methods: {
+    list2tree(list = []) {
+      return treeList2IndentList(list2tree(list))
+    },
     /**
      * 分页
      */
@@ -354,9 +358,10 @@ export default {
      * @param oldValue
      */
     async handleEditTableRow(model) {
-      if (this.editable) {
+      if (this.currentPrimaryValue) {
         try {
-          const res = await dibootApi.put(`${this.baseApi}/${model[this.primaryKey]}`, model)
+          const findModel = this.list.find(e => e[this.primaryKey] === this.currentPrimaryValue)
+          const res = await dibootApi.put(`${this.baseApi}/${findModel[this.primaryKey]}`, findModel)
           if (res.code === 0) {
             await this.getList()
           } else {
@@ -368,7 +373,11 @@ export default {
           this.reload = !this.reload
         }
       }
-      this.editable = !this.editable
+      if (this.currentPrimaryValue === model[this.primaryKey]) {
+        this.currentPrimaryValue = ''
+      } else {
+        this.currentPrimaryValue = model[this.primaryKey]
+      }
     },
     /**
      * 下载文件
