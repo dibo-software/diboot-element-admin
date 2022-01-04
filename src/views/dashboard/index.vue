@@ -30,12 +30,12 @@ export default {
         },
         {
           title: '配置角色&资源权限',
-          titleUrl: 'https://www.diboot.com/guide/diboot-antd-admin/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6.html#%E8%8F%9C%E5%8D%95%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86',
+          titleUrl: 'https://www.diboot.com/guide/diboot-antd-admin/permission.html',
           description: '参考链接官网文档，配置资源权限'
         },
         {
           title: '后端打包时剔除devtools',
-          titleUrl: 'https://www.diboot.com/guide/diboot-devtools/开始使用.html',
+          titleUrl: 'https://www.diboot.com/guide/diboot-devtools/introduce.html',
           description: 'diboot-devtools 是用于开发过程的助手工具，打包发布前须剔除devtools jar，具体请参考链接官网文档。'
         },
         {
