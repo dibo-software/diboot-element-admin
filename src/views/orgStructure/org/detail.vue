@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     parentName: function() {
-      if (this.model === undefined || !this.model.parentShortName) {
+      if (this.model == null || !this.model.parentShortName) {
         return '-无-'
       }
       return this.model.parentShortName

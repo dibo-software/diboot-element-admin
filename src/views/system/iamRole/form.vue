@@ -164,7 +164,7 @@ export default {
       const currentPermission = this.permissionList.find(item => {
         return item.value === value
       })
-      if (currentPermission !== undefined && currentPermission.parentId && currentPermission.parentId !== 0) {
+      if (currentPermission != null && currentPermission.parentId && currentPermission.parentId !== 0) {
         this.autoCheckNode(currentPermission.parentId)
         this.deepCheckParentNode(currentPermission.parentId)
       }
@@ -175,7 +175,7 @@ export default {
      */
     deepUnCheckChildrenNode(value) {
       const children = this.childrenMap[value]
-      if (children !== undefined && children.length > 0) {
+      if (children != null && children.length > 0) {
         children.forEach(item => {
           this.autoUnCheckNode(item.value)
           this.deepUnCheckChildrenNode(item.value)
@@ -197,13 +197,13 @@ export default {
       this.$refs.tree.setCheckedKeys(checkedIdList)
     },
     withoutMenuChildren(children) {
-      if (children === undefined || children.length === 0) {
+      if (children == null || children.length === 0) {
         return false
       }
       const permission = children.find(item => {
         return item.type === 'MENU'
       })
-      return permission === undefined
+      return permission == null
     },
     filterNode(value, data) {
       if (!value) return true
@@ -225,7 +225,7 @@ export default {
         const permission = this.permissionList.find(item => {
           return item.value === id
         })
-        if (permission !== undefined && permission.parentId !== undefined && !checkedIdList.includes(permission.parentId)) {
+        if (permission != null && permission.parentId != null && !checkedIdList.includes(permission.parentId)) {
           checkedIdList.push(permission.parentId)
         }
       })

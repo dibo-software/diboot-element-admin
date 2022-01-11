@@ -57,7 +57,7 @@ export default {
      * @returns {Promise<void>}
      */
     async open(id) {
-      if (id === undefined) {
+      if (id == null) {
         // 没有id数据则认为是新建
         this.title = '新建'
         this.state.visible = true
@@ -147,7 +147,7 @@ export default {
         const values = await this.validate()
         await this.enhance(values)
         let result = {}
-        if (this.form[this.primaryKey] === undefined) {
+        if (this.form[this.primaryKey] == null) {
           // 新增该记录
           result = await this.add(values)
         } else {

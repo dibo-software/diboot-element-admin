@@ -122,7 +122,7 @@ export default {
         formatterItem.title = item[this.nodeName]
         formatterItem.scopedSlots = { title: 'title' }
         const children = this.treeListFormatter(item.children)
-        if (children !== undefined) {
+        if (children != null) {
           formatterItem.children = children
         }
         formatterItemList.push(formatterItem)

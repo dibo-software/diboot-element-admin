@@ -188,7 +188,7 @@ export default {
   },
   computed: {
     orgTreeList: function() {
-      if (this.orgList === undefined || this.orgList.length === 0) {
+      if (this.orgList == null || this.orgList.length === 0) {
         return []
       }
       const orgTreeList = treeListFormatter(_.cloneDeep(this.orgList), 'id', 'shortName', true)
@@ -211,7 +211,7 @@ export default {
       // 回显岗位配置数据
       this.showPositionConfig()
       // 新建显示密码填写，更新隐藏密码填写
-      if (id === undefined) {
+      if (id == null) {
         this.setPassword = true
       } else {
         this.setPassword = false
@@ -242,7 +242,7 @@ export default {
       }
     },
     showPositionConfig() {
-      if (this.form.positionList === undefined || this.form.positionList.length === 0) {
+      if (this.form.positionList == null || this.form.positionList.length === 0) {
         return undefined
       }
       const positionIdList = this.form.positionList.map(item => {
@@ -254,7 +254,7 @@ export default {
     },
     async loadUsername() {
       const id = this.form.id
-      if (id !== undefined) {
+      if (id != null) {
         const res = await dibootApi.get(`${this.baseApi}/getUsername/${id}`)
         if (res.code === 0 && res.data) {
           this.systemUser = true

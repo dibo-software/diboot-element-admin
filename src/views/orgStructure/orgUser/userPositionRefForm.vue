@@ -127,7 +127,7 @@ export default {
   },
   computed: {
     orgTreeList: function() {
-      if (this.orgList === undefined || this.orgList.length === 0) {
+      if (this.orgList == null || this.orgList.length === 0) {
         return []
       }
       const orgTreeList = treeListFormatter(_.cloneDeep(this.orgList), 'id', 'shortName', true)
