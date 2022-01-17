@@ -152,6 +152,12 @@ export const asyncRoutes = [
         meta: { title: '上传文件管理', keepAlive: true, permission: ['UploadFile'] }
       },
       {
+        path: 'config',
+        name: 'systemConfig',
+        component: () => import('@/views/system/config/index'),
+        meta: { title: '系统配置管理', keepAlive: true, permission: ['SystemConfig'] }
+      },
+      {
         path: 'iamOperationLog/list',
         name: 'IamOperationLogList',
         component: () => import('@/views/system/iamOperationLog/list'),
