@@ -69,6 +69,7 @@
       </el-row>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">确定</el-button>
+      <el-button v-if="enableSso" type="danger" style="width: 100%; margin: 0;" @click.native.prevent="ssoLogin">SSO 登录</el-button>
 
       <div class="tips" />
 
@@ -77,6 +78,8 @@
 </template>
 
 <script>
+import { login, isEnableSso } from '@/utils/sso'
+
 export default {
   name: 'Login',
   data() {
@@ -95,7 +98,9 @@ export default {
       passwordType: 'password',
       redirect: undefined,
       baseURL: process.env.VUE_APP_BASE_API,
-      captchaParam: 0
+      captchaParam: 0,
+      // 启用SSO
+      enableSso: isEnableSso()
     }
   },
   watch: {
@@ -116,6 +121,9 @@ export default {
       this.$nextTick(() => {
         this.$refs.password.focus()
       })
+    },
+    ssoLogin() {
+      login()
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
