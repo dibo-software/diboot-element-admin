@@ -75,6 +75,7 @@ export default {
           this.$message.error(res.msg)
         }
       }
+      await this.attachMore()
     },
     /**
      * 关闭表单
