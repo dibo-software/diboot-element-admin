@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
+    <el-empty v-if="!type" description="无系统配置项" />
     <el-button
-      v-if="editable"
+      v-if="type && editable"
       size="small"
       type="warning"
       plain
@@ -10,7 +11,7 @@
     >
       <i class="el-icon-close" /> 重置
     </el-button>
-    <el-tabs v-model="type">
+    <el-tabs v-if="type" v-model="type">
       <el-tab-pane v-for="item in typeList" :key="item.value" :name="item.value" :label="item.label || '(未命名)'">
         <el-card shadow="hover" style="margin: 3vh 10vw">
           <div v-if="editable" style="color: #AAAAAA; text-align: end;zoom: 0.8;">双击编辑</div>
@@ -122,12 +123,14 @@ export default {
   created() {
     dibootApi.get(`${this.baseApi}/typeList`).then(res => {
       this.typeList = res.data
-      this.type = res.data[0].value
-      res.data.forEach(e => {
-        if (e.ext) {
-          this.$set(e, 'data', {})
-        }
-      })
+      if (this.typeList && this.typeList.length > 0) {
+        this.type = res.data[0].value
+        res.data.forEach(e => {
+          if (e.ext) {
+            this.$set(e, 'data', {})
+          }
+        })
+      }
     })
   },
   methods: {
