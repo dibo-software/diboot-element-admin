@@ -10,7 +10,8 @@ const authCenterUrl = process.env.VUE_APP_AUTH_CENTER_URL
 const clientUrl = process.env.VUE_APP_CLIENT_URL
 // 当前客户端ID
 const clientId = process.env.VUE_APP_CLIENT_ID
-
+// 是否单点退出
+const ssoLogout = process.env.VUE_APP_SSO_LOGOUT === 'true'
 /**
  * 获取授权地址
  *
@@ -54,7 +55,9 @@ export function callback() {
  * 注销
  */
 export function logout() {
-  this.$store.dispatch('user/logout')
+  if (isEnableSso() && ssoLogout) {
+    window.location = `${authCenterUrl}/logout?redirect_uri=${clientUrl}`
+  }
 }
 
 /**

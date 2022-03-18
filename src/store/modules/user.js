@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 import { permissionListToPermissions } from '@/utils/permissions'
 import defaultAvatar from '@/assets/logo.png'
+import { logout as ssoLogout } from '@/utils/sso'
 
 const state = {
   token: getToken(),
@@ -89,6 +90,7 @@ const actions = {
 
   // user logout
   logout({ commit, state }) {
+    ssoLogout()
     return new Promise((resolve) => {
       const reset = () => {
         commit('SET_TOKEN', '')
