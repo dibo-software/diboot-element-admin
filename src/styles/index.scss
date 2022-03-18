@@ -128,6 +128,7 @@ div:focus {
   cursor: pointer;
 }
 
+// =============================  布局紧凑化调整 =============================
 // 内容外边距（默认20px）
 .app-container {
   padding: 10px;
@@ -154,15 +155,24 @@ div:focus {
   background-color: #fafafa;
 }
 
-.el-table__expanded-cell{
+// table 展开 单元格（默认值：20px 50px）
+.el-table__expanded-cell {
   padding: 6px 50px !important;
 }
 
+// tabs头部外边距（默认值：0 0 15px）
+.el-tabs__header {
+  margin: -6px 0 6px;
+}
+
 // 对话框内容内边距（默认值：30px 20px）
-.custom-height {
-  .el-dialog__body {
-    padding: 10px 20px;
-  }
+.el-dialog__body {
+  padding: 10px 20px;
+}
+
+// 数据列表 操作（默认值：18px）
+.table-operator {
+  margin-bottom: 8px;
 }
 
 // 分页内边距（默认值：32px 16px）
