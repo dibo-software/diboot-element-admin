@@ -17,7 +17,7 @@ export function permissionListToPermissions(permissionList) {
   const actionPermissionListMap = {}
   actionPermissionList.forEach(item => {
     let actionList = actionPermissionListMap[item.parentId]
-    if (actionList === undefined) {
+    if (actionList == null) {
       actionList = []
       actionPermissionListMap[item.parentId] = actionList
     }
@@ -28,7 +28,7 @@ export function permissionListToPermissions(permissionList) {
   menuPermissionList.forEach(item => {
     // 获取actionList
     let actionEntitySet = actionPermissionListMap[item.id]
-    if (actionEntitySet !== undefined) {
+    if (actionEntitySet != null) {
       actionEntitySet = actionEntitySet.map(action => {
         return {
           action: action.resourceCode,

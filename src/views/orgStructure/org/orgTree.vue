@@ -86,6 +86,9 @@ export default {
     }
   },
   methods: {
+    loadTree() {
+      this.$refs.tree.loadTree()
+    },
     onChangeCurrentNode(currentNode) {
       // 事件处理代码
       this.currentNode = currentNode

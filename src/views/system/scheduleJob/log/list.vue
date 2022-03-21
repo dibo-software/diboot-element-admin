@@ -69,7 +69,7 @@
             <span>{{ scope.row.runStatusLabel }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="执行结果信息">
+        <el-table-column align="center" label="执行结果信息" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.executeMsg }}</span>
           </template>

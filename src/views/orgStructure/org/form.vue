@@ -183,7 +183,7 @@ export default {
   },
   computed: {
     orgTreeList: function() {
-      if (this.orgList === undefined || this.orgList.length === 0) {
+      if (this.orgList == null || this.orgList.length === 0) {
         return []
       }
       const orgTreeList = treeListFormatter(_.cloneDeep(this.orgList), 'id', 'shortName', true)
@@ -204,7 +204,7 @@ export default {
       this.$forceUpdate()
     },
     afterOpen() {
-      if (this.form.id === undefined) {
+      if (this.form.id == null) {
         this.form.managerName = ''
       }
       this.form.parentId = this.getInitParentId()
@@ -230,7 +230,7 @@ export default {
       }
     },
     getInitParentId() {
-      if (this.form && this.form.parentId === undefined) {
+      if (this.form && this.form.parentId == null) {
         return `${this.currentNodeId}`
       } else {
         return this.form.parentId

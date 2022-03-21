@@ -93,7 +93,7 @@ export default {
         formatterOrg.title = org.shortName
         formatterOrg.scopedSlots = { title: 'title' }
         const children = this.treeListFormatter(org.children)
-        if (children !== undefined) {
+        if (children != null) {
           formatterOrg.children = children
         }
         formatterOrgList.push(formatterOrg)
