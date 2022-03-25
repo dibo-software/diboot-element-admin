@@ -44,7 +44,15 @@ export default {
       /**
        * uuid集合
        */
-      fileUuidList: []
+      fileUuidList: [],
+      /**
+       * 文件前缀
+       */
+      filePrefix: '',
+      /**
+       * 当前关联的对象名称
+       */
+      relObjType: ''
     }
   },
   computed: {
@@ -255,6 +263,35 @@ export default {
      */
     strSplit(str, separator = ',') {
       return str ? str.split(',') : []
+    },
+    /**
+     * 回显指定属性的图片文件
+     * @param id 当前model的id
+     * @param relObjField 字段名
+     */
+    echoImgFile(id, relObjField) {
+      dibootApi.get(`/uploadFile/getList/${id}/${this.relObjType}/${relObjField}`).then(res => {
+        if (res.code === 0 && res.data && res.data.length > 0) {
+          res.data.forEach(data => {
+            this.fileWrapper[`${relObjField}List`].push(this.fileFormatter(data))
+          })
+        }
+      })
+    },
+    /**
+     * 文件数据转化
+     * @param data 相应的数据
+     * @param isImage 是否是图片
+     * @returns {{uid: ((function(): *)|*|(function(): *)), response: string, filePath: *, name: (*|string), status: string}}
+     */
+    fileFormatter({ uuid: uid, fileName: name, accessUrl }) {
+      const file = {
+        uid, // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
+        name, // 文件名
+        filePath: accessUrl,
+        url: `${this.filePrefix}${accessUrl}/image`
+      }
+      return file
     },
     /**
      * 设置文件uuid
