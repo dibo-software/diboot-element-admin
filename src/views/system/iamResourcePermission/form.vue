@@ -28,7 +28,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item v-if="form.id === undefined" label="当前菜单选取">
+      <el-form-item v-if="form.id == null" label="当前菜单选取">
         <el-select
           v-model="currentMenu"
           filterable
@@ -299,7 +299,7 @@ export default {
         const currentMenu = this.routerList.find(item => {
           return item.value === value
         })
-        if (currentMenu === undefined) {
+        if (currentMenu == null) {
           return false
         }
         // 自动设置菜单名称与菜单编码
@@ -314,7 +314,7 @@ export default {
         const currentApi = this.apiList.find(item => {
           return item.value && item.value.toLowerCase().includes(currentMenu.value.toLowerCase())
         })
-        if (currentApi === undefined || !currentApi.value) {
+        if (currentApi == null || !currentApi.value) {
           return false
         }
         this.form.apiSetList.push(currentApi.value)
@@ -367,7 +367,7 @@ export default {
             // 获取当前菜单的可用接口列表
             if (this.form.apiSetList && this.form.apiSetList.length > 0) {
               this.form.apiSetList = this.form.apiSetList.filter(api => {
-                return api !== undefined && api !== ''
+                return api != null && api !== ''
               })
             }
 
@@ -376,7 +376,7 @@ export default {
             // 整理所有按钮/权限列表的可用接口列表，并设置菜单的id为当前的parentId
             permissionList.forEach(permission => {
               permission.apiSetList = permission.apiSetList.filter(api => {
-                return api !== undefined && api !== ''
+                return api != null && api !== ''
               })
               if (this.form && this.form.id) {
                 permission.parentId = this.form.id
@@ -427,7 +427,7 @@ export default {
         return item.value === value
       })
       // 自动补全按钮/权限名称
-      if (validOption !== undefined) {
+      if (validOption != null) {
         permission.displayName = validOption['label']
       }
       // 自动补全接口列表
@@ -460,7 +460,7 @@ export default {
       const matchApi = this.apiList.find(api => {
         return api.value && api.value.includes(uri)
       })
-      if (matchApi === undefined) {
+      if (matchApi == null) {
         return false
       }
       permission.apiSetList.push(matchApi.value)

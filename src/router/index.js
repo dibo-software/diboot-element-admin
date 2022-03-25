@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import { isEnableSso, callback } from '@/utils/sso'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -41,6 +42,21 @@ export const constantRoutes = [
         component: () => import('@/views/redirect/index')
       }
     ]
+  },
+  {
+    path: '/callback',
+    name: 'callback',
+    component: {
+      created() {
+        callback()
+      },
+      render: h => h('h2', {
+        style: {
+          lineHeight: '100vh',
+          textAlign: 'center'
+        }
+      }, '登录中……')
+    }
   },
   {
     path: '/login',
@@ -152,6 +168,12 @@ export const asyncRoutes = [
         meta: { title: '上传文件管理', keepAlive: true, permission: ['UploadFile'] }
       },
       {
+        path: 'config',
+        name: 'systemConfig',
+        component: () => import('@/views/system/config/index'),
+        meta: { title: '系统配置管理', keepAlive: true, permission: ['SystemConfig'] }
+      },
+      {
         path: 'iamOperationLog/list',
         name: 'IamOperationLogList',
         component: () => import('@/views/system/iamOperationLog/list'),
@@ -194,6 +216,8 @@ export const asyncRoutes = [
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
+  mode: isEnableSso() ? 'history' : 'hash', // 使用SSO时只能是history模式
+  base: process.env.BASE_URL,
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

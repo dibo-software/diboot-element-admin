@@ -25,7 +25,7 @@ export default {
       })
     },
     onTreeSelect(cnode) {
-      if (cnode !== undefined) {
+      if (cnode != null) {
         // 设置当前节点
         this.currentNodeId = cnode.key
         this.afterTreeSelect()
@@ -116,7 +116,7 @@ export default {
   },
   computed: {
     dataList: function() {
-      if (this.treeList === undefined || this.treeList.length === 0) {
+      if (this.treeList == null || this.treeList.length === 0) {
         return []
       }
       return treeList2list(_.cloneDeep(this.treeList))
@@ -124,7 +124,7 @@ export default {
     currentNode: function() {
       if (this.dataList.length === 0 ||
         this.currentNodeId === 0 || this.currentNodeId === '0' ||
-        this.currentNodeId === undefined || this.currentNodeId === '') {
+        this.currentNodeId == null || this.currentNodeId === '') {
         return {}
       }
       return this.dataList.find(item => {

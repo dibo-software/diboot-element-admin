@@ -75,7 +75,7 @@ export default {
      */
     appendSorterParam({ column, prop, order }) {
       console.log(column, prop, order)
-      if (prop !== undefined && order !== undefined) {
+      if (prop != null && order != null) {
         this.queryParam.orderBy = `${prop}:${order === 'ascending' ? 'ASC' : 'DESC'}`
       } else {
         this.queryParam.orderBy = undefined
@@ -203,7 +203,7 @@ export default {
       if (list && list.length > 0) {
         list.forEach(item => {
           // 解决elementui对于具有children字段的列表显示不出的问题
-          if (item.children !== undefined) {
+          if (item.children != null) {
             item._children = item.children
             item.hasChildren = true
             delete item.children
@@ -293,7 +293,7 @@ export default {
      * @returns {boolean}
      */
     batchRemove() {
-      if (this.selectedRowKeys === undefined || this.selectedRowKeys.length === 0) {
+      if (this.selectedRowKeys == null || this.selectedRowKeys.length === 0) {
         this.$message.error('请选择需要操作的行')
         return false
       }
@@ -456,5 +456,6 @@ export default {
     if (this.getListFromMixin === true) {
       await this.getList()
     }
+    await this.attachMore()
   }
 }

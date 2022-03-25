@@ -168,7 +168,7 @@ export default {
   },
   computed: {
     orgTreeList() {
-      if (this.orgList === undefined || this.orgList.length === 0) {
+      if (this.orgList == null || this.orgList.length === 0) {
         return []
       }
       const orgTreeList = treeListFormatter(_.cloneDeep(this.orgList), 'id', 'shortName', true)
@@ -178,7 +178,7 @@ export default {
   },
   methods: {
     async afterOpen(id) {
-      if (id === undefined) {
+      if (id == null) {
         this.setPassword = true
         this.$set(this.form, 'orgId', this.currentNodeId || '0')
       } else {
@@ -199,7 +199,7 @@ export default {
         this.$message.error(res.msg)
       }
       // 获取account的username信息到表单中
-      if (id !== undefined) {
+      if (id != null) {
         const res = await dibootApi.get(`${this.baseApi}/getUsername/${id}`)
         if (res.code === 0) {
           this.$set(this.form, 'username', res.data)

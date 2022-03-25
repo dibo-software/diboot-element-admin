@@ -107,8 +107,5 @@ export default {
       }
       controlItem instanceof Array ? controlItem.forEach(item => execute(item)) : execute(controlItem || {})
     }
-  },
-  async mounted() {
-    await this.attachMore()
   }
 }
