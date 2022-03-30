@@ -25,22 +25,22 @@ export default {
       attentionItems: [
         {
           title: '新手指南',
-          titleUrl: 'https://www.diboot.com/guide/newer/beginner.html',
+          titleUrl: 'https://www.diboot.com/docs/beginner/bootstrap.html',
           description: 'diboot新用户，先通读官网文档'
         },
         {
           title: '配置角色&资源权限',
-          titleUrl: 'https://www.diboot.com/guide/diboot-antd-admin/permission.html',
+          titleUrl: 'https://www.diboot.com/docs/diboot-element-admin/permission.html',
           description: '参考链接官网文档，配置资源权限'
         },
         {
           title: '后端打包时剔除devtools',
-          titleUrl: 'https://www.diboot.com/guide/diboot-devtools/introduce.html',
+          titleUrl: 'https://www.diboot.com/docs/diboot-devtools/introduce.html',
           description: 'diboot-devtools 是用于开发过程的助手工具，打包发布前须剔除devtools jar，具体请参考链接官网文档。'
         },
         {
           title: '常用问题FAQ',
-          titleUrl: 'https://www.diboot.com/guide/notes/faq/main.html',
+          titleUrl: 'https://www.diboot.com/docs/notes/faq/main.html',
           description:
             '使用中有疑问可参考FAQ 或 通过github/gitee查找技术交流群沟通'
         },
