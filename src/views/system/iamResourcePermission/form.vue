@@ -59,6 +59,7 @@
       </el-form-item>
       <el-form-item class="api-container" label="菜单权限接口" prop="permissionCodes">
         <div class="permission-tag-container">
+          <template v-if="permissionCodes && permissionCodes.length > 0">
           <el-tag
             v-for="(permissionCode, index) in form.permissionCodes"
             style="margin-bottom: 3px"
@@ -67,6 +68,10 @@
             closable
             @close.stop.prevent="handleRemovePermissionCode(permissionCode)"
           >{{permissionCode}}</el-tag>
+          </template>
+          <template v-else>
+            <span style="color: #d3d3d3">请点击右侧"配置按钮"选择权限接口</span>
+          </template>
         </div>
         <el-button style="align-self: flex-start;" size="mini" type="primary" @click="goPermissionConfig('Menu')">配置</el-button>
       </el-form-item>
@@ -124,7 +129,8 @@
               <el-input v-model="permission.displayName" @input="value => changePermissionConfig(permission, value)" placeholder="请输入按钮权限名称" />
             </el-form-item>
             <el-form-item label="按钮权限接口" prop="permissionCodes" class="tab-form-item api-container">
-              <div class="permission-tag-container" :gutter="12">
+              <div class="permission-tag-container">
+                <template v-if="permission.permissionCodes && permission.permissionCodes.length > 0">
                 <el-tag
                   v-for="(permissionCode, index) in permission.permissionCodes"
                   style="margin-bottom: 3px"
@@ -133,6 +139,10 @@
                   closable
                   @close.stop.prevent="handleRemovePermissionCode(permissionCode, permission)"
                 >{{permissionCode}}</el-tag>
+                </template>
+                <template v-else>
+                  <span style="color: #d3d3d3">请点击右侧"配置按钮"选择权限接口</span>
+                </template>
               </div>
               <el-button style="align-self: flex-start;" size="mini" type="primary" @click="goPermissionConfig('Permission')">配置</el-button>
             </el-form-item>
@@ -147,6 +157,7 @@
           :title="currentPermissionTitle"
           :current-permission-codes="currentPermissionCodes"
           :config-code="currentConfigCode"
+          :menu-resource-code="form.resourceCode"
           :origin-api-list="originApiList"
           @changePermissionCodes="handleChangePermissionCodes"
         />
@@ -330,6 +341,7 @@ export default {
         this.form.permissionList = []
         this.currentPermissionCodes = []
         this.currentConfigCode = 'Menu'
+        this.$refs.permissionList.goScrollIntoView(this.$refs.permissionList.getAnchor())
       }
     },
 
@@ -488,6 +500,9 @@ export default {
       this.currentPermissionTitle = '菜单页面接口配置'
       this.currentConfigCode = 'Menu'
       this.currentPermissionCodes = this.form.permissionCodes
+      if (!this.permissionCodes || this.permissionCodes.length === 0) {
+        this.$refs.permissionList.goScrollIntoView(this.$refs.permissionList.getAnchor())
+      }
     },
     /**
      * 更改值，tag回显位置跟着调整
