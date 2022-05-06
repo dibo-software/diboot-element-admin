@@ -21,18 +21,16 @@
       <el-descriptions-item label="上级菜单">{{ model.parentDisplayName ? model.parentDisplayName : '无' }}</el-descriptions-item>
       <el-descriptions-item label="菜单名称">{{ model.displayName }}</el-descriptions-item>
       <el-descriptions-item label="菜单编码">{{ model.resourceCode }}</el-descriptions-item>
-      <el-descriptions-item label="菜单编码">
+      <el-descriptions-item label="菜单权限编码">
         <template v-if="model.permissionCodes && model.permissionCodes.length > 0">
           <template v-for="permissionCode in model.permissionCodes">
-            <template v-if="permissionCodeApiMap[permissionCode] && permissionCodeApiMap[permissionCode].length > 0">
-              <el-tag
-                v-for="(apiUri, i) in permissionCodeApiMap[permissionCode]"
-                :key="`menu_permission_${i}_${apiUri.method}${apiUri.uri}`"
-                size="small"
-                type="primary">
-                {{apiUri.method}}:{{apiUri.uri}}（{{apiUri.label}}）
-              </el-tag>
-            </template>
+            <el-tag
+              :key="`menu_permission_${permissionCode}`"
+              size="small"
+              type="primary"
+            >
+              {{ permissionCode }}
+            </el-tag>
           </template>
         </template>
         <template v-else>
@@ -49,18 +47,16 @@
         <el-descriptions :column="1">
           <el-descriptions-item label="名称">{{ p.displayName }}</el-descriptions-item>
           <el-descriptions-item label="编码">{{ p.resourceCode }}</el-descriptions-item>
-          <el-descriptions-item label="接口列表" content-class-name="flex-wrap">
+          <el-descriptions-item label="按钮权限编码" content-class-name="flex-wrap">
             <template v-if="p.permissionCodes && p.permissionCodes.length > 0">
               <template v-for="permissionCode in p.permissionCodes">
-                <template v-if="permissionCodeApiMap[permissionCode] && permissionCodeApiMap[permissionCode].length > 0">
-                  <el-tag
-                    v-for="(apiUri, i) in permissionCodeApiMap[permissionCode]"
-                    :key="`permission_${p.resourceCode}_${i}_${apiUri.method}${apiUri.uri}`"
-                    size="small"
-                    type="primary">
-                    {{apiUri.method}}:{{apiUri.uri}}（{{apiUri.label}}）
-                  </el-tag>
-                </template>
+                <el-tag
+                  :key="`permission_${permissionCode}`"
+                  size="small"
+                  type="primary"
+                >
+                  {{ permissionCode }}
+                </el-tag>
               </template>
             </template>
             <template v-else>
@@ -81,43 +77,14 @@
 </template>
 <script>
 import detail from '@/components/diboot/mixins/detail'
-import { dibootApi } from '@/utils/request'
 export default {
   name: 'IamResourcePermissionDetail',
   mixins: [detail],
   data() {
     return {
-      baseApi: '/iam/resourcePermission',
-      originApiList: []
-    }
-  },
-  computed: {
-    permissionCodeApiMap() {
-      const map = {}
-      this.originApiList.forEach(item => {
-        const apiPermissionList = item.apiPermissionList
-        if (apiPermissionList && apiPermissionList.length > 0) {
-          apiPermissionList.forEach(apiPermission => {
-            const permissionCode = apiPermission.code
-            map[permissionCode] = apiPermission.apiUriList
-          })
-        }
-      })
-      return map
-    }
-  },
-  methods: {
-    afterOpen() {
-      dibootApi.get(`${this.baseApi}/apiList`).then(res => {
-        if (res.code === 0) {
-          this.originApiList = res.data
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
+      baseApi: '/iam/resourcePermission'
     }
   }
-
 }
 </script>
 <style lang="scss">
