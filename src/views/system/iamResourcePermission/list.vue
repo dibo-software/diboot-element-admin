@@ -131,7 +131,6 @@
       @close="formParentId = null"
     />
     <permission-tree-sort ref="sort" @complete="getList" />
-    <correct-permission ref="correct" @complete="getList" />
   </div>
 </template>
 
