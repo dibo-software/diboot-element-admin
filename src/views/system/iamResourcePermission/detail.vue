@@ -17,76 +17,53 @@
         <i class="el-icon-close" style="cursor: pointer" @click="close" />
       </el-col>
     </el-row>
-    <el-form label-position="left" label-width="100px" inline class="detail-item-container">
-      <el-row :gutter="18">
-        <el-col :span="12">
-          <el-form-item label="上级菜单">
-            <span>{{ model.parentDisplayName ? model.parentDisplayName : '无' }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="菜单名称">
-            <span>{{ model.displayName }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="菜单编码">
-            <span>{{ model.resourceCode }}</span>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="页面接口列表">
-            <div v-if="model.apiSetList && model.apiSetList.length > 0" class="tag-group">
-              <el-tag
-                v-for="(api,i) in model.apiSetList"
-                :key="i"
-                type="primary"
-              >
-                {{ api }}
-              </el-tag>
-            </div>
-            <template v-else>
-              无
-            </template>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="页面资源权限">
-            <template v-if="!model.permissionList || model.permissionList.length === 0">
-              无
-            </template>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
+    <el-descriptions class="permission-detail" :column="1">
+      <el-descriptions-item label="上级菜单">{{ model.parentDisplayName ? model.parentDisplayName : '无' }}</el-descriptions-item>
+      <el-descriptions-item label="菜单名称">{{ model.displayName }}</el-descriptions-item>
+      <el-descriptions-item label="菜单编码">{{ model.resourceCode }}</el-descriptions-item>
+      <el-descriptions-item label="菜单权限编码">
+        <template v-if="model.permissionCodes && model.permissionCodes.length > 0">
+          <template v-for="permissionCode in model.permissionCodes">
+            <el-tag
+              :key="`menu_permission_${permissionCode}`"
+              size="small"
+              type="primary"
+            >
+              {{ permissionCode }}
+            </el-tag>
+          </template>
+        </template>
+        <template v-else>
+          无
+        </template>
+      </el-descriptions-item>
+    </el-descriptions>
     <el-tabs v-if="model.permissionList && model.permissionList.length > 0" type="border-card">
       <el-tab-pane
         v-for="(p,i) in model.permissionList"
         :key="i"
         :label="p.displayName"
       >
-        <el-form label-position="left" inline class="detail-item-container">
-          <el-form-item label="名称">
-            <span>{{ p.displayName }}</span>
-          </el-form-item>
-          <el-form-item label="编码">
-            <span>{{ p.resourceCode }}</span>
-          </el-form-item>
-          <el-form-item label="接口列表">
-            <div v-if="p.apiSetList && p.apiSetList.length > 0" class="tag-group">
-              <el-tag
-                v-for="(api,j) in p.apiSetList"
-                :key="j"
-                type="primary"
-              >
-                {{ api }}
-              </el-tag>
-            </div>
+        <el-descriptions :column="1">
+          <el-descriptions-item label="名称">{{ p.displayName }}</el-descriptions-item>
+          <el-descriptions-item label="编码">{{ p.resourceCode }}</el-descriptions-item>
+          <el-descriptions-item label="按钮权限编码" content-class-name="flex-wrap">
+            <template v-if="p.permissionCodes && p.permissionCodes.length > 0">
+              <template v-for="permissionCode in p.permissionCodes">
+                <el-tag
+                  :key="`permission_${permissionCode}`"
+                  size="small"
+                  type="primary"
+                >
+                  {{ permissionCode }}
+                </el-tag>
+              </template>
+            </template>
             <template v-else>
               无
             </template>
-          </el-form-item>
-        </el-form>
+          </el-descriptions-item>
+        </el-descriptions>
       </el-tab-pane>
     </el-tabs>
 
@@ -100,7 +77,6 @@
 </template>
 <script>
 import detail from '@/components/diboot/mixins/detail'
-
 export default {
   name: 'IamResourcePermissionDetail',
   mixins: [detail],
@@ -112,4 +88,11 @@ export default {
 }
 </script>
 <style lang="scss">
+.el-tag + .el-tag {
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
 </style>
