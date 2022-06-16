@@ -59,7 +59,7 @@
       </el-form-item>
       <el-form-item class="api-container" label="菜单权限接口" prop="permissionCodes">
         <div class="permission-tag-container">
-          <template v-if="permissionCodes && permissionCodes.length > 0">
+          <template v-if="form.permissionCodes && form.permissionCodes.length > 0">
           <el-tag
             v-for="(permissionCode, index) in form.permissionCodes"
             style="margin-bottom: 3px"
