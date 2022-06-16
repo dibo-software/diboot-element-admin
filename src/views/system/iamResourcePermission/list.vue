@@ -50,7 +50,7 @@
         prop="resourceCode"
         label="菜单编码"
       />
-      <el-table-column label="页面按钮/权限">
+      <el-table-column label="页面按钮权限">
         <template slot-scope="scope">
           <div v-if="scope.row.permissionList && scope.row.permissionList.length > 0" class="tag-group">
             <el-tag

@@ -14,7 +14,7 @@ import toolbar from './toolbar'
 import load from './dynamicLoadScript'
 import { baseURL, dibootApi } from '@/utils/request'
 
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce@5.7.0/tinymce.min.js'
+const tinymceCDN = 'https://unpkg.com/tinymce@5.7.0/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
