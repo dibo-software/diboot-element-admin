@@ -32,6 +32,7 @@
       </el-form-item>
       <el-form-item label="拥有权限" prop="permissionList">
         <flat-tree
+          :key="visible"
           v-if="permissionTreeList && permissionTreeList.length > 0"
           ref="tree"
           class="filter-tree"
@@ -39,10 +40,10 @@
           show-checkbox
           check-strictly
           :data="permissionTreeList"
-          :props="{label: 'label', children: 'children'}"
+          :props="{label: 'displayName', children: 'children'}"
           default-expand-all
           :filter-node-method="filterNode"
-          @check="onNodeCheck"
+          @check="checkNode"
         />
       </el-form-item>
     </el-form>
@@ -60,9 +61,40 @@
 import form from '@/components/diboot/mixins/form'
 import FlatTree from '@/components/FlatTree'
 import { dibootApi } from '@/utils/request'
-import { permissionTreeListFormatter, treeList2list, list2childrenMap } from '@/utils/treeDataUtil'
+import { tree2List } from '@/utils/treeDataUtil'
 import _ from 'lodash'
-
+/**
+ * 收集树节点上所有父节点
+ * @param parentId 父节点
+ * @param dataList 子节点
+ * @param result 存储结果
+ * @param transformField 字段转化
+ */
+const collectDeepParent = (parentId, dataList, result, transformField) => {
+  if (parentId === '0') return
+  const data = (dataList.find(val => collectField(val, transformField.value) === parentId) || {})
+  data && result.push(data)
+  collectDeepParent((data[transformField.parentId] || '0'), dataList, result, transformField)
+}
+/**
+ * 收集对象中的指定字段
+ * @param data 对象
+ * @param fieldName 对象的属性名
+ * @param defaultValue 属性默认值，不设置默认值，表示对象中一定可以获取到非null、非undefined值
+ */
+const collectField = (data, fieldName, defaultValue) => {
+  const val = data[fieldName]
+  return defaultValue ? (val || defaultValue) : val
+}
+/**
+ * 收集指定字段列表
+ * @param dataList 对象列表
+ * @param fieldName 对象的名称
+ * @param defaultValue 属性默认值
+ */
+const collectFieldList = (dataList, fieldName, defaultValue) => {
+  return dataList.map(val => collectField(val, fieldName, defaultValue))
+}
 export default {
   name: 'IamRoleForm',
   components: { FlatTree },
@@ -82,7 +114,13 @@ export default {
       },
       isAdmin: false,
       checkedKeys: [],
-      permissionTreeList: []
+      permissionTreeList: [],
+      optionsTransformField: {
+        value: 'id',
+        children: 'children',
+        parentId: 'parentId',
+        label: 'label'
+      }
     }
   },
   computed: {
@@ -90,10 +128,7 @@ export default {
       if (!this.permissionTreeList || this.permissionTreeList.length === 0) {
         return []
       }
-      return treeList2list(_.cloneDeep(this.permissionTreeList))
-    },
-    childrenMap: function() {
-      return list2childrenMap(this.permissionList)
+      return tree2List(_.cloneDeep(this.permissionTreeList))
     }
   },
   methods: {
@@ -109,7 +144,7 @@ export default {
         if (!res.data || res.data.length === 0) {
           this.$message.error('请先添加菜单及权限')
         } else {
-          this.permissionTreeList = permissionTreeListFormatter(res.data, 'id', 'displayName')
+          this.permissionTreeList = res.data
         }
       } else {
         this.$message.error(res.msg)
@@ -126,84 +161,51 @@ export default {
       }
     },
     /**
-     * 节点选中时的处理事件
-     * 当选中的是父节点时，全选所有子节点
-     * 当取消选中的是父节点时，取消所有子节点选择
-     * @param checkedKeys
-     * @param e
+     * 点击节点复选框之后触发	：详细规则如下
+     * 选择框被勾选==> 当前选择框、子选择框、父/祖父选择框都需要被勾选，
+     * 取消勾选 ==> 当前选择框、子选择框取消勾选，如果是父/祖父选择框下只有这当前选择框这一个子项，父/祖也要取消勾选，否则只取消当前选择框
+     * @param data 被点击节点
+     * @param checked 节点是否被选中
      */
-    onNodeCheck(currentNode, data) {
-      const { value } = currentNode
-      const checked = data.checkedKeys.includes(value)
-      if (checked === true) {
-        // 如果具有上级节点，则自动选择所有的父级节点（上级菜单必选，否则设置无效）
-        if (!this.checkedKeys.includes(value)) {
-          this.checkedKeys.push(value)
-        }
-        this.deepCheckParentNode(value)
-        // 如果具有下级权限节点，则自动选择所有权限列表（默认操作，可去除）
-        const children = this.childrenMap[value]
-        if (this.withoutMenuChildren(children)) {
-          children.forEach(item => {
-            this.autoCheckNode(item.value)
-          })
-        }
+    checkNode(currentNode, data) {
+      const checkedKeys = data.checkedKeys
+
+      const value = collectField(currentNode, this.optionsTransformField.value)
+      const result = [currentNode]
+      // 递归查找子项
+      const children = collectField(currentNode, this.optionsTransformField.children, [])
+      if (children && children.length > 0) {
+        const childrenData = tree2List(children)
+        result.push(...childrenData)
+      }
+      // 递归查找父项
+      const parentId = collectField(currentNode, this.optionsTransformField.value, '0')
+      const parentResult = []
+      collectDeepParent(parentId, this.permissionList, parentResult, this.optionsTransformField)
+      if (checkedKeys.includes(value)) {
+        result.push(...parentResult)
+        // 获取所有id，且已经选中的数据中不包含的id
+        const values = collectFieldList(result, this.optionsTransformField.value).filter(
+          val => !this.checkedKeys.includes(val)
+        )
+
+        this.checkedKeys.push(...new Set(values))
       } else {
-        // 如果具有下级权限节点，则自动取消选择所有的父级节点（下级菜单必须取消，否则设置无效）
-        if (this.checkedKeys.includes(value)) {
-          _.pull(this.checkedKeys, value)
-        }
-        this.deepUnCheckChildrenNode(value)
+        const values = collectFieldList(result, this.optionsTransformField.value)
+        const parentValues = collectFieldList(parentResult, this.optionsTransformField.value)
+        // 查找父项下的所有子项(包含父项)
+        const childrenResult = tree2List(parentResult) || []
+        const mergeValues = [...values, ...parentValues]
+        // 获取抛开当前节点下的所有子项和当前节点下所有父项 的剩余项
+        const remainValues = collectFieldList(childrenResult, this.optionsTransformField.value).filter(
+          val => !mergeValues.includes(val)
+        )
+        // 判断剩余节点是否存在已选中的节点中, 当前节点的父级下有其他子节点，那么只移除当前节点及子节点，如果父级下无其他子节点，那么移除当前节点的父节点和子节点
+        const resultValues = this.checkedKeys.some(val => remainValues.includes(val)) ? values : mergeValues
+        this.checkedKeys = this.checkedKeys.filter((selected) => !resultValues.includes(selected))
       }
-    },
-    /**
-     * 逐级选中所有父节点
-     * @param value
-     */
-    deepCheckParentNode(value) {
-      const currentPermission = this.permissionList.find(item => {
-        return item.value === value
-      })
-      if (currentPermission != null && currentPermission.parentId && currentPermission.parentId !== 0) {
-        this.autoCheckNode(currentPermission.parentId)
-        this.deepCheckParentNode(currentPermission.parentId)
-      }
-    },
-    /**
-     * 逐级取消选中所有子节点
-     * @param value
-     */
-    deepUnCheckChildrenNode(value) {
-      const children = this.childrenMap[value]
-      if (children != null && children.length > 0) {
-        children.forEach(item => {
-          this.autoUnCheckNode(item.value)
-          this.deepUnCheckChildrenNode(item.value)
-        })
-      }
-    },
-    autoCheckNode(value) {
-      const checkedIdList = this.checkedKeys
-      if (!checkedIdList.includes(value)) {
-        checkedIdList.push(value)
-      }
-      this.$refs.tree.setCheckedKeys(checkedIdList)
-    },
-    autoUnCheckNode(value) {
-      const checkedIdList = this.checkedKeys
-      if (checkedIdList.includes(value)) {
-        _.pull(checkedIdList, value)
-      }
-      this.$refs.tree.setCheckedKeys(checkedIdList)
-    },
-    withoutMenuChildren(children) {
-      if (children == null || children.length === 0) {
-        return false
-      }
-      const permission = children.find(item => {
-        return item.type === 'MENU'
-      })
-      return permission == null
+      // 设置选中状态
+      this.$refs.tree.setCheckedKeys(this.checkedKeys)
     },
     filterNode(value, data) {
       if (!value) return true
@@ -234,6 +236,7 @@ export default {
     afterClose() {
       this.isAdmin = false
       this.checkedKeys = []
+      this.$refs.tree.setCheckedKeys([])
     }
   }
 }
