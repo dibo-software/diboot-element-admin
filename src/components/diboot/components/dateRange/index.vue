@@ -3,7 +3,7 @@
     <el-date-picker
       v-model="value[0]"
       style="width: calc(50% - 15px);"
-      type="date"
+      :type="showTime ? 'datetime' : 'date'"
       clearable
       :format="format"
       :value-format="format"
@@ -14,7 +14,7 @@
     <el-date-picker
       v-model="value[1]"
       style="width: calc(50% - 15px);"
-      type="date"
+      :type="showTime ? 'datetime' : 'date'"
       clearable
       :format="format"
       :value-format="format"
@@ -31,6 +31,10 @@ export default {
     value: {
       type: Array,
       default: () => [undefined, undefined]
+    },
+    showTime: {
+      type: Boolean,
+      default: false
     },
     format: {
       type: String,
