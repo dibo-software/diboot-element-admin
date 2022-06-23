@@ -107,7 +107,16 @@
       </el-table-column>
       <el-table-column label="姓名">
         <template slot-scope="scope">
-          {{ scope.row.realname }}
+          <span
+            v-if="!(scope.row.userPositionList || []).length || scope.row.userPositionList.some(e => e.isPrimaryPosition)"
+          >
+            {{ scope.row.realname }}
+          </span>
+          <el-tooltip v-else placement="top" content="兼职">
+            <el-badge is-dot>
+              {{ scope.row.realname }}
+            </el-badge>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column label="用户编号">
@@ -263,3 +272,12 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.el-badge{
+  /deep/ .el-badge__content.is-fixed.is-dot{
+    right: 0;
+    top:3px;
+  }
+}
+</style>
