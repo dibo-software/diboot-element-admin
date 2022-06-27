@@ -94,7 +94,7 @@ export default {
      * @param value 选项值
      * @param control 控制器名称
      */
-    controlRelationOptions(value, control) {
+    controlRelationOptions(value, control, callback) {
       const controlItem = this.control[control]
       const isNull = value == null || value.length === 0
       const execute = async({ name, loader, condition, lazy }) => {
@@ -104,6 +104,7 @@ export default {
         moreLoader.condition[condition] = value
         this.$set(this.form, name, undefined)
         !lazy && this.$set(this.more, `${loader}Options`, isNull ? [] : await this.loadAttachMore(moreLoader))
+        callback && callback()
       }
       controlItem instanceof Array ? controlItem.forEach(item => execute(item)) : execute(controlItem || {})
     }
