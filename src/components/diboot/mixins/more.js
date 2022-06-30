@@ -104,9 +104,9 @@ export default {
         moreLoader.condition[condition] = value
         this.$set(this.form, name, undefined)
         !lazy && this.$set(this.more, `${loader}Options`, isNull ? [] : await this.loadAttachMore(moreLoader))
-        callback && callback()
       }
       controlItem instanceof Array ? controlItem.forEach(item => execute(item)) : execute(controlItem || {})
+      callback && callback()
     }
   }
 }
