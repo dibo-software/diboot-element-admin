@@ -3146,7 +3146,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@^3.0.0, debug@^3.1.0, debug@^3.1.1, debug@^3.2.5:
+debug@^3.1.0, debug@^3.1.1, debug@^3.2.5:
   version "3.2.6"
   resolved "https://registry.npm.taobao.org/debug/download/debug-3.2.6.tgz"
   integrity sha1-6D0X3hbYp++3cX7b5fsQE17uYps=
@@ -4329,11 +4329,9 @@ flush-write-stream@^1.0.0:
     readable-stream "^2.3.6"
 
 follow-redirects@^1.0.0, follow-redirects@^1.10.0:
-  version "1.10.0"
-  resolved "https://registry.npm.taobao.org/follow-redirects/download/follow-redirects-1.10.0.tgz"
-  integrity "sha1-AfUmOu6SHGpU+5Fmfwj0FVzhaes= sha512-4eyLK6s6lH32nOvLLwlIOnr9zrL8Sm+OvW4pVTJNoXeGzYIkHVf+pADQi+OJ0E67hiuSLezPVPyBcIZO50TmmQ=="
-  dependencies:
-    debug "^3.0.0"
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
+  integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -4741,7 +4739,7 @@ hash-sum@^1.0.2:
   resolved "https://registry.npm.taobao.org/hash-sum/download/hash-sum-1.0.2.tgz"
   integrity sha1-M7QHd3VMZDJXPBIMw4CLvRDUfwQ=
 
-hash.js@^1.0.0:
+hash.js@^1.0.0, hash.js@^1.0.3:
   version "1.1.7"
   resolved "https://registry.npm.taobao.org/hash.js/download/hash.js-1.1.7.tgz"
   integrity sha1-C6vKU46NTuSg+JiNaIZlN6ADz0I=
@@ -6677,7 +6675,7 @@ minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   resolved "https://registry.npm.taobao.org/minimalistic-assert/download/minimalistic-assert-1.0.1.tgz"
   integrity sha1-LhlN4ERibUoQ5/f7wAznPoPk1cc=
 
-minimalistic-crypto-utils@^1.0.0:
+minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/minimalistic-crypto-utils/download/minimalistic-crypto-utils-1.0.1.tgz"
   integrity sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
@@ -8495,10 +8493,10 @@ repeat-element@^1.1.2:
   resolved "https://registry.npm.taobao.org/repeat-element/download/repeat-element-1.1.3.tgz"
   integrity sha1-eC4NglwMWjuzlzH4Tv7mt0Lmsc4=
 
-repeat-string@^1.5.2:
+repeat-string@^1.5.2, repeat-string@^1.6.1:
   version "1.6.1"
-  resolved "https://registry.npm.taobao.org/repeat-string/download/repeat-string-1.6.1.tgz"
-  integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
+  resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
+  integrity sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==
 
 repeating@^2.0.0:
   version "2.0.1"
@@ -9714,6 +9712,14 @@ to-object-path@^0.3.0:
   integrity sha1-KXWIt7Dn4KwI4E5nL4XB9JmeF68=
   dependencies:
     kind-of "^3.0.2"
+
+to-regex-range@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-2.1.1.tgz#7c80c17b9dfebe599e27367e0d4dd5590141db38"
+  integrity sha512-ZZWNfCjUokXXDGXFpZehJIkZqq91BcULFq/Pi7M5i4JnxXdhMKAK682z8bCW3o8Hj1wuuzoKcW3DfVzaP6VuNg==
+  dependencies:
+    is-number "^3.0.0"
+    repeat-string "^1.6.1"
 
 to-regex-range@^5.0.1:
   version "5.0.1"
