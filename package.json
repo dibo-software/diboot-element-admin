@@ -20,7 +20,7 @@
     "element-ui": "2.15.7",
     "fuse.js": "3.4.4",
     "js-cookie": "2.2.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "echarts": "^5.2.2",
     "element-resize-detector": "^1.2.3",
     "normalize.css": "7.0.0",
