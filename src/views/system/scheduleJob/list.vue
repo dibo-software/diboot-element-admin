@@ -40,22 +40,22 @@
       row-key="id"
       @sort-change="appendSorterParam"
     >
-      <el-table-column align="center" label="任务名称">
+      <el-table-column label="任务名称">
         <template slot-scope="scope">
           <span>{{ scope.row.jobName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="定时表达式">
+      <el-table-column label="定时表达式">
         <template slot-scope="scope">
           <span>{{ scope.row.cron }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="初始化策略">
+      <el-table-column label="初始化策略">
         <template slot-scope="scope">
           <span>{{ initStrategyEnum[scope.row.initStrategy] || '周期执行' }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="状态">
+      <el-table-column label="状态">
         <template slot-scope="scope">
           <el-switch
             :key="loadingData"
@@ -86,19 +86,19 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="记录日志">
+      <el-table-column label="记录日志">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.saveLog" type="success">开启</el-tag>
           <el-tag v-else type="info">关闭</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间">
+      <el-table-column label="创建时间">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建者" prop="createByName" />
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="创建者" prop="createByName" />
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

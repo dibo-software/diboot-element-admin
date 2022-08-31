@@ -74,42 +74,42 @@
       row-key="uuid"
       @sort-change="appendSorterParam"
     >
-      <el-table-column align="center" label="关联对象类">
+      <el-table-column label="关联对象类">
         <template slot-scope="scope">
           <span>{{ scope.row.relObjType }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="文件名">
+      <el-table-column label="文件名">
         <template slot-scope="scope">
           <span>{{ scope.row.fileName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="文件类型">
+      <el-table-column label="文件类型">
         <template slot-scope="scope">
           <span>{{ scope.row.fileType }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="数据量">
+      <el-table-column label="数据量">
         <template slot-scope="scope">
           <span>{{ scope.row.dataCount }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="备注" show-overflow-tooltip>
+      <el-table-column label="备注" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.description }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建人">
+      <el-table-column label="创建人">
         <template slot-scope="scope">
           <span>{{ scope.row.createByName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间" width="180">
+      <el-table-column label="创建时间" width="180">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="150" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

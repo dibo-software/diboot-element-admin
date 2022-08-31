@@ -39,42 +39,42 @@
         row-key="id"
         @sort-change="appendSorterParam"
       >
-        <el-table-column align="center" label="任务名称">
+        <el-table-column label="任务名称">
           <template slot-scope="scope">
             <span>{{ scope.row.jobName }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="定时表达式">
+        <el-table-column label="定时表达式">
           <template slot-scope="scope">
             <span>{{ scope.row.cron }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="开始时间">
+        <el-table-column label="开始时间">
           <template slot-scope="scope">
             <span>{{ scope.row.startTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="结束时间">
+        <el-table-column label="结束时间">
           <template slot-scope="scope">
             <span>{{ scope.row.endTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="耗时(s)">
+        <el-table-column label="耗时(s)">
           <template slot-scope="scope">
             <span>{{ scope.row.elapsedSeconds }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="状态">
+        <el-table-column label="状态">
           <template slot-scope="scope">
             <span>{{ scope.row.runStatusLabel }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="执行结果信息" show-overflow-tooltip>
+        <el-table-column label="执行结果信息" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.executeMsg }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+        <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
           <template slot-scope="{row}">
             <el-button v-permission="['detail']" type="text" @click="$refs.detail.open(row.id)">
               详情

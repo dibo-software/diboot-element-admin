@@ -110,37 +110,37 @@
       row-key="id"
       @sort-change="appendSorterParam"
     >
-      <el-table-column align="center" label="业务类型">
+      <el-table-column label="业务类型">
         <template slot-scope="scope">
           <span>{{ scope.row.businessType }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="发送方">
+      <el-table-column label="发送方">
         <template slot-scope="scope">
           <span>{{ scope.row.sender }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="接收方">
+      <el-table-column label="接收方">
         <template slot-scope="scope">
           <span>{{ scope.row.receiver }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="发送状态">
+      <el-table-column label="发送状态">
         <template slot-scope="scope">
           <span>{{ scope.row.statusLabel }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="发送通道">
+      <el-table-column label="发送通道">
         <template slot-scope="scope">
           <span>{{ scope.row.channelLabel }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间">
+      <el-table-column label="创建时间">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

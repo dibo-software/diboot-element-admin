@@ -63,22 +63,22 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="电话" align="center">
+      <el-table-column label="电话">
         <template slot-scope="scope">
           <span>{{ scope.row.mobilePhone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center">
+      <el-table-column label="状态">
         <template slot-scope="scope">
           <span>{{ scope.row.statusLabel }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="150" align="center" prop="createTime" sortable>
+      <el-table-column label="创建时间" width="150" prop="createTime" sortable>
         <template slot-scope="scope">
           {{ scope.row.createTime }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

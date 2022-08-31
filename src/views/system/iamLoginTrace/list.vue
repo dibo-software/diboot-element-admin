@@ -70,12 +70,12 @@
           <el-tag v-else type="danger">失败</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="登录时间" width="150" align="center" prop="createTime" sortable>
+      <el-table-column label="登录时间" width="150" prop="createTime" sortable>
         <template slot-scope="scope">
           {{ scope.row.createTime }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         -
       </el-table-column>
     </el-table>
