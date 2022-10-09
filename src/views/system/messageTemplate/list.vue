@@ -82,32 +82,32 @@
       row-key="id"
       @sort-change="appendSorterParam"
     >
-      <el-table-column align="center" label="模版编码">
+      <el-table-column label="模版编码">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="模版标题">
+      <el-table-column label="模版标题">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建人">
+      <el-table-column label="创建人">
         <template slot-scope="scope">
           <span>{{ scope.row.createByName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间">
+      <el-table-column label="创建时间">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="更新时间">
+      <el-table-column label="更新时间">
         <template slot-scope="scope">
           <span>{{ scope.row.updateTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

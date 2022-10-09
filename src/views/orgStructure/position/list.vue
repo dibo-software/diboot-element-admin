@@ -42,8 +42,8 @@
       <el-table-column label="岗位编码" prop="code" />
       <el-table-column label="职级" prop="gradeValue" />
       <el-table-column label="职级头衔" prop="gradeName" />
-      <el-table-column label="数据权限" width="150" align="center" prop="dataPermissionTypeLabel" sortable />
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="数据权限" width="150" prop="dataPermissionTypeLabel" sortable />
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

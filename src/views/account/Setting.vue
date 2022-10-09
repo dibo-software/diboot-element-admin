@@ -62,6 +62,7 @@ export default {
     }
   },
   async mounted() {
+    this.attachMore()
     await this.getCurrentUserInfo()
   },
   methods: {

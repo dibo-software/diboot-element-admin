@@ -67,9 +67,8 @@
         prop="createTime"
         label="创建时间"
         width="180"
-        align="center"
       />
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

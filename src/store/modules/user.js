@@ -90,12 +90,12 @@ const actions = {
 
   // user logout
   logout({ commit, state }) {
-    ssoLogout()
     return new Promise((resolve) => {
       const reset = () => {
         commit('SET_TOKEN', '')
         removeToken()
         resetRouter()
+        ssoLogout()
         resolve()
       }
 

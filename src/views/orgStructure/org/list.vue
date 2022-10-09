@@ -50,32 +50,32 @@
       row-key="id"
       @sort-change="appendSorterParam"
     >
-      <el-table-column align="center" label="简称">
+      <el-table-column label="简称">
         <template slot-scope="scope">
           <span>{{ scope.row.shortName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="全称">
+      <el-table-column label="全称">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="编码">
+      <el-table-column label="编码">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="类型">
+      <el-table-column label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.typeLabel }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="负责人">
+      <el-table-column label="负责人">
         <template slot-scope="scope">
           <span>{{ scope.row.managerName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
             v-permission="['detail']"

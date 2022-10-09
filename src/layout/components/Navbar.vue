@@ -6,6 +6,8 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+        <message-bell style="height: 100%;vertical-align: text-bottom;" />
+
         <search id="header-search" class="right-menu-item" />
 
         <error-log class="errLog-container right-menu-item hover-effect" />
@@ -56,9 +58,11 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import MessageBell from '@/components/MessageBell'
 
 export default {
   components: {
+    MessageBell,
     Breadcrumb,
     Hamburger,
     ErrorLog,

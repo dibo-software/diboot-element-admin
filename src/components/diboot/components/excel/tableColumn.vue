@@ -4,7 +4,6 @@
     :label="column.title"
     :show-overflow-tooltip="showOverflowTooltip"
     min-width="100"
-    align="center"
     :formatter="formatter"
   >
     <table-column
