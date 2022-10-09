@@ -39,6 +39,22 @@
           />
         </el-select>
       </template>
+      <template v-else-if="formType === 'M_SELECT'">
+        <el-select
+          multiple
+          v-model="tempValue"
+          :placeholder="placeholder"
+          filterable
+          @change="changeValue"
+        >
+          <el-option
+            v-for="(item, index) in options || []"
+            :key="index"
+            :value="item.value"
+            :label="item.label"
+          />
+        </el-select>
+      </template>
       <template v-else-if="formType === 'SWITCH'">
         <el-switch v-model="tempValue" @change="changeValue" />
       </template>
@@ -105,7 +121,7 @@ export default {
     },
     value: {
       // eslint-disable-next-line vue/require-prop-type-constructor
-      type: String | Boolean | Number,
+      type: String | Boolean | Number | Array,
       required: true
     },
     label: {
