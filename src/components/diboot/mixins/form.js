@@ -200,10 +200,9 @@ export default {
       }
       this.$message.error(msg)
     },
-    // 解决带有下拉框组件在滚动时下拉框不随之滚动的问题
-    // getPopupContainer(trigger) {
-    //   return trigger.parentElement
-    // },
+    validateErrorToMsg(err) {
+      return err.message
+    },
     /** **
      * 打开表单之后的操作
      * @param id
