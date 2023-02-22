@@ -3,7 +3,7 @@
     class="detailModal"
     :visible.sync="visible"
     :fullscreen="fullscreen"
-    :custom-class="!fullscreen ? 'custom-height': 'custom-fullscreen'"
+    :custom-class="!fullscreen ? '': 'custom-fullscreen'"
     :show-close="false"
     append-to-body
   >
@@ -23,7 +23,7 @@
         <readonly-org-tree ref="readonlyOrgTree" @changeCurrentNode="node => currentNodeId = `${node.value ? node.value : '0'}`" />
       </el-col>
       <el-col :span="16">
-        <user-select-list ref="userSelectList" :current-node-id="currentNodeId" @select="record => selectUser(record)" />
+        <user-select-list ref="userSelectList" :current-node-id="currentNodeId" :fullscreen="fullscreen" @select="record => selectUser(record)" />
       </el-col>
     </el-row>
     <div slot="footer" class="dialog-footer">

@@ -33,6 +33,7 @@
       fit
       highlight-current-row
       row-key="id"
+      :height="!fullscreen ? 'calc(40vh - 100px)' : '70vh'"
       @sort-change="appendSorterParam"
     >
       <el-table-column label="姓名">
@@ -93,6 +94,10 @@ export default {
     currentNodeId: {
       type: String,
       default: '0'
+    },
+    fullscreen: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
