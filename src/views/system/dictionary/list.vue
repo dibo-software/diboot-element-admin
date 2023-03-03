@@ -36,6 +36,7 @@
       fit
       highlight-current-row
       row-key="id"
+      height="100%"
       @sort-change="appendSorterParam"
     >
       <el-table-column type="expand">

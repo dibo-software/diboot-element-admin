@@ -63,6 +63,10 @@ div:focus {
 // main-container global css
 .app-container {
   padding: 20px;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 // 搜索框容器

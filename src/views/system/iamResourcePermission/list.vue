@@ -41,6 +41,7 @@
       :default-expand-all="true"
       :tree-props="{children: '_children', hasChildren: 'hasChildren'}"
       row-key="id"
+      height="100%"
     >
       <el-table-column
         prop="displayName"

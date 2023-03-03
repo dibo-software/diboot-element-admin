@@ -72,6 +72,7 @@
       fit
       highlight-current-row
       row-key="uuid"
+      height="100%"
       @sort-change="appendSorterParam"
     >
       <el-table-column label="关联对象类">
