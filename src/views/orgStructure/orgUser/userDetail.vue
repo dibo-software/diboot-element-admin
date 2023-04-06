@@ -87,6 +87,11 @@
             <span>{{ model.email || '-' }}</span>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item label="账号状态">
+            <span>{{ model.accountStatusLabel || '-' }}</span>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
 

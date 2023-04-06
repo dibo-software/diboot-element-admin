@@ -140,6 +140,16 @@
           <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="帐号状态" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.accountStatus === 'A'" type="success">
+            {{ scope.row.accountStatusLabel }}
+          </el-tag>
+          <el-tag v-else type="danger">
+            {{ scope.row.accountStatusLabel }}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
