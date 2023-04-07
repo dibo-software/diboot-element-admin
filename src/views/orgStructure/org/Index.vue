@@ -12,7 +12,7 @@
       <el-col :span="16">
         <current-detail :current-node-id="currentNodeId" />
         <el-tabs :value="'1'">
-          <el-tab-pane :label="orgTabTitle" name="1">
+          <el-tab-pane :label="orgTabTitle" name="1" class="right-table">
             <org-list ref="orgList" :current-node-id="currentNodeId" @formComplete="$refs.orgTree.loadTree()" />
           </el-tab-pane>
         </el-tabs>

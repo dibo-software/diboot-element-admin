@@ -183,3 +183,8 @@ div:focus {
 .pagination-container {
   padding: 16px !important;
 }
+
+// 页面左侧是树时，右侧列表的高度
+.right-table {
+  height: calc(100vh - 124px);
+}

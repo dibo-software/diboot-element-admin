@@ -7,7 +7,7 @@
           @changeCurrentNode="node => currentNodeId = `${node.value ? node.value : '0'}`"
         />
       </el-col>
-      <el-col :span="18">
+      <el-col :span="18" class="right-table">
         <user-list ref="userList" :current-node-id="currentNodeId" />
       </el-col>
     </el-row>
@@ -42,5 +42,8 @@ export default {
 
 }
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
+.right-table {
+  height: calc(100vh - 84px);
+}
 </style>

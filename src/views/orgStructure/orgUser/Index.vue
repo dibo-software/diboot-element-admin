@@ -6,7 +6,7 @@
       </el-col>
       <el-col :span="16">
         <el-tabs :value="'1'">
-          <el-tab-pane :label="tabTitle" name="1">
+          <el-tab-pane :label="tabTitle" name="1" class="right-table">
             <user-list ref="userList" :current-node-id="currentNodeId" />
           </el-tab-pane>
         </el-tabs>
