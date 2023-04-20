@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentNodeId !== '0' && model">
+  <div v-if="currentNodeId !== '0' && model" ref="currentDetail">
     <el-descriptions>
       <el-descriptions-item label="简称">{{ model.shortName }}</el-descriptions-item>
       <el-descriptions-item label="全称">{{ model.name }}</el-descriptions-item>
@@ -49,6 +49,10 @@ export default {
       dibootApi.get(`${this.baseApi}/${id}`).then(res => {
         if (res.code === 0) {
           this.model = res.data
+          this.$nextTick(() => {
+            const detailHeight = this.$refs.currentDetail.clientHeight
+            this.$emit('currentDetailChange', detailHeight)
+          })
         } else {
           this.$message.error('获取当前部门详情失败')
         }

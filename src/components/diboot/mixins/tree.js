@@ -35,6 +35,7 @@ export default {
       this.currentNodeId = 0
       this.selectedKeys = []
       this.afterTreeSelect()
+      this.$emit('cancelSelectNode')
     },
     afterTreeSelect() {
 

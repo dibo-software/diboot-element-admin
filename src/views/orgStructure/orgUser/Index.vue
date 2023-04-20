@@ -44,5 +44,8 @@ export default {
   .OrgUserIndex {
     padding: 15px;
   }
+  .right-table {
+    height: calc(100vh - 124px);
+  }
 </style>
 

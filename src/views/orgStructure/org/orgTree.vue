@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div v-if="canChange" v-permission="['create', 'sort']" class="table-operator">
+    <div v-if="canChange" ref="tableOperator" v-permission="['create', 'sort']" class="table-operator">
       <el-button v-permission="['create']" type="primary" icon="el-icon-plus" @click="$refs.orgForm.open()">
         新建
       </el-button>
@@ -8,45 +8,49 @@
         排序
       </el-button>
     </div>
-    <tree
-      ref="tree"
-      node-name="shortName"
-      :tree-api="treeApi"
-      :show-cancel="true"
-      @changeCurrentNode="onChangeCurrentNode"
-    >
-      <template slot="header" slot-scope="node">
-        <a
-          v-if="canChange"
-          v-permission="['update']"
-          title="编辑"
-          href="javascript:;"
-          style="margin-left: 10px;"
-          @click="$refs.orgForm.open(node.currentNodeId)"
-        >
-          <i class="el-icon-edit" />
-        </a>
-        <a
-          v-if="canChange"
-          v-permission="['detail']"
-          href="javascript:;"
-          style="margin-left: 10px;"
-          @click="$refs.orgDetail.open(node.currentNodeId)"
-        >
-          <i class="el-icon-view" />
-        </a>
-        <a
-          v-if="canChange"
-          v-permission="['delete']"
-          title="删除"
-          href="javascript:;"
-          style="margin-left: 10px;"
-          @click="remove(node.currentNodeId)"
-        >
-          <i class="el-icon-delete" />
-        </a>
-      </template>
-    </tree>
+    <el-scrollbar :style="{height: scrollHeight}">
+      <tree
+        ref="tree"
+        node-name="shortName"
+        :tree-api="treeApi"
+        :show-cancel="true"
+        @changeCurrentNode="onChangeCurrentNode"
+        @cancelSelectNode="cancelSelectNode"
+      >
+        <template slot="header" slot-scope="node">
+          <a
+            v-if="canChange"
+            v-permission="['update']"
+            title="编辑"
+            href="javascript:;"
+            style="margin-left: 10px;"
+            @click="$refs.orgForm.open(node.currentNodeId)"
+          >
+            <i class="el-icon-edit" />
+          </a>
+          <a
+            v-if="canChange"
+            v-permission="['detail']"
+            href="javascript:;"
+            style="margin-left: 10px;"
+            @click="$refs.orgDetail.open(node.currentNodeId)"
+          >
+            <i class="el-icon-view" />
+          </a>
+          <a
+            v-if="canChange"
+            v-permission="['delete']"
+            title="删除"
+            href="javascript:;"
+            style="margin-left: 10px;"
+            @click="remove(node.currentNodeId)"
+          >
+            <i class="el-icon-delete" />
+          </a>
+        </template>
+      </tree>
+
+    </el-scrollbar>
     <org-detail ref="orgDetail" />
     <org-form ref="orgForm" :current-node-id="`${currentNode.value}`" @complete="$refs.tree.loadTree()" @changeKey="$emit('changeCurrentNode', currentNode.value)" />
     <org-tree-sort ref="orgTreeSort" @complete="$refs.tree.loadTree()" />
@@ -82,8 +86,18 @@ export default {
     return {
       currentNode: { value: '0' },
       baseApi: '/iam/org',
-      treeApi: '/iam/org/tree'
+      treeApi: '/iam/org/tree',
+      scrollHeight: ''
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      const appContainerPadding = document.getElementsByClassName('app-container')[0] ? window.getComputedStyle(document.getElementsByClassName('app-container')[0], null).getPropertyValue('padding-top') : '0px'
+      const appMainPadding = document.getElementsByClassName('orgIndex')[0] ? window.getComputedStyle(document.getElementsByClassName('orgIndex')[0], null).getPropertyValue('padding-top') : '0px'
+      const tableOperatorMargin = document.getElementsByClassName('table-operator')[0] ? window.getComputedStyle(document.getElementsByClassName('table-operator')[0], null).getPropertyValue('margin-bottom') : '0px'
+      const tableOperator = this.canChange ? this.$refs.tableOperator.offsetHeight : 0
+      this.scrollHeight = `calc(100vh - 84px - ${appContainerPadding} - ${appMainPadding} - ${tableOperatorMargin} - ${tableOperator}px)`
+    })
   },
   methods: {
     loadTree() {
@@ -93,6 +107,9 @@ export default {
       // 事件处理代码
       this.currentNode = currentNode
       this.$emit('changeCurrentNode', currentNode)
+    },
+    cancelSelectNode() {
+      this.$emit('cancelSelectNode')
     },
     /**
        * 根据id删除
@@ -163,5 +180,8 @@ export default {
 
 }
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
+/deep/ .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
 </style>
