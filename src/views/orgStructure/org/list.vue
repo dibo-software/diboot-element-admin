@@ -15,12 +15,14 @@
           </el-col>
           <el-col :md="8" :sm="24">
             <el-form-item label="类型">
-              <el-input
-                v-model="queryParam.type"
-                clearable
-                placeholder=""
-                @keyup.enter.native="onSearch"
-              />
+              <el-select v-model="queryParam.type" clearable filterable @change="onSearch">
+                <el-option
+                  v-for="item in more.orgTypeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="24">
@@ -156,7 +158,12 @@ export default {
   data() {
     return {
       baseApi: '/iam/org',
-      customQueryParam: { parentId: '0' }
+      customQueryParam: { parentId: '0' },
+      attachMoreList: [
+        {
+          target: 'ORG_TYPE'
+        }
+      ]
     }
   },
   watch: {
