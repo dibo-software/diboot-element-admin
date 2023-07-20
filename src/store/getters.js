@@ -9,6 +9,7 @@ const getters = {
   name: state => state.user.name,
   roles: state => state.user.roles,
   info: state => state.user.info,
+  allowWeakPassword: state => state.user.allowWeakPassword,
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs
 }

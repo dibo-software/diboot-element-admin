@@ -8,12 +8,13 @@
           </el-form-item>
           <el-form-item label="新密码" prop="password">
             <el-input v-model="form.password" type="password" placeholder="请输入新密码" />
+            <password-strength ref="passwordStrength" :password="form.password" @confirm="onSubmit" />
           </el-form-item>
           <el-form-item label="确认密码" prop="confirmPassword">
             <el-input v-model="form.confirmPassword" type="password" placeholder="请输入确认密码" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">更改密码</el-button>
+            <el-button type="primary" @click="$refs.passwordStrength.checkPasswordStrength()">更改密码</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -24,9 +25,13 @@
 <script>
 import form from '@/components/diboot/mixins/form'
 import { dibootApi } from '@/utils/request'
+import passwordStrength from '@/components/diboot/components/passwordStrength'
 
 export default {
   name: 'AccountSetting',
+  components: {
+    passwordStrength
+  },
   mixins: [form],
   data() {
     return {
