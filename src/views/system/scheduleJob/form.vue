@@ -52,7 +52,7 @@
           v-model="form.cron"
           placeholder="* * 1 * * ? (秒 分 时 日 月 星期 年)"
         >
-          <a slot="append" href="http://cron.ciding.cc/" target="_blank">
+          <a slot="append" href="https://www.pppet.net" target="_blank">
             在线编辑器
           </a>
         </el-input>
