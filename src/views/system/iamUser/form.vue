@@ -90,7 +90,7 @@
           type="password"
           placeholder="请输入密码"
         />
-        <password-strength v-if="setPassword" ref="passwordStrength" :password="form.password" @confirm="onSubmit" />
+        <password-strength v-if="setPassword" ref="passwordStrength" :password="form.password" @confirm="onSubmit(isContinueAdd)" />
       </el-form-item>
       <el-form-item label="电话" prop="mobilePhone">
         <el-input v-model="form.mobilePhone" placeholder="请输入电话" />
@@ -103,8 +103,11 @@
       <el-button @click="close">
         取消
       </el-button>
-      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="$refs.passwordStrength.checkPasswordStrength()">
-        确定
+      <el-button v-if="!form.id" type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="$refs.passwordStrength.checkPasswordStrength(true)">
+        保存并继续
+      </el-button>
+      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="$refs.passwordStrength.checkPasswordStrength(false)">
+        保存
       </el-button>
     </div>
   </el-dialog>
