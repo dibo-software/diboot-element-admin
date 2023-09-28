@@ -73,8 +73,11 @@
       <el-button @click="close">
         取消
       </el-button>
-      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit">
-        确定
+      <el-button v-if="!form.id" type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit(true)">
+        保存并继续
+      </el-button>
+      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit(false)">
+        保存
       </el-button>
     </div>
   </el-dialog>
@@ -218,6 +221,14 @@ export default {
     },
     enhance(values) {
       values.children = this.children
+    },
+    resetForm() {
+      this.form = {}
+      this.children = []
+      // 重置
+      this.childItem = _.cloneDeep(CHILDREN_ITEM_DEFAULT)
+      this.childrenBtnConfig = _.cloneDeep(CHILDREN_BTN_CONFIG_DEFAULT)
+      this.clearForm()
     }
   }
 }

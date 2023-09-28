@@ -40,11 +40,11 @@ export default {
   },
   methods: {
     // 校验密码强度
-    checkPasswordStrength() {
+    checkPasswordStrength(isContinueAdd) {
       if (!this.allowWeakPassword && this.strengthLevel === '弱') {
         this.$message.error('不允许使用弱密码，请重新修改')
       } else {
-        this.$emit('confirm')
+        this.$emit('confirm', isContinueAdd)
       }
     },
     confirm() {

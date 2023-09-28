@@ -168,8 +168,11 @@
       <el-button @click="close">
         取消
       </el-button>
-      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit">
-        确定
+      <el-button v-if="!form.id" type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit(true)">
+        保存并继续
+      </el-button>
+      <el-button type="primary" :loading="state.confirmSubmit" :disabled="state.confirmSubmit" @click="onSubmit(false)">
+        保存
       </el-button>
     </div>
   </el-dialog>
@@ -547,6 +550,12 @@ export default {
       this.currentPermissionCodes = []
       this.showPermission = false
       this.$refs.permissionList.handleSearchChange()
+    },
+    resetForm() {
+      this.__defaultFileWrapperKeys__()
+      this.clearForm()
+      this.afterClose()
+      this.attachMore()
     }
   }
 }
