@@ -254,6 +254,12 @@ export default {
         })
       })
     },
+    close() {
+      this.state.visible = false
+      this.__defaultFileWrapperKeys__()
+      // this.clearForm()
+      this.afterClose()
+    },
     afterClose() {
       this.user = {}
       this.more.iamPositionOptions = []
