@@ -286,7 +286,7 @@ export default {
 
 <style scoped lang="scss">
 .el-badge{
-  /deep/ .el-badge__content.is-fixed.is-dot{
+  >>> .el-badge__content.is-fixed.is-dot{
     right: 0;
     top:3px;
   }

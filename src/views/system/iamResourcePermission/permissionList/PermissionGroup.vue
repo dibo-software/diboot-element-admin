@@ -53,7 +53,7 @@ export default {
 
 <style scoped lang="scss" rel="stylesheet/scss">
 .permission-group {
-  /deep/.el-descriptions__body > table {
+  >>>.el-descriptions__body > table {
     table-layout: fixed;
     .el-descriptions-item__content {
       padding: 0;

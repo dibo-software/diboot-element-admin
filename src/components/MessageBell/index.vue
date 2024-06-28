@@ -54,7 +54,7 @@ export default {
 
 <style lang="scss" scoped>
 .custom-badge {
-  /deep/.el-badge__content.is-fixed{
+  >>>.el-badge__content.is-fixed{
     top: 13px;
   }
 }
