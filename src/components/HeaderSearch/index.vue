@@ -159,7 +159,7 @@ export default {
     display: inline-block;
     vertical-align: middle;
 
-    >>> .el-input__inner {
+    ::v-deep .el-input__inner {
       border-radius: 0;
       border: 0;
       padding-left: 0;
